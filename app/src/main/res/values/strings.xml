@@ -2,7 +2,7 @@
     <string name="app_name">Memorization Test</string>
     <string name="todaytest_msg_not">didn\'t take today\'s test</string>
     <string name="todaytest_icon_description">today\'s test icon</string>
-    <string name="question_list_title">All of Question</string>
+    <string name="question_list_whole_title">All of Question</string>
     <string name="question_item_chk_graph">Question Item Check Graph</string>
     <string name="question_list_header_title">Question Name</string>
     <string name="question_list_header_day1_description">Day 1 Icon</string>
@@ -10,4 +10,8 @@
     <string name="question_list_header_day7_description">Day 7 Icon</string>
     <string name="question_list_header_day15_description">Day 15 Icon</string>
     <string name="question_list_header_day30_description">Day 30 Icon</string>
+    <string name="question_list_header_registration">Registration</string>
+    <string name="question_list_header_stage">Stage</string>
+    <string name="question_list_header_check">Check</string>
+    <string name="question_list_today_title">Today\'s Question</string>
 </resources>

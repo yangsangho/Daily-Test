@@ -3,7 +3,7 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/QItemCard"
+    android:id="@+id/wholeQstItemCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/delimiter_top">
@@ -20,18 +20,29 @@
             android:gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guideline"
+            app:layout_constraintEnd_toStartOf="@id/QItemRestration"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/question_list_title" />
+            tools:text="@string/question_list_whole_title" />
 
+        <TextView
+            android:id="@+id/QItemRestration"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:background="@drawable/delimiter_right"
+            tools:text="2020-01-13"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/QItemName"
+            app:layout_constraintEnd_toEndOf="@id/guideline"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent=".5" />
+            app:layout_constraintGuide_percent=".6" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
