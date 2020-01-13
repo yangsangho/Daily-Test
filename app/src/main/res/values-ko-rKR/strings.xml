@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">암기 시험</string>
+    <string name="todaytest_msg_not">오늘의 시험을 치르지 않았어요</string>
+    <string name="todaytest_icon_description">오늘의 시험 아이콘</string>
+    <string name="question_list_title">전체 문제</string>
+    <string name="question_item_chk_graph">시험 목록 체크 그래프</string>
+    <string name="question_list_header_title">문제 이름</string>
+    <string name="question_list_header_day1_description">1일 아이콘</string>
+    <string name="question_list_header_day15_description">15일 아이콘</string>
+    <string name="question_list_header_day30_description">30일 아이콘</string>
+    <string name="question_list_header_day3_description">3일 아이콘</string>
+    <string name="question_list_header_day7_description">7일 아이콘</string>
+</resources>
