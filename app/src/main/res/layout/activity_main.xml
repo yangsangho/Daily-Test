@@ -2,336 +2,55 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
 
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorPrimary"
         tools:context=".view.MainActivity">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/addButton"
-            android:layout_width="wrap_content"
+        <com.google.android.material.circularreveal.CircularRevealFrameLayout
+            android:id="@+id/mainFrameLayout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/tabLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:tint="@color/white"
-            app:backgroundTint="@color/colorPrimary"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_add_black_24dp"
-            android:focusable="true" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/todayQstLayout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@android:color/white"
-            app:layout_constraintBottom_toTopOf="@id/wholeQstLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/todayQstTitle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:padding="8dp"
-                android:text="@string/question_list_today_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:background="@drawable/delimiter_top_bot"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/todayQstItemHeaderLayout"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayQstTitle">
-
-                <TextView
-                    android:id="@+id/todayQstItemHeaderCheck"
-                    android:gravity="center"
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
-                    android:text="@string/question_list_header_check"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    app:layout_constraintEnd_toStartOf="@id/todayQstItemHeaderStage"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:background="@drawable/delimiter_right"
-                    />
-
-                <TextView
-                    android:id="@+id/todayQstItemHeaderStage"
-                    android:gravity="center"
-                    android:layout_width="50dp"
-                    android:layout_height="0dp"
-                    android:text="@string/question_list_header_stage"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    app:layout_constraintEnd_toStartOf="@id/todayQstItemHeaderName"
-                    app:layout_constraintStart_toEndOf="@+id/todayQstItemHeaderCheck"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:background="@drawable/delimiter_right"
-                    />
-
-                <TextView
-                    android:id="@+id/todayQstItemHeaderName"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/delimiter_right"
-                    android:gravity="center"
-                    android:text="@string/question_list_header_title"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/todayQstItemHeaderRegistration"
-                    app:layout_constraintStart_toEndOf="@id/todayQstItemHeaderStage"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/todayQstItemHeaderRegistration"
-                    android:gravity="center"
-                    android:layout_width="100dp"
-                    android:layout_height="0dp"
-                    android:text="@string/question_list_header_registration"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/todayQstItemHeaderName"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/todayQstRecycler"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/delimiter_top_double"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/todayQstItemHeaderLayout"
-                app:layout_constraintVertical_bias="0.0" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/wholeQstLayout"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@android:color/white"
+            android:background="@android:color/background_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/todayQstLayout">
+            app:layout_constraintTop_toBottomOf="@id/mainFrameLayout"
+            app:tabGravity="fill">
 
-            <TextView
-                android:id="@+id/wholeQstTitle"
-                android:layout_width="0dp"
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tapDashboard"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:layout_margin="8dp"
-                android:text="@string/question_list_whole_title"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:background="@drawable/delimiter_top_bot"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:text="@string/tab_title_dashboard" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/wholeQstItemHeaderLayout"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wholeQstTitle">
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tapTodayTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_title_today_test" />
 
-                <TextView
-                    android:id="@+id/wholeQstItemName"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/delimiter_right"
-                    android:gravity="center"
-                    android:text="@string/question_list_header_title"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/wholeQstItemRegistration"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/wholeQstItemRegistration"
-                    android:layout_width="100dp"
-                    android:layout_height="0dp"
-                    android:background="@drawable/delimiter_right"
-                    android:gravity="center"
-                    android:text="@string/question_list_header_registration"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/wholeGuideline"
-                    app:layout_constraintStart_toEndOf="@+id/wholeQstItemName"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/wholeGuideline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".6" />
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toEndOf="@id/wholeGuideline"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent">
-
-                    <ImageView
-                        android:id="@+id/imageView11"
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/delimiter_right"
-                        android:contentDescription="@string/question_list_header_day1_description"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView9"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintHorizontal_chainStyle="spread_inside"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_round_number1" />
-
-                    <ImageView
-                        android:id="@+id/imageView9"
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/delimiter_right"
-                        android:contentDescription="@string/question_list_header_day1_description"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView10"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageView11"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_round_number1" />
-
-                    <ImageView
-                        android:id="@+id/imageView10"
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/delimiter_right"
-                        android:contentDescription="@string/question_list_header_day1_description"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView12"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageView9"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_round_number1" />
-
-                    <ImageView
-                        android:id="@+id/imageView12"
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/delimiter_right"
-                        android:contentDescription="@string/question_list_header_day3_description"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView13"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageView10"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_round_number3" />
-
-                    <ImageView
-                        android:id="@+id/imageView13"
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/delimiter_right"
-                        android:contentDescription="@string/question_list_header_day7_description"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView14"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageView12"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_round_number7" />
-
-                    <ImageView
-                        android:id="@+id/imageView14"
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:background="@drawable/delimiter_right"
-                        android:contentDescription="@string/question_list_header_day15_description"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageView15"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageView13"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_round_number15" />
-
-                    <ImageView
-                        android:id="@+id/imageView15"
-                        android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:contentDescription="@string/question_list_header_day30_description"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.5"
-                        app:layout_constraintStart_toEndOf="@+id/imageView14"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/ic_round_number30" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/wholeQstRecycler"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@drawable/delimiter_top_double"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wholeQstItemHeaderLayout"
-                app:layout_constraintVertical_bias="0.0" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tapCalendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_title_calendar" />
+        </com.google.android.material.tabs.TabLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

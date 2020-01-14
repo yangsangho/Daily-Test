@@ -4,15 +4,14 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import java.util.*
 
-@Entity(indices = [ Index(value = ["question"], unique = true) ])
-data class Qna(
+@Entity(indices = [ Index(value = ["title"], unique = true) ])
+data class Qst(
         @PrimaryKey(autoGenerate = true)
         var id: Int? = null,
 
-        var question: String,   // 길이제한 확인
+        var title: String,   // 길이제한 확인
 
         var answer: String,     // 길이제한 확인
 
@@ -23,5 +22,5 @@ data class Qna(
         var nextTestDate: Calendar,
 
         @ColumnInfo(name = "cur_stage")
-        var curStage: Stage = Stage.BEGIN_ONE
+        var curStage: Stage = Stage.INIT
               )

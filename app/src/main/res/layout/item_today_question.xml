@@ -1,165 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/todayQstItemCard"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/delimiter_top">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="test"
+            type="kr.yangbob.memorization.db.TestIncTitle" />
+    </data>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/todayQstItemCard"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/QItemName"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/delimiter_right"
-            android:gravity="center_vertical"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/QItemRestration"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/question_list_whole_title" />
-
-        <TextView
-            android:id="@+id/QItemRestration"
-            android:layout_width="100dp"
-            android:layout_height="0dp"
-            android:background="@drawable/delimiter_right"
-            tools:text="2020-01-13"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/QItemName"
-            app:layout_constraintEnd_toEndOf="@id/guideline"/>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".6" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/delimiter_top">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/guideline"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
 
             <ImageView
-                android:id="@+id/QItemChk1"
-                android:layout_width="0dp"
+                android:id="@+id/todayQstItemCorrect"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/delimiter_right"
-                android:contentDescription="@string/question_item_chk_graph"
-                android:cropToPadding="false"
-                android:scaleType="fitXY"
+                android:contentDescription="@string/qustion_list_today_check_description"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/QItemChk2"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/graph_bar" />
+                checked="@{test.isCorrect()}"
+                app:srcCompat="@drawable/ic_check_black_24dp"/>
 
             <ImageView
-                android:id="@+id/QItemChk2"
-                android:layout_width="0dp"
+                android:id="@+id/todayQstItemStage"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/delimiter_right"
-                android:contentDescription="@string/question_item_chk_graph"
-                android:cropToPadding="false"
-                android:scaleType="fitXY"
-                android:tint="@color/lightGray"
+                android:contentDescription="@string/question_list_today_stage_description"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/QItemChk3"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/QItemChk1"
+                app:layout_constraintStart_toEndOf="@+id/todayQstItemCorrect"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/graph_bar" />
+                challenge_stage="@{test.stage}"
+                app:srcCompat="@drawable/ic_round_number1" />
 
-            <ImageView
-                android:id="@+id/QItemChk3"
+            <TextView
+                android:id="@+id/todayQstItemName"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:background="@drawable/delimiter_right"
-                android:contentDescription="@string/question_item_chk_graph"
-                android:cropToPadding="false"
-                android:scaleType="fitXY"
-                android:tint="@color/lightGray"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/QItemChk4"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/QItemChk2"
+                app:layout_constraintEnd_toStartOf="@id/todayQstItemRegistration"
+                app:layout_constraintStart_toEndOf="@+id/todayQstItemStage"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/graph_bar" />
+                android:text="@{test.title}"/>
 
-            <ImageView
-                android:id="@+id/QItemChk4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/delimiter_right"
-                android:contentDescription="@string/question_item_chk_graph"
-                android:cropToPadding="false"
-                android:scaleType="fitXY"
-                android:tint="@color/lightGray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/QItemChk5"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/QItemChk3"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/graph_bar" />
-
-            <ImageView
-                android:id="@+id/QItemChk5"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/delimiter_right"
-                android:contentDescription="@string/question_item_chk_graph"
-                android:cropToPadding="false"
-                android:scaleType="fitXY"
-                android:tint="@color/lightGray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/QItemChk6"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/QItemChk4"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/graph_bar" />
-
-            <ImageView
-                android:id="@+id/QItemChk6"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="@drawable/delimiter_right"
-                android:contentDescription="@string/question_item_chk_graph"
-                android:cropToPadding="false"
-                android:scaleType="fitXY"
-                android:tint="@color/lightGray"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/QItemChk7"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/QItemChk5"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/graph_bar" />
-
-            <ImageView
-                android:id="@+id/QItemChk7"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/question_item_chk_graph"
-                android:scaleType="fitXY"
-                android:tint="@color/lightGray"
+            <TextView
+                android:id="@+id/todayQstItemRegistration"
+                android:layout_width="100dp"
+                android:layout_height="0dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/QItemChk6"
+                app:layout_constraintStart_toEndOf="@+id/todayQstItemName"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/graph_bar" />
+                date="@{test.track_id}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.cardview.widget.CardView>
+</layout>

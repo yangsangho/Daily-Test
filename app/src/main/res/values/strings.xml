@@ -14,4 +14,10 @@
     <string name="question_list_header_stage">Stage</string>
     <string name="question_list_header_check">Check</string>
     <string name="question_list_today_title">Today\'s Question</string>
+    <string name="qustion_list_today_check_description">Question Check Icon</string>
+    <string name="question_list_today_stage_description">Question Stage Icon</string>
+    <string name="tab_title_today_test">Today\'s Test</string>
+    <string name="tab_title_dashboard">DashBoard</string>
+    <string name="tab_title_calendar">Calendar</string>
+    <string name="question_list_no_item_msg">Has No Item</string>
 </resources>

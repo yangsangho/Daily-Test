@@ -6,11 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [Qna::class, Test::class, Track::class], version = 1)
+@Database(entities = [Qst::class, Test::class, Track::class], version = 1)
 @TypeConverters(MemConverter::class)
 abstract class MemDatabase : RoomDatabase()
 {
-    abstract fun getQnaDao(): QnaDao
+    abstract fun getQnaDao(): QstDao
     abstract fun getTestDao(): TestDao
     abstract fun getTrackDao(): TrackDao
 

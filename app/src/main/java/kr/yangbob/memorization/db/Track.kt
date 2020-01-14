@@ -3,13 +3,12 @@ package kr.yangbob.memorization.db
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import java.util.*
 
 @Entity
 data class Track(
         @PrimaryKey
-        val date: Calendar,
+        val id: Calendar,
 
         @ColumnInfo(name = "cnt_question")
         var cntQuestion: Int,

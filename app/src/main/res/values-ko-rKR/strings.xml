@@ -15,4 +15,10 @@
     <string name="question_list_header_stage">단계</string>
     <string name="question_list_header_check">체크</string>
     <string name="question_list_today_title">오늘의 문제</string>
+    <string name="qustion_list_today_check_description">문제 체크 아이콘</string>
+    <string name="question_list_today_stage_description">문제 단계 아이콘</string>
+    <string name="tab_title_today_test">오늘의 시험</string>
+    <string name="tab_title_dashboard">대시보드</string>
+    <string name="tab_title_calendar">달력</string>
+    <string name="question_list_no_item_msg">항목이 없습니다.</string>
 </resources>

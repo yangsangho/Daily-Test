@@ -6,7 +6,10 @@ import androidx.room.*
 interface TestDao
 {
     @Query("SELECT * FROM test")
-    fun getAll(): List<Test>
+    suspend fun getAll(): List<Test>
+
+    @Query("SELECT " + "(SELECT title FROM Qst WHERE id = qst_id) AS title, track_id, isCorrect, stage From Test")
+    suspend fun getAllIncTitle(): List<TestIncTitle>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
     fun insert(test: Test)
