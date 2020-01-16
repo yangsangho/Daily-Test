@@ -44,11 +44,11 @@ object DataBindingAdapter {
     @JvmStatic
     fun challenge_stage(view: ImageView, stage: Stage) {
         val resourceId = when(stage){
-            Stage.INIT, Stage.BEGIN_ONE, Stage.BEGIN_TWO -> R.drawable.ic_round_number1
-            Stage.BEGIN_THREE -> R.drawable.ic_round_number3
-            Stage.AFTER_THREE -> R.drawable.ic_round_number7
-            Stage.AFTER_WEEK -> R.drawable.ic_round_number15
-            Stage.AFTER_HALF -> R.drawable.ic_round_number30
+            Stage.INIT, Stage.BEGIN_ONE, Stage.BEGIN_TWO -> R.drawable.ic_stage_1_1
+            Stage.BEGIN_THREE -> R.drawable.ic_stage_3
+            Stage.AFTER_THREE -> R.drawable.ic_stage_7
+            Stage.AFTER_WEEK -> R.drawable.ic_stage_15
+            Stage.AFTER_HALF -> R.drawable.ic_stage_30
             else -> 0
         }
         if(resourceId > 0) view.setImageResource(resourceId)

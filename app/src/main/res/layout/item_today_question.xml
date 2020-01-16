@@ -41,7 +41,7 @@
                 app:layout_constraintStart_toEndOf="@+id/todayQstItemCorrect"
                 app:layout_constraintTop_toTopOf="parent"
                 challenge_stage="@{test.stage}"
-                app:srcCompat="@drawable/ic_round_number1" />
+                app:srcCompat="@drawable/ic_stage_1_1" />
 
             <TextView
                 android:id="@+id/todayQstItemName"
