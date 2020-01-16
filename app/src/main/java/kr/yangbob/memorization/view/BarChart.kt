@@ -45,10 +45,10 @@ class BarChart : View {
             color = Color.BLACK
             textAlign = Paint.Align.CENTER
             textSize = resources.getDimensionPixelSize(R.dimen.noItemFontSize)
-                .toFloat()    // resources를 static 쪽에서 사용 못함
+                .toFloat()    // 리소스 객체를 static 쪽에서 사용 못함
         }
 
-        // context를 static 쪽에서 사용 못함
+        // Context 객체를 static 쪽에서 사용 못함
         val bitmapList = listOf(
             ContextCompat.getDrawable(context, R.drawable.ic_stage_1_1)?.toBitmap(500, 500),
             ContextCompat.getDrawable(context, R.drawable.ic_stage_1_2)?.toBitmap(500, 500),
@@ -195,10 +195,10 @@ class BarChart : View {
             color = Color.BLACK
             textAlign = Paint.Align.CENTER
         })
-    // 비율 Description의 높이 값
+    // 비율 Description 높이 값
     private var barDescRatioHeight: Int = 0
 
-    // 텍스트와 최대로 채우기 위한 width값을 넘겨서, 그 width에 맞춰 최대 fontsize가 되도록
+    // 텍스트와 최대로 채우기 위한 width 값을 넘겨서, 그 width 에 맞춰 최대 FontSize 됨
     // (여기서는 기준 텍스트 받아서 사용)
     private fun makeDesiredTextPaint(desiredWidth: Float) {
         val bounds = Rect()
@@ -232,7 +232,7 @@ class BarChart : View {
             baseTextSizeStr.second.length,
             bounds
         )
-        barDescRatioHeight = bounds.height()        // 비율 Description의 높이 값 저장
+        barDescRatioHeight = bounds.height()        // 비율 Description 높이 값 저장
     }
 
     companion object {

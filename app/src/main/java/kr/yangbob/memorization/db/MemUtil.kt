@@ -42,7 +42,7 @@ object DataBindingAdapter {
 
     @BindingAdapter("challenge_stage")
     @JvmStatic
-    fun challenge_stage(view: ImageView, stage: Stage) {
+    fun challengeStage(view: ImageView, stage: Stage) {
         val resourceId = when(stage){
             Stage.INIT, Stage.BEGIN_ONE, Stage.BEGIN_TWO -> R.drawable.ic_stage_1_1
             Stage.BEGIN_THREE -> R.drawable.ic_stage_3
@@ -58,9 +58,9 @@ object DataBindingAdapter {
 object MemConverter {
     @TypeConverter
     @JvmStatic
-    fun fromTimestamp(value: Long?): Calendar? = value?.let { value ->
+    fun fromTimestamp(value: Long?): Calendar? = value?.let {
         GregorianCalendar().also { calendar ->
-            calendar.timeInMillis = value
+            calendar.timeInMillis = it
         }
     }
 

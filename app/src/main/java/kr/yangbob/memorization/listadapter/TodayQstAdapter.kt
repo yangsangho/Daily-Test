@@ -35,7 +35,7 @@ class TodayQstAdapter : RecyclerView.Adapter<TodayQstAdapter.TodayViewHolder>() 
         notifyDataSetChanged()
     }
 
-    inner class TodayViewHolder(val binding: ItemTodayQuestionBinding) :
+    inner class TodayViewHolder(private val binding: ItemTodayQuestionBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(test: TestIncTitle) {
             binding.test = test

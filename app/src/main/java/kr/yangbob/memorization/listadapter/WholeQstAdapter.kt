@@ -31,7 +31,7 @@ class WholeQstAdapter : RecyclerView.Adapter<WholeQstAdapter.WholeViewHolder>() 
         notifyDataSetChanged()
     }
 
-    inner class WholeViewHolder(val binding: ItemWholeQuestionBinding) :
+    inner class WholeViewHolder(private val binding: ItemWholeQuestionBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(qst: Qst) {
             binding.qst = qst

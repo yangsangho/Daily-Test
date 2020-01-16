@@ -16,7 +16,7 @@ import kr.yangbob.memorization.listadapter.TodayQstAdapter
 import kr.yangbob.memorization.listadapter.WholeQstAdapter
 import kr.yangbob.memorization.viewmodel.MainViewModel
 
-class DashboardFragment(val model: MainViewModel) : Fragment() {
+class DashboardFragment(private val model: MainViewModel) : Fragment() {
     private var wholeQstList: List<Qst> = listOf()
     private lateinit var wholeQstAdapter: WholeQstAdapter
     private var todayQstList: List<TestIncTitle> = listOf()
