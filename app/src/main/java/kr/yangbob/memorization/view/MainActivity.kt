@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initUi() {
-        barChart.setDataList(listOf(1,2,3,4,5,6,7))
+        barChart.setDataList(listOf(7,6,5,4,3,2,1))
     }
 
 }

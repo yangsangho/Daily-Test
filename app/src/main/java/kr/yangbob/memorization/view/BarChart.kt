@@ -20,7 +20,13 @@ class BarChart : View {
             : super(context, attrs, defStyleAttr)
 
     // 페인트 객체들
-    private val textPaint = Paint()
+    private val noItemMsgPaint = Paint().apply {
+        color = Color.BLACK
+        textAlign = Paint.Align.CENTER
+        textSize = resources.getDimensionPixelSize(R.dimen.noItemFontSize).toFloat()
+    }
+    private lateinit var barCntDescFontPaint: Paint
+    private lateinit var barRatioDescFontPaint: Paint
 
     // 그래프 위치 관련 변수들
     private var centerX: Float = 0f
@@ -28,116 +34,114 @@ class BarChart : View {
     private var baseLineY: Float = 0f
     private var itemCenterX: Float = 0f
     private var itemWidth: Float = 0f
-    private var iconCenterY: Float = 0f
-    private var iconHeight: Float = 0f
-    private var barMaxHeight: Float = 0f
+    private var itemIconCenterY: Float = 0f
+    private var itemIconHeight: Float = 0f
+    private var itemBarMaxHeight: Float = 0f
+    private var barDescRatioHeight: Int =
+        0             // 비율 Description 높이 값 (비율 text 위에 개수 text 들어가도록)
 
     // 데이터 세트들
-    private var iconRectList: List<RectF> = listOf()
-    private var barIconBitmapList: List<Bitmap?> = listOf()
-    private var barRectList: List<RectF?> = listOf()
-    private var barTextCoordinateList: List<Pair<Float, Float>?> = listOf()
-    private var barTextList: List<Pair<String, String>?> = listOf()
     private var dataList: List<Int> = listOf()
-
-    init {
-        textPaint.apply {
-            color = Color.BLACK
-            textAlign = Paint.Align.CENTER
-            textSize = resources.getDimensionPixelSize(R.dimen.noItemFontSize)
-                .toFloat()    // 리소스 객체를 static 쪽에서 사용 못함
-        }
-
-        // Context 객체를 static 쪽에서 사용 못함
-        val bitmapList = listOf(
-            ContextCompat.getDrawable(context, R.drawable.ic_stage_1_1)?.toBitmap(500, 500),
-            ContextCompat.getDrawable(context, R.drawable.ic_stage_1_2)?.toBitmap(500, 500),
-            ContextCompat.getDrawable(context, R.drawable.ic_stage_1_3)?.toBitmap(500, 500),
-            ContextCompat.getDrawable(context, R.drawable.ic_stage_3)?.toBitmap(500, 500),
-            ContextCompat.getDrawable(context, R.drawable.ic_stage_7)?.toBitmap(500, 500),
-            ContextCompat.getDrawable(context, R.drawable.ic_stage_15)?.toBitmap(500, 500),
-            ContextCompat.getDrawable(context, R.drawable.ic_stage_30)?.toBitmap(500, 500)
-        )
-        barIconBitmapList = bitmapList
-    }
+    private lateinit var barRectList: List<RectF?>
+    private lateinit var barCntDescTextList: List<String?>
+    private lateinit var barRatioDescTextList: List<String?>
+    private lateinit var iconRectList: List<RectF>
+    private val iconBitmapList: List<Bitmap?> = listOf(
+        ContextCompat.getDrawable(context, R.drawable.ic_stage_1_1)?.toBitmap(500, 500),
+        ContextCompat.getDrawable(context, R.drawable.ic_stage_1_2)?.toBitmap(500, 500),
+        ContextCompat.getDrawable(context, R.drawable.ic_stage_1_3)?.toBitmap(500, 500),
+        ContextCompat.getDrawable(context, R.drawable.ic_stage_3)?.toBitmap(500, 500),
+        ContextCompat.getDrawable(context, R.drawable.ic_stage_7)?.toBitmap(500, 500),
+        ContextCompat.getDrawable(context, R.drawable.ic_stage_15)?.toBitmap(500, 500),
+        ContextCompat.getDrawable(context, R.drawable.ic_stage_30)?.toBitmap(500, 500)
+    )
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         Log.i("TEST", "onSizeChanged() width = $width, height = $height")
+
+        // display 사이즈에 따른 각 항목 위치 및 길이 설정
         centerX = w * 0.5f
         centerY = h * 0.5f
 
         baseLineY = h * 0.85f
-        iconHeight = h * 0.075f
+        itemIconHeight = h * 0.075f
         itemCenterX = w / 14f
         itemWidth = w * 0.05f
-        barMaxHeight = h * 0.7f
+        itemBarMaxHeight = h * 0.7f
 
-        iconCenterY = baseLineY + iconHeight
-        if (itemWidth > iconHeight) itemWidth = iconHeight
-        else iconHeight = itemWidth
+        itemIconCenterY = baseLineY + itemIconHeight
+        if (itemWidth > itemIconHeight) itemWidth = itemIconHeight
+        else itemIconHeight = itemWidth
 
-        val iconRectArr = MutableList(7) { RectF() }
-        for (i in 0..6) {
-            val centerX = makeItemCenterX(itemCenterX, i + 1)
-            iconRectArr[i].let {
-                it.left = centerX - itemWidth
-                it.right = centerX + itemWidth
-                it.top = iconCenterY - iconHeight
-                it.bottom = iconCenterY + iconHeight
-            }
-        }
-        iconRectList = iconRectArr
+        // Bar Description 최대 Font Size 구하는 함수
+        barCntDescFontPaint =
+            makeDesiredTextPaint(itemWidth * 2, baseTextCntDescription, noItemMsgPaint)
+        barRatioDescFontPaint =
+            makeDesiredTextPaint(itemWidth * 2, baseTextRatioDescription, noItemMsgPaint)
+        // Ratio Bar Description 높이 구하기
+        barDescRatioHeight = calcBarDescRatioHeight(barRatioDescFontPaint)
 
-        makeDesiredTextPaint(itemWidth * 2)
-
-        setDataList(dataList)
+        iconRectList = makeIconRect()
+        barRectList = makeBarRect(dataList)
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
         Log.i("TEST", "onDraw()")
 
-        if (dataList.isEmpty()) {
+        if (dataList.isNullOrEmpty()) {
             canvas?.drawText(
                 resources.getText(R.string.question_list_no_item_msg).toString(),
                 centerX,
                 centerY,
-                textPaint
+                noItemMsgPaint
             )
         } else {
+            // 가로줄 그리기
             canvas?.drawLine(0f, baseLineY, width.toFloat(), baseLineY, blackPaint)
-            for (i in 1..6) {
-                val x = itemCenterX * 2 * i
-                canvas?.drawLine(x, 0f, x, height.toFloat(), grayPaint)
-            }
 
-            for ((idx, rectF) in iconRectList.withIndex()) {
-                barIconBitmapList[idx]?.let {
-                    canvas?.drawBitmap(it, null, rectF, null)
-                }
-            }
+            for (idx in 0 until numberOfItems) {
+                val position = idx + 1
 
-            // Bar 그래프 및 Bar Description 그리기
-            for (i in 0..6) {
-                barRectList[i]?.let {
-                    canvas?.drawRect(it, barColorList[i])
-//                    canvas?.drawRect(it, navyPaint)
-                    canvas?.drawRect(it, blackBorderPaint)
+                // 세로줄 그리기
+                val verticalLineX = makeVerticalLineX(itemCenterX, position)
+                canvas?.drawLine(
+                    verticalLineX,
+                    0f,
+                    verticalLineX,
+                    height.toFloat(),
+                    grayPaint
+                )  // 세로줄 그리기
+
+                // Bar 밑에 ICON 그리기
+                iconBitmapList[idx]?.let {
+                    canvas?.drawBitmap(it, null, iconRectList[idx], null)
                 }
-                if (barTextList[i] != null) {
-                    barTextCoordinateList[i]?.let {
+
+                // Bar 그리기
+                barRectList[idx]?.let { rectF ->
+                    canvas?.drawRect(rectF, barColorList[idx])     // 채워진 박스 그리기
+                    canvas?.drawRect(rectF, blackBorderPaint)      // border 박스 그리기
+
+                    // Bar Description 그리기
+                    var descY = rectF.top - barDescRatioHeight
+                    val descX = makeItemCenterX(itemCenterX, position)
+                    barRatioDescTextList[idx]?.let {
                         canvas?.drawText(
-                            barTextList[i]!!.first,
-                            it.first,
-                            it.second - barDescRatioHeight,
-                            barDescFontPaint.first
+                            it,
+                            descX,
+                            descY,
+                            barRatioDescFontPaint
                         )
+                    }
+                    descY -= barDescRatioHeight
+                    barCntDescTextList[idx]?.let {
                         canvas?.drawText(
-                            barTextList[i]!!.second,
-                            it.first,
-                            it.second,
-                            barDescFontPaint.second
+                            it,
+                            descX,
+                            descY,
+                            barCntDescFontPaint
                         )
                     }
                 }
@@ -145,99 +149,87 @@ class BarChart : View {
         }
     }
 
-    private fun makeItemCenterX(itemBaseX: Float, position: Int) = itemBaseX * (position * 2 - 1)
-
-    // 외부에서 그래브 데이터 설정하는 함수
-    // 그 데이터를 바탕으로, 그래프 Bar 텍스트 및 Bar 박스 좌표, Bar 텍스트 좌표 생성
     fun setDataList(list: List<Int>) {
         Log.i("TEST", "setDataList()")
-        if (list.size != 7) throw IllegalArgumentException()
+        if (list.isEmpty()) throw IllegalArgumentException()
+        if (list.size != numberOfItems) throw IllegalArgumentException()
 
         dataList = list
-        val sumData = dataList.sum()
-        val maxData = dataList.max()
-        val barRectArr = MutableList<RectF?>(7) { null }
-        val barTextCoordinateArr = MutableList<Pair<Float, Float>?>(7) { null }
-        val barTextArr = MutableList<Pair<String, String>?>(7) { null }
 
-        for ((idx, value) in dataList.withIndex()) {
-            if (value <= 0) continue
-
-            val centerX = makeItemCenterX(itemCenterX, idx + 1)
-            val barRatio = value / maxData!!.toFloat()
-            val barHeight = barMaxHeight * barRatio
-
-            barRectArr[idx] = RectF(
-                centerX - itemWidth,
-                baseLineY - barHeight,
-                centerX + itemWidth,
-                baseLineY
-            )
-
-            val ratio = String.format("%.1f", (value / sumData.toFloat()) * 100)
-            barTextArr[idx] = Pair("$value", "($ratio%)")
-            barTextCoordinateArr[idx] = Pair(centerX, baseLineY - (barHeight + barDescRatioHeight))
+        val sumData = list.sum()
+        barCntDescTextList = list.map { if (it > 0) "$it" else null }
+        barRatioDescTextList = list.map {
+            if (it > 0) "(${String.format(
+                "%.1f",
+                (it / sumData.toFloat()) * 100
+            )}%)" else null
         }
+        barRectList = makeBarRect(list)
 
-        barRectList = barRectArr
-        barTextList = barTextArr
-        barTextCoordinateList = barTextCoordinateArr
         invalidate()
     }
 
-    // Bar Description 폰트 Paint 객체
-    private val barDescFontPaint = Pair(
-        Paint().apply {
-            color = Color.BLACK
-            textAlign = Paint.Align.CENTER
-        },
-        Paint().apply {
-            color = Color.BLACK
-            textAlign = Paint.Align.CENTER
-        })
-    // 비율 Description 높이 값
-    private var barDescRatioHeight: Int = 0
+    private fun makeBarRect(list: List<Int>): List<RectF?> {
+        if (list.isEmpty()) return listOf()
 
-    // 텍스트와 최대로 채우기 위한 width 값을 넘겨서, 그 width 에 맞춰 최대 FontSize 됨
-    // (여기서는 기준 텍스트 받아서 사용)
-    private fun makeDesiredTextPaint(desiredWidth: Float) {
+        val maxData = dataList.max()!!
+        return list.mapIndexed { idx, data ->
+            if (data <= 0) null
+            else {
+                val centerX = makeItemCenterX(itemCenterX, idx + 1)
+                val barRatio = data / maxData.toFloat()
+                val barHeight = itemBarMaxHeight * barRatio
+                RectF(centerX - itemWidth, baseLineY - barHeight, centerX + itemWidth, baseLineY)
+            }
+        }
+    }
+
+    private tailrec fun makeIconRect(position: Int = 1, acc: List<RectF> = listOf()): List<RectF> =
+        when {
+            position > numberOfItems -> acc
+            else -> {
+                val centerX = makeItemCenterX(itemCenterX, position)
+                val rect = RectF(
+                    centerX - itemWidth,
+                    itemIconCenterY - itemIconHeight,
+                    centerX + itemWidth,
+                    itemIconCenterY + itemIconHeight
+                )
+                makeIconRect(position + 1, acc + listOf(rect))
+            }
+        }
+
+    private fun makeItemCenterX(itemBaseX: Float, position: Int) = itemBaseX * (position * 2 - 1)
+    private fun makeVerticalLineX(itemBaseX: Float, position: Int) = itemBaseX * position * 2
+
+    private fun makeDesiredTextPaint(
+        desiredWidth: Float,
+        baseText: String,
+        basePaint: Paint
+    ): Paint {
+        val paint = Paint(basePaint)
         val bounds = Rect()
-        val testTextSize = 48f
-        var desiredTextSize: Float
+        val desiredTextSize: Float
 
-        barDescFontPaint.first.textSize = testTextSize
-        barDescFontPaint.first.getTextBounds(
-            baseTextSizeStr.first,
-            0,
-            baseTextSizeStr.first.length,
-            bounds
-        )
-        desiredTextSize = testTextSize * desiredWidth / bounds.width()
-        barDescFontPaint.first.textSize = desiredTextSize
+        paint.getTextBounds(baseText, 0, baseText.length, bounds)
+        desiredTextSize = paint.textSize * desiredWidth / bounds.width()
+        paint.textSize = desiredTextSize
 
-        barDescFontPaint.second.textSize = testTextSize
-        barDescFontPaint.second.getTextBounds(
-            baseTextSizeStr.second,
-            0,
-            baseTextSizeStr.second.length,
-            bounds
-        )
-        desiredTextSize = testTextSize * desiredWidth / bounds.width()
-        barDescFontPaint.second.textSize = desiredTextSize
+        return paint
+    }
 
-        // 변경된 값으로의 높이를 구해야하니까 한번 더
-        barDescFontPaint.second.getTextBounds(
-            baseTextSizeStr.second,
-            0,
-            baseTextSizeStr.second.length,
-            bounds
-        )
-        barDescRatioHeight = bounds.height()        // 비율 Description 높이 값 저장
+    private fun calcBarDescRatioHeight(paint: Paint): Int {
+        val bounds = Rect()
+        paint.getTextBounds(baseTextRatioDescription, 0, baseTextRatioDescription.length, bounds)
+        return bounds.height()
     }
 
     companion object {
-        // 최대 길이 텍스트의 기준값들
-        private val baseTextSizeStr = Pair("99999", "(100.0%)")
+        // 최대 길이의 텍스트 - 최적의 Description Font Size 를 구하기 위한 기준값들
+        private const val baseTextCntDescription = "99999"
+        private const val baseTextRatioDescription = "(100.0%)"
+
+        private const val numberOfItems = 7
 
         private val barColorList = listOf(
             Paint().apply { color = Color.rgb(0, 0, 0) },
