@@ -5,18 +5,18 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.databinding.ItemWholeQuestionBinding
+import kr.yangbob.memorization.databinding.ListitemEntireQuestionBinding
 import kr.yangbob.memorization.db.Qst
 
-class WholeQstAdapter : RecyclerView.Adapter<WholeQstAdapter.WholeViewHolder>() {
+class EntireQstAdapter : RecyclerView.Adapter<EntireQstAdapter.WholeViewHolder>() {
 
     private var dataSet: List<Qst> = listOf()
 
     override fun getItemCount(): Int = dataSet.size
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WholeViewHolder {
-        val binding = DataBindingUtil.inflate<ItemWholeQuestionBinding>(
+        val binding = DataBindingUtil.inflate<ListitemEntireQuestionBinding>(
             LayoutInflater.from(parent.context),
-            R.layout.whole_question,
+            R.layout.list_entire_question,
             parent,
             false
         )
@@ -31,7 +31,7 @@ class WholeQstAdapter : RecyclerView.Adapter<WholeQstAdapter.WholeViewHolder>() 
         notifyDataSetChanged()
     }
 
-    inner class WholeViewHolder(private val binding: ItemWholeQuestionBinding) :
+    inner class WholeViewHolder(private val binding: ListitemEntireQuestionBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(qst: Qst) {
             binding.qst = qst

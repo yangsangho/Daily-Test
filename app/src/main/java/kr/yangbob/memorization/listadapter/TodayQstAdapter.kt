@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.databinding.ItemTodayQuestionBinding
+import kr.yangbob.memorization.databinding.ListitemTodayQuestionBinding
 import kr.yangbob.memorization.db.TestIncTitle
 
 class TodayQstAdapter : RecyclerView.Adapter<TodayQstAdapter.TodayViewHolder>() {
@@ -18,9 +18,9 @@ class TodayQstAdapter : RecyclerView.Adapter<TodayQstAdapter.TodayViewHolder>() 
         parent: ViewGroup,
         viewType: Int
     ): TodayViewHolder {
-        val binding = DataBindingUtil.inflate<ItemTodayQuestionBinding>(
+        val binding = DataBindingUtil.inflate<ListitemTodayQuestionBinding>(
             LayoutInflater.from(parent.context),
-            R.layout.today_question,
+            R.layout.list_today_question,
             parent,
             false
         )
@@ -35,7 +35,7 @@ class TodayQstAdapter : RecyclerView.Adapter<TodayQstAdapter.TodayViewHolder>() 
         notifyDataSetChanged()
     }
 
-    inner class TodayViewHolder(private val binding: ItemTodayQuestionBinding) :
+    inner class TodayViewHolder(private val binding: ListitemTodayQuestionBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(test: TestIncTitle) {
             binding.test = test

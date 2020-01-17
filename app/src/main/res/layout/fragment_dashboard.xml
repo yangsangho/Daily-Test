@@ -22,7 +22,7 @@
 
     <include
         android:id="@+id/todayQstLayout"
-        layout="@layout/today_question"
+        layout="@layout/list_today_question"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="8dp"
@@ -33,7 +33,7 @@
 
     <include
         android:id="@+id/wholeQstLayout"
-        layout="@layout/whole_question"
+        layout="@layout/list_entire_question"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"

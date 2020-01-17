@@ -7,18 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.today_question.*
-import kotlinx.android.synthetic.main.whole_question.*
+import kotlinx.android.synthetic.main.list_entire_question.*
+import kotlinx.android.synthetic.main.list_today_question.*
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.TestIncTitle
+import kr.yangbob.memorization.listadapter.EntireQstAdapter
 import kr.yangbob.memorization.listadapter.TodayQstAdapter
-import kr.yangbob.memorization.listadapter.WholeQstAdapter
 import kr.yangbob.memorization.viewmodel.MainViewModel
 
 class DashboardFragment(private val model: MainViewModel) : Fragment() {
     private var wholeQstList: List<Qst> = listOf()
-    private lateinit var wholeQstAdapter: WholeQstAdapter
+    private lateinit var entireQstAdapter: EntireQstAdapter
     private var todayQstList: List<TestIncTitle> = listOf()
     private lateinit var todayQstAdapter: TodayQstAdapter
 
@@ -42,8 +42,8 @@ class DashboardFragment(private val model: MainViewModel) : Fragment() {
         val lm1 = LinearLayoutManager(activity)
         val lm2 = LinearLayoutManager(activity)
 
-        wholeQstAdapter = WholeQstAdapter()
-        wholeQstRecycler.adapter = wholeQstAdapter
+        entireQstAdapter = EntireQstAdapter()
+        wholeQstRecycler.adapter = entireQstAdapter
         wholeQstRecycler.layoutManager = lm1
         wholeQstRecycler.setHasFixedSize(true)
 
@@ -59,7 +59,7 @@ class DashboardFragment(private val model: MainViewModel) : Fragment() {
         wholeQstList = model.getAllQna()
 
         if (wholeQstList.isNotEmpty()) {
-            wholeQstAdapter.setDataSet(wholeQstList)
+            entireQstAdapter.setDataSet(wholeQstList)
         } else {
             wholeQstRecycler.visibility = View.INVISIBLE
             wholeQstNoItem.visibility = View.VISIBLE
