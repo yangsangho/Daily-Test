@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="model"
+            type="kr.yangbob.memorization.viewmodel.MainViewModel" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/dashboardCard1"
+            layout="@layout/dashboard_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/dashboardCard2"
+            app:layout_constraintBottom_toTopOf="@id/glH"
+            app:model = "@{model}"
+            />
+
+        <include
+            android:id="@+id/dashboardCard2"
+            layout="@layout/dashboard_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dashboardCard1"
+            app:layout_constraintEnd_toStartOf="@id/dashboardCard3"
+            app:layout_constraintBottom_toTopOf="@id/glH"
+            app:text = "@{@}"
+            />
+
+
+        <include
+            android:id="@+id/dashboardCard3"
+            layout="@layout/dashboard_card"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/dashboardCard2"
+            app:layout_constraintBottom_toTopOf="@id/glH"
+            />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".4"/>
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".66"/>
+
+        <Button
+            android:id="@+id/dashboardBtn1"
+            android:layout_margin="8dp"
+            android:background="@color/colorPrimary"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/dashboardBtn2"
+            app:layout_constraintTop_toBottomOf="@id/glH"
+            app:layout_constraintStart_toEndOf="@id/glV"
+            tools:text="@string/test_go"
+            />
+        <Button
+            android:background="@color/colorPrimary"
+            android:layout_margin="8dp"
+            android:id="@+id/dashboardBtn2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dashboardBtn1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/glV"
+            tools:text="@string/test_result"
+            />
+
+
+        <kr.yangbob.memorization.view.BarChart
+            android:id="@+id/dashboardChart"
+            android:layout_margin="8dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/glH"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/glV"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -2,7 +2,7 @@
     <string name="app_name">Memorization Test</string>
     <string name="todaytest_msg_not">didn\'t take today\'s test</string>
     <string name="todaytest_icon_description">today\'s test icon</string>
-    <string name="question_list_whole_title">All of Question</string>
+    <string name="entire_question">Entire Question</string>
     <string name="question_item_chk_graph">Question Item Check Graph</string>
     <string name="question_list_header_title">Question Name</string>
     <string name="question_list_header_day1_description">Day 1 Icon</string>
@@ -16,8 +16,20 @@
     <string name="question_list_today_title">Today\'s Question</string>
     <string name="qustion_list_today_check_description">Question Check Icon</string>
     <string name="question_list_today_stage_description">Question Stage Icon</string>
-    <string name="tab_title_today_test">Today\'s Test</string>
+    <string name="today_test">Today\'s Test</string>
     <string name="tab_title_dashboard">DashBoard</string>
     <string name="tab_title_calendar">Calendar</string>
     <string name="question_list_no_item_msg">Has No Item</string>
+    <string name="test_go">Go Test</string>
+    <string name="test_result">Test Result</string>
+    <string name="dashboard_today_card1">Question Count</string>
+    <string name="dashboard_today_card2">Current Status</string>
+    <string name="dashboard_today_card3">Correct Rate</string>
+    <string name="dashboard_today_btn1">Go Test</string>
+    <string name="dashboard_today_btn2">Test Result</string>
+    <string name="dashboard_entire_card1">Question Count</string>
+    <string name="dashboard_entire_card2">Test Completion Rate</string>
+    <string name="dashboard_entire_card3">Daily Registration</string>
+    <string name="dashboard_entire_btn1">Entire List</string>
+    <string name="dashboard_entire_btn2">Test Record</string>
 </resources>

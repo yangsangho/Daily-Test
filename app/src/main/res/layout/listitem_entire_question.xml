@@ -31,7 +31,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:text="@{qst.title}"
-                tools:text="@string/question_list_whole_title" />
+                tools:text="@string/entire_question" />
 
             <TextView
                 android:id="@+id/QItemRegistration"
@@ -42,14 +42,14 @@
                 android:gravity="center"
                 android:maxLines="1"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@id/guideline"
+                app:layout_constraintEnd_toEndOf="@id/glH"
                 app:layout_constraintStart_toEndOf="@+id/QItemName"
                 app:layout_constraintTop_toTopOf="parent"
                 date="@{qst.registrationDate}"
                 tools:text="2020-01-13" />
 
             <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline"
+                android:id="@+id/glH"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -60,7 +60,7 @@
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@id/guideline"
+                app:layout_constraintStart_toStartOf="@id/glH"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView

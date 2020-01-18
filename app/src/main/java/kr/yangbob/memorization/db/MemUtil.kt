@@ -2,6 +2,7 @@ package kr.yangbob.memorization.db
 
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.room.TypeConverter
 import kr.yangbob.memorization.R

@@ -2,6 +2,7 @@ package kr.yangbob.memorization.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import kr.yangbob.memorization.R
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.Test
 import kr.yangbob.memorization.db.TestIncTitle
@@ -15,4 +16,5 @@ class MainViewModel(application: Application): AndroidViewModel(application)
     fun getAllTest(): List<Test> = memRepo.getAllTest()
     fun getAllIncTitle(): List<TestIncTitle> = memRepo.getAllIncTitle()
 
+    val testText = application.resources.getText(R.string.dashboard_today_card3)
 }

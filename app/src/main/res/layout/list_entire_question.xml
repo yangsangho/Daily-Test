@@ -13,7 +13,7 @@
         android:layout_margin="8dp"
         android:background="@drawable/delimiter_top_bot"
         android:padding="8dp"
-        android:text="@string/question_list_whole_title"
+        android:text="@string/entire_question"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
