@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
-            name="model"
-            type="kr.yangbob.memorization.viewmodel.MainViewModel" />
+            name="isOne"
+            type="Boolean" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/dashboardCard2"
             app:layout_constraintBottom_toTopOf="@id/glH"
-            app:model = "@{model}"
+            app:title = "@{isOne ? @string/dashboard_today_card1 : @string/dashboard_entire_card1}"
             />
 
         <include
@@ -35,7 +35,7 @@
             app:layout_constraintStart_toEndOf="@id/dashboardCard1"
             app:layout_constraintEnd_toStartOf="@id/dashboardCard3"
             app:layout_constraintBottom_toTopOf="@id/glH"
-            app:text = "@{@}"
+            app:title = "@{isOne ? @string/dashboard_today_card2 : @string/dashboard_entire_card2}"
             />
 
 
@@ -49,6 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/dashboardCard2"
             app:layout_constraintBottom_toTopOf="@id/glH"
+            app:title = "@{isOne ? @string/dashboard_today_card3 : @string/dashboard_entire_card3}"
             />
 
         <androidx.constraintlayout.widget.Guideline
@@ -74,6 +75,7 @@
             app:layout_constraintBottom_toTopOf="@id/dashboardBtn2"
             app:layout_constraintTop_toBottomOf="@id/glH"
             app:layout_constraintStart_toEndOf="@id/glV"
+            android:text="@{isOne ? @string/dashboard_today_btn1 : @string/dashboard_entire_btn1}"
             tools:text="@string/test_go"
             />
         <Button
@@ -86,6 +88,7 @@
             app:layout_constraintTop_toBottomOf="@id/dashboardBtn1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/glV"
+            android:text="@{isOne ? @string/dashboard_today_btn2 : @string/dashboard_entire_btn2}"
             tools:text="@string/test_result"
             />
 

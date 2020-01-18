@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
         <variable
             name="model"
@@ -12,6 +12,57 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/delimiter_top_bot"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/today_test"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/GL1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/dashboard_today"
+            layout="@layout/dashboard_module"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="@id/GLhalf"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/GL1"
+            app:isOne = "@{true}" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="8dp"
+            android:background="@drawable/delimiter_top_bot"
+            android:gravity="center"
+            android:padding="4dp"
+            android:text="@string/entire_question"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@id/GL2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/GLhalf" />
+
+        <include
+            android:id="@+id/dashboard_entire"
+            layout="@layout/dashboard_module"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/GL2"
+            app:isOne = "@{false}"/>
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/GLhalf"
@@ -33,56 +84,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".57" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/delimiter_top_bot"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/today_test"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/GL1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <include
-            layout="@layout/dashboard_module"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="@id/GLhalf"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/GL1"
-            app:model = "@{model}"
-            />
-
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/delimiter_top_bot"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/entire_question"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="@id/GL2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/GLhalf" />
-
-        <include
-            layout="@layout/dashboard_module"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/GL2" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

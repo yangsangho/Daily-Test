@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="model"
-            type="kr.yangbob.memorization.viewmodel.MainViewModel" />
+            name="title"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -21,15 +21,14 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:padding="10dp"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
+            android:text="@{title}"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             app:layout_constraintBottom_toTopOf="@id/glH"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Test Completion"
-            android:text="@{model.testText}"/>
+            tools:text="Test Completion" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glH"
@@ -45,9 +44,8 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
-            android:padding="20dp"
-            app:autoSizeStepGranularity="1sp"
-            app:autoSizeTextType="uniform"
+            android:textColor="@color/black"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
