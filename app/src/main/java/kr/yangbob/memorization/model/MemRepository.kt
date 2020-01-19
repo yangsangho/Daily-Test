@@ -10,6 +10,4 @@ class MemRepository(memDB: MemDatabase)
     private val track: TrackDao = memDB.getTrackDao()
 
     fun getAllQnA(): List<Qst> = runBlocking { qst.getAll() }
-    fun getAllTest(): List<Test> = runBlocking { test.getAll() }
-    fun getAllIncTitle(): List<TestIncTitle> = runBlocking { test.getAllIncTitle() }
 }
