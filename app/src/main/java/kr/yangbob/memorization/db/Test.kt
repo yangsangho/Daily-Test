@@ -3,10 +3,9 @@ package kr.yangbob.memorization.db
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import java.util.*
 
 @Entity(
-    primaryKeys = ["qst_id", "track_id"],
+    primaryKeys = ["qst_id", "caldata_id"],
     foreignKeys = [
         ForeignKey(
             entity = Qst::class,
@@ -15,9 +14,9 @@ import java.util.*
             onDelete = ForeignKey.CASCADE
         ),
         ForeignKey(
-            entity = Track::class,
+            entity = CalData::class,
             parentColumns = ["id"],
-            childColumns = ["track_id"],
+            childColumns = ["caldata_id"],
             onDelete = ForeignKey.CASCADE
         )
     ]
@@ -27,7 +26,7 @@ data class Test(
     val qst_id: Int,
 
     @ColumnInfo(index = true)
-    val track_id: Calendar,
+    val caldata_id: Long,       // date
 
     val isCorrect: Boolean?,
 
@@ -35,5 +34,5 @@ data class Test(
 )
 
 data class TestIncTitle(
-    val title: String, val track_id: Calendar, val isCorrect: Boolean?, val stage: Stage
+    val title: String, val caldata_id: Long, val isCorrect: Boolean?, val stage: Stage
 )

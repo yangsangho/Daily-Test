@@ -92,7 +92,7 @@ class BarChart : View {
 
         if (dataList.isNullOrEmpty()) {
             canvas?.drawText(
-                resources.getText(R.string.question_list_no_item_msg).toString(),
+                resources.getText(R.string.no_item_msg).toString(),
                 centerX,
                 centerY,
                 noItemMsgPaint

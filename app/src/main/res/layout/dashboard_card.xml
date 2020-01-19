@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="data"
+            type="String" />
+
         <variable
             name="title"
             type="String" />
@@ -44,6 +49,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="1"
+            android:text="@{data}"
             android:textColor="@color/black"
             android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"

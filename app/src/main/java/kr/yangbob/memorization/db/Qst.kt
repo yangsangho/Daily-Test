@@ -4,7 +4,6 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity(indices = [ Index(value = ["title"], unique = true) ])
 data class Qst(
@@ -16,10 +15,10 @@ data class Qst(
         var answer: String,     // 길이제한 확인
 
         @ColumnInfo(name = "registration_date")
-        var registrationDate: Calendar,
+        var registrationDate: Long,                     //date
 
         @ColumnInfo(name = "next_test_date")
-        var nextTestDate: Calendar,
+        var nextTestDate: Long,                         //date
 
         @ColumnInfo(name = "cur_stage")
         var curStage: Stage = Stage.INIT

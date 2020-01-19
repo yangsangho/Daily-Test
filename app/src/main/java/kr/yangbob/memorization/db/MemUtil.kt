@@ -2,7 +2,6 @@ package kr.yangbob.memorization.db
 
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.room.TypeConverter
 import kr.yangbob.memorization.R
@@ -15,6 +14,8 @@ enum class Stage(val num: Int) {
     AFTER_WEEK(5), AFTER_HALF(6), AFTER_MONTH(7)
 
 }
+
+const val MILLIS_A_DAY = 24 * 60 * 60 * 1000
 
 object DataBindingAdapter {
     @BindingAdapter("date")
