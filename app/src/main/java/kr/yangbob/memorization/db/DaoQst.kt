@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
-interface QstDao
+interface DaoQst
 {
     @Query("SELECT * FROM qst")
     fun getAll(): LiveData<List<Qst>>

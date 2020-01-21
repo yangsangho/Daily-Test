@@ -18,7 +18,7 @@ class CrudViewModel(private val memRepo: MemRepository) : ViewModel() {
         val cal = get().koin.get<Calendar>()
         val registrationDate = cal.timeInMillis
         val qst = Qst(null, title.value!!, answer.value!!, registrationDate, registrationDate + MILLIS_A_DAY)
-        Log.i("TEST", "title = ${qst.title} answer = ${qst.answer}, regi = ${qst.registrationDate}, next = ${qst.nextTestDate}")
+        Log.i("TEST", "title = ${qst.title} answer = ${qst.answer}, regi = ${qst.registration_date}, next = ${qst.next_test_date}")
         memRepo.insertQst(qst)
     }
 }

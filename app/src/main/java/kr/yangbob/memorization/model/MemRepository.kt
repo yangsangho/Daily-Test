@@ -8,16 +8,16 @@ import kr.yangbob.memorization.db.*
 
 class MemRepository(memDB: MemDatabase)
 {
-    private val qstDao: QstDao = memDB.getQstDao()
-    private val testDao: TestDao = memDB.getTestDao()
-    private val calDataDao: CalDataDao = memDB.getCalDataDao()
+    private val daoQst: DaoQst = memDB.getDaoQst()
+    private val daoQstRecord: DaoQstRecord = memDB.getDaoQstRecord()
+    private val daoQstCalendar: DaoQstCalendar = memDB.getDaoQstCalendar()
 
     // Qst
-    fun getAllQst(): LiveData<List<Qst>> = qstDao.getAll()
-    fun getRegistrationDateCnt(): Int = runBlocking { qstDao.getRegistrationDateCnt() }
-    fun insertQst(qst: Qst) = GlobalScope.launch { qstDao.insert(qst) }
+    fun getAllQst(): LiveData<List<Qst>> = daoQst.getAll()
+    fun getRegistrationDateCnt(): Int = runBlocking { daoQst.getRegistrationDateCnt() }
+    fun insertQst(qst: Qst) = GlobalScope.launch { daoQst.insert(qst) }
 
     // CalData
-    fun getTestCnt(): Int = runBlocking { calDataDao.getTestCnt() }
-    fun getTestCompletionCnt(): Int = runBlocking { calDataDao.getTestCompletionCnt() }
+    fun getCalendarCnt(): Int = runBlocking { daoQstCalendar.getCalendarCnt() }
+    fun getTestCompletionCnt(): Int = runBlocking { daoQstCalendar.getTestCompletionCnt() }
 }

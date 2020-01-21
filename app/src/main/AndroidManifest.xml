@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="kr.yangbob.memorization">
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -12,8 +14,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <receiver
-            android:name=".testmanager.TestChkReceiver"
+            android:name=".testmanager.AfterBootingReceiver"
             android:enabled="true"/>
+        <receiver
+            android:name=".testmanager.TestChkReceiver"
+            android:enabled="true" />
+
         <activity android:name=".view.AddActivity" />
         <activity android:name=".view.MainActivity">
             <intent-filter>

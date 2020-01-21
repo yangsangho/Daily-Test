@@ -34,7 +34,7 @@ class MainViewModel(private val memRepo: MemRepository): ViewModel()
         }
     }
     fun setTestCompletionRate(){
-        val testCnt = memRepo.getTestCnt()
+        val testCnt = memRepo.getCalendarCnt()
         val completionCnt = memRepo.getTestCompletionCnt()
 
         if(testCnt > 0){
