@@ -60,18 +60,6 @@ object DataBindingAdapter {
 object MemConverter {
     @TypeConverter
     @JvmStatic
-    fun fromTimestamp(value: Long?): Calendar? = value?.let {
-        GregorianCalendar().also { calendar ->
-            calendar.timeInMillis = it
-        }
-    }
-
-    @TypeConverter
-    @JvmStatic
-    fun toTimestamp(timestamp: Calendar?): Long? = timestamp?.timeInMillis
-
-    @TypeConverter
-    @JvmStatic
     fun fromStage(stage: Stage?): Byte? = stage?.num?.toByte()
 
     @TypeConverter

@@ -1,8 +1,28 @@
 package kr.yangbob.memorization.db
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
+import androidx.room.*
+
+@Entity(indices = [Index(value = ["title"], unique = true)])
+data class Qst(
+    var title: String,   // 길이제한 확인
+    var answer: String,     // 길이제한 확인
+    var registration_date: Long,                     //date
+    var next_test_date: Long,                         //date
+    var cur_stage: Stage = Stage.INIT,
+    @PrimaryKey(autoGenerate = true)
+    var id: Int? = null
+)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@Entity
+data class QstCalendar(
+    @PrimaryKey
+    val id: Long,   // date
+    var cnt_need_test: Int
+)
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Entity(
     primaryKeys = ["qst_id", "calendar_id"],

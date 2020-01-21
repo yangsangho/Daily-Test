@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.yangbob.memorization.R
+import kr.yangbob.memorization.alarm.setTestChkAlarm
 import kr.yangbob.memorization.databinding.ActivityMainBinding
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.viewmodel.MainViewModel
@@ -35,7 +36,8 @@ class MainActivity : AppCompatActivity() {
         })
 
         setClickEvent()
-//        setTestChkAlarm(this)
+//        cancelAlarm(this)
+        setTestChkAlarm(this)
     }
 
     private fun setClickEvent(){

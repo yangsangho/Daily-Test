@@ -3,11 +3,14 @@ package kr.yangbob.memorization.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kr.yangbob.memorization.db.MILLIS_A_DAY
 import kr.yangbob.memorization.model.MemRepository
+import org.koin.core.context.GlobalContext.get
+import java.util.*
 
 class MainViewModel(private val memRepo: MemRepository): ViewModel()
 {
-    private val qstList = memRepo.getAllQst()
+    private val qstList = memRepo.getAllQstLD()
 
     val todayCard1 = MutableLiveData<String>()      // 오늘의 시험 문항수
     val todayCard2 = MutableLiveData<String>()      // 시험 진행 상태
@@ -34,11 +37,13 @@ class MainViewModel(private val memRepo: MemRepository): ViewModel()
         }
     }
     fun setTestCompletionRate(){
-        val testCnt = memRepo.getCalendarCnt()
-        val completionCnt = memRepo.getTestCompletionCnt()
+        val calCnt = memRepo.getCalendarCnt()
 
-        if(testCnt > 0){
-            entireCard2.value = String.format("%.1f%%", completionCnt/testCnt.toFloat() * 100)
+        if(calCnt > 1){
+            val minDate = memRepo.getCalendarMinDate()!!
+            val todayDate = get().koin.get<Calendar>().timeInMillis
+            val entireTestDateCnt = (todayDate - minDate) / MILLIS_A_DAY
+            entireCard2.value = String.format("%.1f%%", calCnt/entireTestDateCnt.toFloat() * 100)
         } else {
             entireCard2.value = "-"
         }
