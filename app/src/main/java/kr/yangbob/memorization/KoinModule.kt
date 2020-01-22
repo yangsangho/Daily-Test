@@ -8,7 +8,6 @@ import kr.yangbob.memorization.viewmodel.MainViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import java.util.*
 
 val viewModelModule = module {
     viewModel {
@@ -20,17 +19,7 @@ val viewModelModule = module {
     single { MemRepository( get() ) }
     single {
         Room.databaseBuilder(androidContext(),
-            MemDatabase::class.java, "Memorization"
+            MemDatabase::class.java, "BeomS_Memo"
         ).fallbackToDestructiveMigration().build()
-    }
-}
-val utilModule = module {
-    factory {
-        Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, 0)
-            set(Calendar.MINUTE, 0)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
     }
 }

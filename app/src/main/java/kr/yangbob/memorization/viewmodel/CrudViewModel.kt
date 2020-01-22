@@ -1,13 +1,10 @@
 package kr.yangbob.memorization.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kr.yangbob.memorization.db.MILLIS_A_DAY
+import kr.yangbob.memorization.MILLIS_A_DAY
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.model.MemRepository
-import org.koin.core.context.GlobalContext.get
-import java.util.*
 
 class CrudViewModel(private val memRepo: MemRepository) : ViewModel() {
     val title = MutableLiveData<String>()      // 문제 add 및 update의 문제명
@@ -15,10 +12,10 @@ class CrudViewModel(private val memRepo: MemRepository) : ViewModel() {
 
     fun insertDataIsEmpty(): Boolean = title.value.isNullOrEmpty() || answer.value.isNullOrEmpty()
     fun insertQst() {
-        val cal = get().koin.get<Calendar>()
-        val registrationDate = cal.timeInMillis
-        val qst = Qst(title.value!!, answer.value!!, registrationDate, registrationDate + MILLIS_A_DAY)
-        Log.i("TEST", "title = ${qst.title} answer = ${qst.answer}, regi = ${qst.registration_date}, next = ${qst.next_test_date}")
+        val curTime = System.currentTimeMillis()
+        val todayDate = memRepo.getDateStr(curTime)
+        val tomorrowDate = memRepo.getDateStr(curTime + MILLIS_A_DAY)
+        val qst = Qst(title.value!!, answer.value!!, todayDate, tomorrowDate)
         memRepo.insertQst(qst)
     }
 }

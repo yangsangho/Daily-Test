@@ -9,9 +9,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.alarm.setTestChkAlarm
 import kr.yangbob.memorization.databinding.ActivityMainBinding
 import kr.yangbob.memorization.db.Qst
+import kr.yangbob.memorization.setTestChkAlarm
 import kr.yangbob.memorization.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -22,17 +22,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+//        this.deleteDatabase("BeomS_Memo")   // DB 초기화할 때 사용
 
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.lifecycleOwner = this
         binding.model = model
         qstList = model.getQstList()
-        model.setTodayData()
+
         model.setTestCompletionRate()
+        model.setTodayData()
 
         qstList.observe(this, Observer {
-            Log.i("TEST", "observe............!!!!!!!!!!!!!!!")
-            model.setEntireCntAverageRegistryCnt()
+            Log.i("yangtest", "!!!!!!!! observe qstList !!!!!!!!")
+            model.setEntireCntAverageRegistration()
         })
 
         setClickEvent()

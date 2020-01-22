@@ -3,19 +3,10 @@ package kr.yangbob.memorization.db
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.room.TypeConverter
 import kr.yangbob.memorization.R
+import kr.yangbob.memorization.Stage
 import java.text.DateFormat
 import java.util.*
-
-enum class Stage(val num: Int) {
-    INIT(0),
-    BEGIN_ONE(1), BEGIN_TWO(2), BEGIN_THREE(3), AFTER_THREE(4),
-    AFTER_WEEK(5), AFTER_HALF(6), AFTER_MONTH(7)
-
-}
-
-const val MILLIS_A_DAY = 24 * 60 * 60 * 1000
 
 object DataBindingAdapter {
     @BindingAdapter("date")
@@ -56,25 +47,3 @@ object DataBindingAdapter {
         if(resourceId > 0) view.setImageResource(resourceId)
     }
 }
-
-object MemConverter {
-    @TypeConverter
-    @JvmStatic
-    fun fromStage(stage: Stage?): Byte? = stage?.num?.toByte()
-
-    @TypeConverter
-    @JvmStatic
-    fun toStage(num: Byte?): Stage? = when (num?.toInt()) {
-        0 -> Stage.INIT
-        1 -> Stage.BEGIN_ONE
-        2 -> Stage.BEGIN_TWO
-        3 -> Stage.BEGIN_THREE
-        4 -> Stage.AFTER_THREE
-        5 -> Stage.AFTER_WEEK
-        6 -> Stage.AFTER_HALF
-        7 -> Stage.AFTER_MONTH
-        else -> null
-    }
-}
-
-

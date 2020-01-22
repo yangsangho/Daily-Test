@@ -24,6 +24,7 @@ class BarChart : View {
         color = Color.BLACK
         textAlign = Paint.Align.CENTER
         textSize = resources.getDimensionPixelSize(R.dimen.noItemFontSize).toFloat()
+        isAntiAlias = true
     }
     private lateinit var barCntDescFontPaint: Paint
     private lateinit var barRatioDescFontPaint: Paint
@@ -58,7 +59,7 @@ class BarChart : View {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        Log.i("TEST", "onSizeChanged() width = $width, height = $height")
+        Log.i("yangtest", "onSizeChanged() width = $width, height = $height")
 
         // display 사이즈에 따른 각 항목 위치 및 길이 설정
         centerX = w * 0.5f
@@ -88,7 +89,7 @@ class BarChart : View {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        Log.i("TEST", "onDraw()")
+        Log.i("yangtest", "onDraw()")
 
         if (dataList.isNullOrEmpty()) {
             canvas?.drawText(
@@ -116,7 +117,7 @@ class BarChart : View {
 
                 // Bar 밑에 ICON 그리기
                 iconBitmapList[idx]?.let {
-                    canvas?.drawBitmap(it, null, iconRectList[idx], null)
+                    canvas?.drawBitmap(it, null, iconRectList[idx], bitmapPaint)
                 }
 
                 // Bar 그리기
@@ -150,7 +151,7 @@ class BarChart : View {
     }
 
     fun setDataList(list: List<Int>) {
-        Log.i("TEST", "setDataList()")
+        Log.i("yangtest", "setDataList()")
         if (list.isEmpty()) throw IllegalArgumentException()
         if (list.size != numberOfItems) throw IllegalArgumentException()
 
@@ -247,5 +248,6 @@ class BarChart : View {
         }
         private val blackPaint = Paint().apply { color = Color.BLACK }
         private val grayPaint = Paint().apply { color = Color.LTGRAY }
+        private val bitmapPaint = Paint(Paint.FILTER_BITMAP_FLAG)
     }
 }

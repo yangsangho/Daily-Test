@@ -6,9 +6,9 @@ import androidx.room.*
 data class Qst(
     var title: String,   // 길이제한 확인
     var answer: String,     // 길이제한 확인
-    var registration_date: Long,                     //date
-    var next_test_date: Long,                         //date
-    var cur_stage: Stage = Stage.INIT,
+    var registration_date: String,                     //date
+    var next_test_date: String,                         //date
+    var cur_stage: Byte = 0,
     @PrimaryKey(autoGenerate = true)
     var id: Int? = null
 )
@@ -18,7 +18,7 @@ data class Qst(
 @Entity
 data class QstCalendar(
     @PrimaryKey
-    val id: Long,   // date
+    val id: String,   // date
     var cnt_need_test: Int
 )
 
@@ -45,7 +45,7 @@ data class QstRecord(
     @ColumnInfo(index = true)
     val qst_id: Int,
     @ColumnInfo(index = true)
-    val calendar_id: Long,              // date
+    val calendar_id: String,              // date
     val is_correct: Boolean? = null,           // null : 초기화한 것으로 간주
-    val challenge_stage: Stage? = null
+    val challenge_stage: Byte? = null
 )
