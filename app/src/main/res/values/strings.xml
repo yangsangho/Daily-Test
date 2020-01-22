@@ -21,4 +21,8 @@
     <string name="answer_input">Input the answer</string>
     <string name="done">Done</string>
     <string name="toast_need_input_qst">Please input question and answer</string>
+    <string name="status_msg_no_start">No Start</string>
+    <string name="status_msg_ongoing">Ongoing</string>
+    <string name="status_msg_complete">Completion</string>
+    <string name="status_msg_no_test">No Test</string>
 </resources>

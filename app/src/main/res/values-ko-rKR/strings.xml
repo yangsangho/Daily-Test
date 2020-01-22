@@ -22,4 +22,8 @@
     <string name="answer_input">정답을 입력해주세요.</string>
     <string name="done">완료</string>
     <string name="toast_need_input_qst">문제와 정답을 입력해주세요.</string>
+    <string name="status_msg_complete">완료</string>
+    <string name="status_msg_no_start">미진행</string>
+    <string name="status_msg_ongoing">진행중</string>
+    <string name="status_msg_no_test">시험 없음</string>
 </resources>
