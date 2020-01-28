@@ -5,8 +5,7 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toBitmap
+import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kr.yangbob.memorization.R
 
 // Canvas 기본 함수 : drawPoint(), drawLine(), drawRect(), drawCircle(), drawArc(), drawText(), drawBitmap(), drawRoundRect(), drawOval()
@@ -46,15 +45,15 @@ class BarChart : View {
     private lateinit var barRectList: List<RectF?>
     private lateinit var barCntDescTextList: List<String?>
     private lateinit var barRatioDescTextList: List<String?>
-    private lateinit var iconRectList: List<RectF>
-    private val iconBitmapList: List<Bitmap?> = listOf(
-        ContextCompat.getDrawable(context, R.drawable.ic_stage_1_1)?.toBitmap(500, 500),
-        ContextCompat.getDrawable(context, R.drawable.ic_stage_1_2)?.toBitmap(500, 500),
-        ContextCompat.getDrawable(context, R.drawable.ic_stage_1_3)?.toBitmap(500, 500),
-        ContextCompat.getDrawable(context, R.drawable.ic_stage_3)?.toBitmap(500, 500),
-        ContextCompat.getDrawable(context, R.drawable.ic_stage_7)?.toBitmap(500, 500),
-        ContextCompat.getDrawable(context, R.drawable.ic_stage_15)?.toBitmap(500, 500),
-        ContextCompat.getDrawable(context, R.drawable.ic_stage_30)?.toBitmap(500, 500)
+    private lateinit var iconRectList: List<Rect>
+    private val iconVectorList: List<VectorDrawableCompat?> = listOf(
+        VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_1_1, null),
+        VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_1_2, null),
+        VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_1_3, null),
+        VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_3, null),
+        VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_7, null),
+        VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_15, null),
+        VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_30, null)
     )
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -116,9 +115,8 @@ class BarChart : View {
                 )  // 세로줄 그리기
 
                 // Bar 밑에 ICON 그리기
-                iconBitmapList[idx]?.let {
-                    canvas?.drawBitmap(it, null, iconRectList[idx], bitmapPaint)
-                }
+                iconVectorList[idx]?.bounds = iconRectList[idx]
+                iconVectorList[idx]?.draw(canvas!!)
 
                 // Bar 그리기
                 barRectList[idx]?.let { rectF ->
@@ -185,16 +183,16 @@ class BarChart : View {
         }
     }
 
-    private tailrec fun makeIconRect(position: Int = 1, acc: List<RectF> = listOf()): List<RectF> =
+    private tailrec fun makeIconRect(position: Int = 1, acc: List<Rect> = listOf()): List<Rect> =
         when {
             position > numberOfItems -> acc
             else -> {
                 val centerX = makeItemCenterX(itemCenterX, position)
-                val rect = RectF(
-                    centerX - itemWidth,
-                    itemIconCenterY - itemIconHeight,
-                    centerX + itemWidth,
-                    itemIconCenterY + itemIconHeight
+                val rect = Rect(
+                    (centerX - itemWidth).toInt(),
+                    (itemIconCenterY - itemIconHeight).toInt(),
+                    (centerX + itemWidth).toInt(),
+                    (itemIconCenterY + itemIconHeight).toInt()
                 )
                 makeIconRect(position + 1, acc + listOf(rect))
             }
@@ -248,6 +246,5 @@ class BarChart : View {
         }
         private val blackPaint = Paint().apply { color = Color.BLACK }
         private val grayPaint = Paint().apply { color = Color.LTGRAY }
-        private val bitmapPaint = Paint(Paint.FILTER_BITMAP_FLAG)
     }
 }

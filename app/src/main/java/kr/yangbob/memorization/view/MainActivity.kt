@@ -40,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         setClickEvent()
 //        cancelAlarm(this)
         setTestChkAlarm(this)
+
+        binding.dashboardToday.dashboardChart.setDataList(listOf(1,2,3,4,5,6,7))
     }
 
     private fun setClickEvent(){
