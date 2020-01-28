@@ -9,7 +9,7 @@
             type="kr.yangbob.memorization.viewmodel.MainViewModel" />
 
         <variable
-            name="isOne"
+            name="isToday"
             type="Boolean" />
     </data>
 
@@ -23,12 +23,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
-            app:data="@{isOne ? model.todayCard1 : model.entireCard1}"
+            app:data="@{isToday ? model.todayCard1 : model.entireCard1}"
             app:layout_constraintBottom_toTopOf="@id/glH"
             app:layout_constraintEnd_toStartOf="@id/dashboardCard2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{isOne ? @string/dashboard_today_card1 : @string/dashboard_entire_card1}" />
+            app:title="@{isToday ? @string/dashboard_today_card1 : @string/dashboard_entire_card1}" />
 
         <include
             android:id="@+id/dashboardCard2"
@@ -36,12 +36,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
-            app:data="@{isOne ? model.todayCard2 : model.entireCard2}"
+            app:data="@{isToday ? model.todayCard2 : model.entireCard2}"
             app:layout_constraintBottom_toTopOf="@id/glH"
             app:layout_constraintEnd_toStartOf="@id/dashboardCard3"
             app:layout_constraintStart_toEndOf="@id/dashboardCard1"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{isOne ? @string/dashboard_today_card2 : @string/dashboard_entire_card2}" />
+            app:title="@{isToday ? @string/dashboard_today_card2 : @string/dashboard_entire_card2}" />
 
 
         <include
@@ -50,12 +50,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="8dp"
-            app:data="@{isOne ? model.todayCard3 : model.entireCard3}"
+            app:data="@{isToday ? model.todayCard3 : model.entireCard3}"
             app:layout_constraintBottom_toTopOf="@id/glH"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/dashboardCard2"
             app:layout_constraintTop_toTopOf="parent"
-            app:title="@{isOne ? @string/dashboard_today_card3 : @string/dashboard_entire_card3}" />
+            app:title="@{isToday ? @string/dashboard_today_card3 : @string/dashboard_entire_card3}" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/glH"
@@ -77,7 +77,7 @@
             android:layout_height="0dp"
             android:layout_margin="8dp"
             android:background="@color/colorPrimary"
-            android:text="@{isOne ? @string/dashboard_today_btn1 : @string/dashboard_entire_btn1}"
+            android:text="@{isToday ? @string/dashboard_today_btn1 : @string/dashboard_entire_btn1}"
             app:layout_constraintBottom_toTopOf="@id/dashboardBtn2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/glV"
@@ -90,13 +90,12 @@
             android:layout_height="0dp"
             android:layout_margin="8dp"
             android:background="@color/colorPrimary"
-            android:text="@{isOne ? @string/dashboard_today_btn2 : @string/dashboard_entire_btn2}"
+            android:text="@{isToday ? @string/dashboard_today_btn2 : @string/dashboard_entire_btn2}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/glV"
             app:layout_constraintTop_toBottomOf="@id/dashboardBtn1"
             tools:text="@string/test_result" />
-
 
         <kr.yangbob.memorization.view.BarChart
             android:id="@+id/dashboardChart"
@@ -106,7 +105,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/glV"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/glH" />
+            app:layout_constraintTop_toBottomOf="@id/glH"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

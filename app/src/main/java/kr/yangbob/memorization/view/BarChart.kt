@@ -13,10 +13,17 @@ import kr.yangbob.memorization.R
 class BarChart : View {
     // 생성자들
     constructor(context: Context) : super(context)
-
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int)
             : super(context, attrs, defStyleAttr)
+
+    fun setCount(count: Int){
+        numberOfItems = count
+        if(count == 7) additionalIconIdx = 1
+        Log.i(logTag, "constructor get attributes! numberOfItems = $numberOfItems")
+    }
+    private var numberOfItems: Int = 0
+    private var additionalIconIdx: Int = 0
 
     // 페인트 객체들
     private val noItemMsgPaint = Paint().apply {
@@ -37,8 +44,7 @@ class BarChart : View {
     private var itemIconCenterY: Float = 0f
     private var itemIconHeight: Float = 0f
     private var itemBarMaxHeight: Float = 0f
-    private var barDescRatioHeight: Int =
-        0             // 비율 Description 높이 값 (비율 text 위에 개수 text 들어가도록)
+    private var barDescRatioHeight: Int = 0 // 비율 Description 높이 값 (비율 text 위에 개수 text 들어가도록)
 
     // 데이터 세트들
     private var dataList: List<Int> = listOf()
@@ -47,6 +53,7 @@ class BarChart : View {
     private lateinit var barRatioDescTextList: List<String?>
     private lateinit var iconRectList: List<Rect>
     private val iconVectorList: List<VectorDrawableCompat?> = listOf(
+        VectorDrawableCompat.create(context.resources, R.drawable.ic_add_black_24dp, null),
         VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_1_1, null),
         VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_1_2, null),
         VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_1_3, null),
@@ -58,7 +65,7 @@ class BarChart : View {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        Log.i("yangtest", "onSizeChanged() width = $width, height = $height")
+        Log.i(logTag, "onSizeChanged() width = $width, height = $height")
 
         // display 사이즈에 따른 각 항목 위치 및 길이 설정
         centerX = w * 0.5f
@@ -66,7 +73,7 @@ class BarChart : View {
 
         baseLineY = h * 0.85f
         itemIconHeight = h * 0.075f
-        itemCenterX = w / 14f
+        itemCenterX = w / (numberOfItems * 2).toFloat()
         itemWidth = w * 0.05f
         itemBarMaxHeight = h * 0.7f
 
@@ -88,7 +95,7 @@ class BarChart : View {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        Log.i("yangtest", "onDraw()")
+        Log.i(logTag, "onDraw()")
 
         if (dataList.isNullOrEmpty()) {
             canvas?.drawText(
@@ -115,12 +122,12 @@ class BarChart : View {
                 )  // 세로줄 그리기
 
                 // Bar 밑에 ICON 그리기
-                iconVectorList[idx]?.bounds = iconRectList[idx]
-                iconVectorList[idx]?.draw(canvas!!)
+                iconVectorList[idx + additionalIconIdx]?.bounds = iconRectList[idx]
+                iconVectorList[idx + additionalIconIdx]?.draw(canvas!!)
 
                 // Bar 그리기
                 barRectList[idx]?.let { rectF ->
-                    canvas?.drawRect(rectF, barColorList[idx])     // 채워진 박스 그리기
+                    canvas?.drawRect(rectF, barColorList[idx + additionalIconIdx])     // 채워진 박스 그리기
                     canvas?.drawRect(rectF, blackBorderPaint)      // border 박스 그리기
 
                     // Bar Description 그리기
@@ -149,7 +156,7 @@ class BarChart : View {
     }
 
     fun setDataList(list: List<Int>) {
-        Log.i("yangtest", "setDataList()")
+        Log.i(logTag, "setDataList()")
         if (list.isEmpty()) throw IllegalArgumentException()
         if (list.size != numberOfItems) throw IllegalArgumentException()
 
@@ -227,10 +234,10 @@ class BarChart : View {
         // 최대 길이의 텍스트 - 최적의 Description Font Size 를 구하기 위한 기준값들
         private const val baseTextCntDescription = "99999"
         private const val baseTextRatioDescription = "(100.0%)"
-
-        private const val numberOfItems = 7
+        private const val logTag = "BarChart"
 
         private val barColorList = listOf(
+            Paint().apply { color = Color.rgb(230, 230, 230) },
             Paint().apply { color = Color.rgb(0, 0, 0) },
             Paint().apply { color = Color.rgb(85, 0, 0) },
             Paint().apply { color = Color.rgb(170, 0, 0) },

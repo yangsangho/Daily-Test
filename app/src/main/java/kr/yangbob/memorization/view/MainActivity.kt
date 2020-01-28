@@ -37,11 +37,17 @@ class MainActivity : AppCompatActivity() {
             model.setEntireCntAverageRegistration()
         })
 
-        setClickEvent()
 //        cancelAlarm(this)
         setTestChkAlarm(this)
 
+        binding.dashboardToday.dashboardChart.setCount(7)
+        binding.dashboardEntire.dashboardChart.setCount(8)
         binding.dashboardToday.dashboardChart.setDataList(listOf(1,2,3,4,5,6,7))
+        binding.dashboardEntire.dashboardChart.setDataList(listOf(1,2,3,4,5,6,7,8))
+        binding.dashboardToday.dashboardBtn1.setOnClickListener {
+            binding.dashboardToday.dashboardChart.setDataList(listOf(7,6,5,4,3,2,1))
+        }
+        setClickEvent()
     }
 
     private fun setClickEvent(){

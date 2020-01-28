@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="model"
             type="kr.yangbob.memorization.viewmodel.MainViewModel" />
@@ -34,12 +33,12 @@
             layout="@layout/dashboard_module"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:isOne="@{true}"
+            app:isToday="@{true}"
             app:layout_constraintBottom_toBottomOf="@id/GLhalf"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/GL1"
-            app:model="@{model}" />
+            app:model="@{model}"/>
 
         <TextView
             android:layout_width="0dp"
@@ -60,12 +59,12 @@
             layout="@layout/dashboard_module"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:isOne="@{false}"
+            app:isToday="@{false}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/GL2"
-            app:model="@{model}" />
+            app:model="@{model}"/>
 
         <ImageButton
             android:id="@+id/addBtn"
@@ -76,7 +75,7 @@
             app:layout_constraintBottom_toBottomOf="@id/GL2"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@id/GLhalf"
-            app:srcCompat="@drawable/ic_add_black_24dp" />
+            app:srcCompat="@drawable/ic_add_circle_outline_black_24dp" />
 
 
         <androidx.constraintlayout.widget.Guideline
