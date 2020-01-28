@@ -50,7 +50,7 @@ dependencies {
     kapt "androidx.room:room-compiler:$room_version"
 
     // LiveCycle(ViewModel and LiveDat)
-    def lifecycle_version = "2.2.0-rc03"
+    def lifecycle_version = "2.2.0"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 

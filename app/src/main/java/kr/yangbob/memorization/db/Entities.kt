@@ -20,7 +20,7 @@ data class QstCalendar(
     @PrimaryKey
     val id: String,   // date
     val cnt_need_test: Int,
-    var is_update_chk: Boolean = false
+    val test_completion: Boolean
 )
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -47,6 +47,7 @@ data class QstRecord(
     val qst_id: Int,
     @ColumnInfo(index = true)
     val calendar_id: String,              // date
-    val is_correct: Boolean,           // null : 초기화한 것으로 간주
-    val challenge_stage: Int
+    val challenge_stage: Int,
+    val is_correct: Boolean? = null           // null : 안 푼걸로 간주
 )
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////

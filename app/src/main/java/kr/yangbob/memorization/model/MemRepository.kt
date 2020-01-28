@@ -18,37 +18,21 @@ class MemRepository(memDB: MemDatabase) {
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val stageList = Stage.values()
 
-    // Qst
+////// Qst
     fun getAllQstLD(): LiveData<List<Qst>> = daoQst.getAllLD()
 
-    private fun getFromId(id: Int): Qst = runBlocking { daoQst.getFromId(id) }
-    fun getNeedTestCnt(): Int =
-        runBlocking { daoQst.getNeedTestCnt(getDateStr(System.currentTimeMillis())) }
+//    private fun getFromId(id: Int): Qst = runBlocking { daoQst.getFromId(id) }
+//    fun getNeedTestCnt(): Int =
+//        runBlocking { daoQst.getNeedTestCnt(getDateStr(System.currentTimeMillis())) }
 
     fun getNeedTestList(): List<Qst> =
         runBlocking { daoQst.getNeedTesList(getDateStr(System.currentTimeMillis())) }
 
     fun insertQst(qst: Qst) = GlobalScope.launch { daoQst.insert(qst) }
-    fun updateQstForNext(qstRecord: QstRecord) = runBlocking {
-        val qst = getFromId(qstRecord.qst_id)
-        val challengeStage = stageList[qstRecord.challenge_stage]
-        qst.cur_stage = if (challengeStage <= Stage.BEGIN_THREE) {
-            challengeStage.nextTest
-        } else {
-            if (qstRecord.is_correct) challengeStage.nextTest
-            else qst.cur_stage
-        }
 
-        val plusDate = MILLIS_A_DAY * stageList[qst.cur_stage].nextTest
-        val curNextDate = dateFormat.parse(qst.next_test_date)!!.time + plusDate
-        qst.next_test_date = getDateStr(curNextDate)
-
-        insertQst(qst)
-    }
-
-    // QstCalendar
+////// QstCalendar
     private fun getCalendarMinDate(): String? = runBlocking { daoQstCalendar.getMinDate() }
-
+    fun getCntCalendar(): Int = runBlocking { daoQstCalendar.getCnt() }
     fun getTodayCalendar(): QstCalendar? =
         runBlocking { daoQstCalendar.getTodayRow(getDateStr(System.currentTimeMillis())) }
 
@@ -56,18 +40,14 @@ class MemRepository(memDB: MemDatabase) {
     fun insertQstCalendar(qstCalendar: QstCalendar) =
         GlobalScope.launch { daoQstCalendar.insert(qstCalendar) }
 
-    fun getAllDateStrNonUpdateChk(): List<String> =
-        runBlocking { daoQstCalendar.getAllDateStrNonUpdateChk() }
-
-    fun updateCalendarChk(dateStr: String) = runBlocking { daoQstCalendar.updateCheck(dateStr) }
-
-    // QstRecord
+////// QstRecord
     fun getRecordCntFromDate(dateStr: String): Int = runBlocking { daoQstRecord.getCntFromDate(dateStr) }
     fun getCorrectCntFromDate(dateStr: String): Int = runBlocking { daoQstRecord.getCorrectCntFromDate(dateStr) }
-    fun getRecordListFromDate(dateStr: String): List<QstRecord> =
-        runBlocking { daoQstRecord.getListFromDate(dateStr) }
+    fun getLDListFromDate(dateStr: String): LiveData<List<QstRecord>> = daoQstRecord.getLDListFromDate(dateStr)
+    fun insertQstRecord(qstRecord: QstRecord) = GlobalScope.launch { daoQstRecord.insert(qstRecord) }
+    fun deleteNoneSolvedRecord() = GlobalScope.launch { daoQstRecord.deleteNoneSolved() }
 
-    // Others
+////// Others
     fun getEntireDate(): Int {
         val minDate = getCalendarMinDate()?.let {
             dateFormat.parse(it)?.time
@@ -79,6 +59,5 @@ class MemRepository(memDB: MemDatabase) {
             0
         }
     }
-
     fun getDateStr(timeMillis: Long): String = dateFormat.format(Date(timeMillis))
 }

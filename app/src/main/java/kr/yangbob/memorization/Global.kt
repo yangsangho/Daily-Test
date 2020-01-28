@@ -9,6 +9,7 @@ import kr.yangbob.memorization.alarm.CreateCalendarReceiver
 import java.util.*
 
 const val MILLIS_A_DAY = 24 * 60 * 60 * 1000
+const val globalLogTag = "Global"
 
 enum class Stage(val nextTest: Int) {
     INIT(1),
@@ -23,19 +24,19 @@ fun cancelAlarm(context: Context){
         PendingIntent.getBroadcast(context, TEST_CHK_RECV_ID, it, PendingIntent.FLAG_NO_CREATE)
     }
     if(pendingIntent != null){
-        Log.i("yangtest", "PendingIntent is Not Null -> Cancel Alarm!")
+        Log.i(globalLogTag, "PendingIntent is Not Null -> Cancel Alarm!")
         val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         alarmMgr.cancel(pendingIntent)
     } else {
-        Log.i("yangtest", "PendingIntent is Null -> Skip Cancel Alarm!")
+        Log.i(globalLogTag, "PendingIntent is Null -> Skip Cancel Alarm!")
     }
 }
 fun setTestChkAlarm(context: Context){
     val testChkIntent = Intent(context, CreateCalendarReceiver::class.java)
     val pendingIntent = PendingIntent.getBroadcast(context, TEST_CHK_RECV_ID, testChkIntent, PendingIntent.FLAG_NO_CREATE)
     if( pendingIntent == null ) {
-        Log.i("yangtest", "PendingIntent is Null -> Set Alarm!")
+        Log.i(globalLogTag, "PendingIntent is Null -> Set Alarm!")
         val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         val startTime = Calendar.getInstance().apply {
@@ -50,6 +51,6 @@ fun setTestChkAlarm(context: Context){
             PendingIntent.getBroadcast(context, TEST_CHK_RECV_ID, testChkIntent, 0)
         )
     } else {
-        Log.i("yangtest", "PendingIntent is Not Null -> Skip Set Alarm!")
+        Log.i(globalLogTag, "PendingIntent is Not Null -> Skip Set Alarm!")
     }
 }
