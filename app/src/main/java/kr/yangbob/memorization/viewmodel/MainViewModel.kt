@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.db.QstCalendar
+import kr.yangbob.memorization.alarm.workForNextTest
 import kr.yangbob.memorization.model.MemRepository
 
 class MainViewModel(private val memRepo: MemRepository, application: Application) : AndroidViewModel(application) {
@@ -19,10 +19,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     val entireCard3 = MutableLiveData<String>()     // 일일 평균 등록 개수
 
     init {
-        if(memRepo.getCntCalendar() == 0){
-            val todayStr = memRepo.getDateStr( System.currentTimeMillis() )
-            memRepo.insertQstCalendar( QstCalendar(todayStr, 0, true))
-        }
+        workForNextTest(memRepo)
     }
 
     fun getQstList() = qstListLD
@@ -39,26 +36,32 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
         } else "0"
     }
 
+    // 재실행 필요 X - 1회만
+    fun setTodayTestCount(){
+        if(todayCard1.value == null){
+            todayCard1.value = "${todayQstRecordLD.value!!.size}"
+        }
+    }
     // 시험 보기 intent result 받고 재 실행 필요 - 시험 진행상태, 정답률
-    fun setTodayCardData() {
+    // Return = 시험 완료 여부 (needTestBtnDisable)
+    fun setTodayCardData() : Boolean{
+        var needTestBtnDisable = false
         val qstRecordList = todayQstRecordLD.value!!
         val cntList = qstRecordList.size
         val cntSolved = qstRecordList.filter { it.is_correct != null }.count()
         val cntCorrect = qstRecordList.filter { it.is_correct == true }.count()
 
-        if(todayCard1.value == null){
-            todayCard1.value = "${qstRecordList.size}"
-        }
-
         todayCard2.value = getApplication<Application>().resources.getString(
             when {
                 cntList == 0 -> {
+                    needTestBtnDisable = true
                     R.string.status_msg_no_test
                 }
                 cntSolved == 0 -> {
                     R.string.status_msg_no_start
                 }
                 cntList == cntSolved -> {
+                    needTestBtnDisable = true
                     R.string.status_msg_complete
                 }
                 else -> {
@@ -70,6 +73,8 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
         todayCard3.value = if (cntSolved > 0) {
             String.format("%.1f%%", cntCorrect / cntSolved.toFloat() * 100)
         } else "-"
+
+        return needTestBtnDisable
     }
 
     // 시험 보기 intent result 받고 재 실행 필요 - 시험 완료율

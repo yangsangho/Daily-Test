@@ -3,8 +3,9 @@ package kr.yangbob.memorization
 import androidx.room.Room
 import kr.yangbob.memorization.db.MemDatabase
 import kr.yangbob.memorization.model.MemRepository
-import kr.yangbob.memorization.viewmodel.CrudViewModel
+import kr.yangbob.memorization.viewmodel.AddViewModel
 import kr.yangbob.memorization.viewmodel.MainViewModel
+import kr.yangbob.memorization.viewmodel.TestViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -14,7 +15,10 @@ val viewModelModule = module {
         MainViewModel(get(), get())
     }
     viewModel {
-        CrudViewModel(get())
+        AddViewModel(get())
+    }
+    viewModel {
+        TestViewModel(get())
     }
     single { MemRepository( get() ) }
     single {

@@ -18,7 +18,7 @@ class MemRepository(memDB: MemDatabase) {
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     private val stageList = Stage.values()
 
-////// Qst
+    ////// Qst
     fun getAllQstLD(): LiveData<List<Qst>> = daoQst.getAllLD()
 
 //    private fun getFromId(id: Int): Qst = runBlocking { daoQst.getFromId(id) }
@@ -30,9 +30,9 @@ class MemRepository(memDB: MemDatabase) {
 
     fun insertQst(qst: Qst) = GlobalScope.launch { daoQst.insert(qst) }
 
-////// QstCalendar
+    ////// QstCalendar
     private fun getCalendarMinDate(): String? = runBlocking { daoQstCalendar.getMinDate() }
-    fun getCntCalendar(): Int = runBlocking { daoQstCalendar.getCnt() }
+
     fun getTodayCalendar(): QstCalendar? =
         runBlocking { daoQstCalendar.getTodayRow(getDateStr(System.currentTimeMillis())) }
 
@@ -40,14 +40,16 @@ class MemRepository(memDB: MemDatabase) {
     fun insertQstCalendar(qstCalendar: QstCalendar) =
         GlobalScope.launch { daoQstCalendar.insert(qstCalendar) }
 
-////// QstRecord
-    fun getRecordCntFromDate(dateStr: String): Int = runBlocking { daoQstRecord.getCntFromDate(dateStr) }
-    fun getCorrectCntFromDate(dateStr: String): Int = runBlocking { daoQstRecord.getCorrectCntFromDate(dateStr) }
-    fun getLDListFromDate(dateStr: String): LiveData<List<QstRecord>> = daoQstRecord.getLDListFromDate(dateStr)
-    fun insertQstRecord(qstRecord: QstRecord) = GlobalScope.launch { daoQstRecord.insert(qstRecord) }
+    ////// QstRecord
+    fun getLDListFromDate(dateStr: String): LiveData<List<QstRecord>> =
+        daoQstRecord.getLDListFromDate(dateStr)
+
+    fun insertQstRecord(qstRecord: QstRecord) =
+        GlobalScope.launch { daoQstRecord.insert(qstRecord) }
+
     fun deleteNoneSolvedRecord() = GlobalScope.launch { daoQstRecord.deleteNoneSolved() }
 
-////// Others
+    ////// Others
     fun getEntireDate(): Int {
         val minDate = getCalendarMinDate()?.let {
             dateFormat.parse(it)?.time
@@ -59,5 +61,6 @@ class MemRepository(memDB: MemDatabase) {
             0
         }
     }
+
     fun getDateStr(timeMillis: Long): String = dateFormat.format(Date(timeMillis))
 }

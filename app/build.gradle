@@ -58,4 +58,6 @@ dependencies {
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-androidx-scope:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 }

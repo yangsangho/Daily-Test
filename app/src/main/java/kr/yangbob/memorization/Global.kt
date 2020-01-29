@@ -8,8 +8,10 @@ import android.util.Log
 import kr.yangbob.memorization.alarm.CreateCalendarReceiver
 import java.util.*
 
-const val MILLIS_A_DAY = 24 * 60 * 60 * 1000
 const val globalLogTag = "Global"
+const val MILLIS_A_DAY = 24 * 60 * 60 * 1000
+const val ANIMATION_HALF_TIME: Long = 400
+const val ANIMATION_FULL_TIME: Long = 800
 
 enum class Stage(val nextTest: Int) {
     INIT(1),

@@ -6,7 +6,7 @@
     <data>
         <variable
             name="model"
-            type="kr.yangbob.memorization.viewmodel.CrudViewModel" />
+            type="kr.yangbob.memorization.viewmodel.AddViewModel" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Large"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/btnFinish"/>
 
         <EditText
             android:id="@+id/qstData"
@@ -73,13 +73,14 @@
             app:layout_constraintTop_toBottomOf="@id/answerTitle" />
 
         <Button
-            android:id="@+id/doneBtn"
+            android:id="@+id/btnFinish"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/colorPrimary"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/done" />
+            android:text="@string/finish" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

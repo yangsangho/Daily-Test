@@ -11,6 +11,10 @@
         <variable
             name="isToday"
             type="Boolean" />
+
+        <variable
+            name="main"
+            type="kr.yangbob.memorization.view.MainActivity" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -78,6 +82,7 @@
             android:layout_margin="8dp"
             android:background="@color/colorPrimary"
             android:text="@{isToday ? @string/dashboard_today_btn1 : @string/dashboard_entire_btn1}"
+            android:onClick="@{isToday ? main::clickTestBtn : main::clickEntireList}"
             app:layout_constraintBottom_toTopOf="@id/dashboardBtn2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/glV"

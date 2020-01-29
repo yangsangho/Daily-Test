@@ -7,12 +7,12 @@ import androidx.databinding.DataBindingUtil
 import kotlinx.android.synthetic.main.activity_add.*
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.databinding.ActivityAddBinding
-import kr.yangbob.memorization.viewmodel.CrudViewModel
-import org.koin.android.ext.android.inject
+import kr.yangbob.memorization.viewmodel.AddViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AddActivity : AppCompatActivity() {
 
-    private val model: CrudViewModel by inject()
+    private val model: AddViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +20,7 @@ class AddActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.model = model
 
-        doneBtn.setOnClickListener{
+        btnFinish.setOnClickListener{
             if( model.insertDataIsEmpty() ) Toast.makeText(this, R.string.toast_need_input_qst, Toast.LENGTH_LONG).show()
             else {
                 model.insertQst()

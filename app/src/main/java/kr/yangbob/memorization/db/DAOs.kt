@@ -60,12 +60,6 @@ interface DaoQstRecord
     @Query("SELECT * FROM QstRecord WHERE calendar_id == :dateStr")
     fun getLDListFromDate(dateStr: String): LiveData<List<QstRecord>>
 
-    @Query("SELECT COUNT(*) FROM QstRecord WHERE calendar_id == :dateStr AND is_correct == 1")
-    suspend fun getCorrectCntFromDate(dateStr: String): Int
-
-    @Query("SELECT COUNT(*) FROM QstRecord WHERE calendar_id == :dateStr")
-    suspend fun getCntFromDate(dateStr: String): Int
-
     @Query("DELETE FROM QstRecord WHERE is_correct IS NULL")
     suspend fun deleteNoneSolved()
 

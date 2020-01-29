@@ -6,7 +6,7 @@ import kr.yangbob.memorization.MILLIS_A_DAY
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.model.MemRepository
 
-class CrudViewModel(private val memRepo: MemRepository) : ViewModel() {
+class AddViewModel(private val memRepo: MemRepository) : ViewModel() {
     val title = MutableLiveData<String>()      // 문제 add 및 update의 문제명
     val answer = MutableLiveData<String>()      // 문제 add 및 update의 정답
 
