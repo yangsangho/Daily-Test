@@ -1,7 +1,6 @@
 package kr.yangbob.memorization.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import kr.yangbob.memorization.ANIMATION_HALF_TIME
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.databinding.ItemTestViewpageBinding
 import kr.yangbob.memorization.db.Qst
+import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.viewmodel.TestViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -27,8 +27,8 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
 
-        val testList = model.getTestList()
-        viewPager.adapter = TestPagerAdpater(testList, model)
+        val todayRecords = model.getTodayNullRecords()
+        viewPager.adapter = TestPagerAdapter(todayRecords, model)
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 }
@@ -39,27 +39,39 @@ class TestViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
     private val card = binding.card
     private val tvQstAnswer = binding.tvQstAnswer
+    private val correctChkIcon = binding.correctChkIcon
+    private val tvTitle = binding.tvTitle
+
+    private lateinit var qstRecord: QstRecord
     private lateinit var qst: Qst
-    private var isFront = true
 
     init {
         binding.holder = this
     }
 
-    fun onBind(qst: Qst) {
-        this.qst = qst
+    fun onBind(qstRecord: QstRecord) {
+        this.qstRecord = qstRecord
+        this.qst = model.getQstFromId(qstRecord.qst_id)
         binding.strData = qst.title
-        binding.isFront = isFront
+        binding.isFront = true
+        if (qstRecord.is_correct != null) {
+            binding.correct = qstRecord.is_correct
+        } else {
+            binding.correct = null
+        }
     }
 
     // 애니메이션 적용
     fun clickShow(view: View) {
-        card.cameraDistance = (10 * binding.card.width).toFloat()
-        if (isFront) {
+        card.cameraDistance = (10 * card.width).toFloat()
+        if (binding.isFront!!) {
             tvQstAnswer.animate().setDuration(ANIMATION_HALF_TIME).alpha(1.0f)
                 .withEndAction {
                     binding.strData = qst.answer
                     tvQstAnswer.rotationY = -180f
+                    correctChkIcon.rotationY = -180f
+                    tvTitle.rotationY = -180f
+                    binding.isFront = false
                 }
             card.animate().setDuration(ANIMATION_FULL_TIME).rotationY(-180f)
         } else {
@@ -67,28 +79,36 @@ class TestViewHolder(
                 .withEndAction {
                     binding.strData = qst.title
                     tvQstAnswer.rotationY = 0f
+                    correctChkIcon.rotationY = 0f
+                    tvTitle.rotationY = 0f
+                    binding.isFront = true
                 }
             card.animate().setDuration(ANIMATION_FULL_TIME).rotationY(0f)
         }
-        isFront = !isFront
-        binding.isFront = isFront
     }
 
     fun clickSuccess(view: View) {
-
+        binding.correct?.let {
+            if (it) return
+        }
+        binding.correct = true
+        model.update(qst, qstRecord, true)
     }
 
     fun clickFail(view: View) {
-
+        binding.correct?.let {
+            if (!it) return
+        }
+        binding.correct = false
+        model.update(qst, qstRecord, false)
     }
 }
 
-class TestPagerAdpater(private val testList: List<Qst>, private val model: TestViewModel) :
+class TestPagerAdapter(private val testList: List<QstRecord>, private val model: TestViewModel) :
     RecyclerView.Adapter<TestViewHolder>() {
     override fun getItemCount(): Int = testList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestViewHolder {
-        Log.i(TestActivityLogTag, "onCreateViewHolder()")
         val binding: ItemTestViewpageBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
             R.layout.item_test_viewpage,
@@ -99,7 +119,6 @@ class TestPagerAdpater(private val testList: List<Qst>, private val model: TestV
     }
 
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
-        Log.i(TestActivityLogTag, "onBindViewHolder()")
         holder.onBind(testList[position])
     }
 }

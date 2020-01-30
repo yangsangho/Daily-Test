@@ -7,13 +7,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
 @Dao
-interface DaoQst
-{
+interface DaoQst {
     @Query("SELECT * FROM qst")
     fun getAllLD(): LiveData<List<Qst>>
 
-//    @Query("SELECT * FROM qst WHERE id == :id")
-//    fun getFromId(id: Int): Qst
+    @Query("SELECT * FROM qst WHERE id == :id")
+    suspend fun getFromId(id: Int): Qst
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(qst: Qst)
@@ -23,16 +22,12 @@ interface DaoQst
 
     @Query("SELECT * FROM qst WHERE next_test_date <= :dateStr")
     suspend fun getNeedTesList(dateStr: String): List<Qst>
-
-//    @Delete
-//    fun delete(qst: Qst)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Dao
-interface DaoQstCalendar
-{
+interface DaoQstCalendar {
     @Query("SELECT * FROM qstcalendar WHERE id == :dateStr LIMIT 1")
     suspend fun getTodayRow(dateStr: String): QstCalendar?
 
@@ -45,6 +40,9 @@ interface DaoQstCalendar
     @Query("SELECT COUNT(*) FROM QstCalendar WHERE test_completion == 1")
     suspend fun getCompletedDateCnt(): Int
 
+    @Query("UPDATE QstCalendar set test_completion = 1 WHERE id == :dateStr")
+    suspend fun updateComplete(dateStr: String)
+
     @Insert
     suspend fun insert(qstCalendar: QstCalendar)
 }
@@ -52,13 +50,15 @@ interface DaoQstCalendar
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Dao
-interface DaoQstRecord
-{
-//    @Query("SELECT * FROM QstRecord")
-//    suspend fun getAll(): List<QstRecord>
+interface DaoQstRecord {
+    @Query("SELECT * FROM QstRecord")
+    suspend fun getAll(): List<QstRecord>
 
     @Query("SELECT * FROM QstRecord WHERE calendar_id == :dateStr")
-    fun getLDListFromDate(dateStr: String): LiveData<List<QstRecord>>
+    fun getAllFromDate(dateStr: String): LiveData<List<QstRecord>>
+
+    @Query("SELECT * FROM QstRecord WHERE calendar_id == :dateStr AND is_correct IS NULL")
+    suspend fun getNullListFromDate(dateStr: String): List<QstRecord>
 
     @Query("DELETE FROM QstRecord WHERE is_correct IS NULL")
     suspend fun deleteNoneSolved()

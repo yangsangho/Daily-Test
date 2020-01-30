@@ -29,4 +29,6 @@
     <string name="test_incorrect">Check Incorrect</string>
     <string name="test_show_answer">Show Answer</string>
     <string name="test_show_question">Show Question</string>
+    <string name="test_title_question">&lt;Question&gt;</string>
+    <string name="test_title_answer">&lt;Answer&gt;</string>
 </resources>

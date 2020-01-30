@@ -5,7 +5,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kr.yangbob.memorization.MILLIS_A_DAY
-import kr.yangbob.memorization.Stage
 import kr.yangbob.memorization.db.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -16,19 +15,16 @@ class MemRepository(memDB: MemDatabase) {
     private val daoQstRecord: DaoQstRecord = memDB.getDaoQstRecord()
     private val daoQstCalendar: DaoQstCalendar = memDB.getDaoQstCalendar()
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    private val stageList = Stage.values()
 
     ////// Qst
     fun getAllQstLD(): LiveData<List<Qst>> = daoQst.getAllLD()
 
-//    private fun getFromId(id: Int): Qst = runBlocking { daoQst.getFromId(id) }
-//    fun getNeedTestCnt(): Int =
-//        runBlocking { daoQst.getNeedTestCnt(getDateStr(System.currentTimeMillis())) }
+    fun getQstFromId(id: Int): Qst = runBlocking { daoQst.getFromId(id) }
 
     fun getNeedTestList(): List<Qst> =
         runBlocking { daoQst.getNeedTesList(getDateStr(System.currentTimeMillis())) }
 
-    fun insertQst(qst: Qst) = GlobalScope.launch { daoQst.insert(qst) }
+    suspend fun insertQst(qst: Qst) = daoQst.insert(qst)
 
     ////// QstCalendar
     private fun getCalendarMinDate(): String? = runBlocking { daoQstCalendar.getMinDate() }
@@ -40,12 +36,19 @@ class MemRepository(memDB: MemDatabase) {
     fun insertQstCalendar(qstCalendar: QstCalendar) =
         GlobalScope.launch { daoQstCalendar.insert(qstCalendar) }
 
-    ////// QstRecord
-    fun getLDListFromDate(dateStr: String): LiveData<List<QstRecord>> =
-        daoQstRecord.getLDListFromDate(dateStr)
+    fun updateCalComplete() =
+        runBlocking { daoQstCalendar.updateComplete(getDateStr(System.currentTimeMillis())) }
 
-    fun insertQstRecord(qstRecord: QstRecord) =
-        GlobalScope.launch { daoQstRecord.insert(qstRecord) }
+    ////// QstRecord
+    fun getAllRecord(): List<QstRecord> = runBlocking { daoQstRecord.getAll() }
+
+    fun getAllRecordLDFromDate(dateStr: String): LiveData<List<QstRecord>> =
+        daoQstRecord.getAllFromDate(dateStr)
+
+    fun getNullRecordsFromDate(dateStr: String): List<QstRecord> =
+        runBlocking { daoQstRecord.getNullListFromDate(dateStr) }
+
+    suspend fun insertQstRecord(qstRecord: QstRecord) = daoQstRecord.insert(qstRecord)
 
     fun deleteNoneSolvedRecord() = GlobalScope.launch { daoQstRecord.deleteNoneSolved() }
 
@@ -63,4 +66,5 @@ class MemRepository(memDB: MemDatabase) {
     }
 
     fun getDateStr(timeMillis: Long): String = dateFormat.format(Date(timeMillis))
+    fun getDateLong(dateStr: String): Long = dateFormat.parse(dateStr)?.time ?: 0
 }

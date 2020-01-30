@@ -30,4 +30,6 @@
     <string name="test_incorrect">오답 체크</string>
     <string name="test_show_answer">정답 보기</string>
     <string name="test_show_question">문제 보기</string>
+    <string name="test_title_answer">&lt;정답&gt;</string>
+    <string name="test_title_question">&lt;문제&gt;</string>
 </resources>

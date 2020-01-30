@@ -3,7 +3,6 @@ package kr.yangbob.memorization.view
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kr.yangbob.memorization.R
@@ -20,7 +19,6 @@ class BarChart : View {
     fun setCount(count: Int){
         numberOfItems = count
         if(count == 7) additionalIconIdx = 1
-        Log.i(logTag, "constructor get attributes! numberOfItems = $numberOfItems")
     }
     private var numberOfItems: Int = 0
     private var additionalIconIdx: Int = 0
@@ -65,8 +63,6 @@ class BarChart : View {
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-        Log.i(logTag, "onSizeChanged() width = $width, height = $height")
-
         // display 사이즈에 따른 각 항목 위치 및 길이 설정
         centerX = w * 0.5f
         centerY = h * 0.5f
@@ -95,8 +91,6 @@ class BarChart : View {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        Log.i(logTag, "onDraw()")
-
         if (dataList.isNullOrEmpty()) {
             canvas?.drawText(
                 resources.getText(R.string.no_item_msg).toString(),
@@ -156,7 +150,6 @@ class BarChart : View {
     }
 
     fun setDataList(list: List<Int>) {
-        Log.i(logTag, "setDataList()")
         if (list.isEmpty()) throw IllegalArgumentException()
         if (list.size != numberOfItems) throw IllegalArgumentException()
 
