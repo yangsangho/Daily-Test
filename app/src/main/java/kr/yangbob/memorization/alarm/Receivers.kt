@@ -3,7 +3,7 @@ package kr.yangbob.memorization.alarm
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import kotlinx.coroutines.runBlocking
+import android.util.Log
 import kr.yangbob.memorization.db.QstCalendar
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
@@ -21,15 +21,16 @@ fun workForNextTest(memRepo: MemRepository): Boolean {
         // 새로운 날짜 데이터 입력
         val todayDate = memRepo.getDateStr(System.currentTimeMillis())
         val testList = memRepo.getNeedTestList()
+
         val newQstCal = QstCalendar(todayDate, testList.size, testList.isEmpty())
         memRepo.insertQstCalendar(newQstCal)
 
         // 시험 Record 추가
-        runBlocking {
-            for (qst in testList) {
-                val challengeStage = qst.cur_stage + 1
-                memRepo.insertQstRecord(QstRecord(qst.id!!, todayDate, challengeStage))
-            }
+        for (qst in testList) {
+            Log.i("workForNext", "<INSERT_QST_RECORD> : $qst")
+            val challengeStage = qst.cur_stage + 1
+            val newQstRecord = QstRecord(qst.id!!, todayDate, challengeStage)
+            memRepo.insertQstRecord( newQstRecord )
         }
         return true
     } else return false

@@ -1,8 +1,6 @@
 package kr.yangbob.memorization.model
 
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kr.yangbob.memorization.MILLIS_A_DAY
 import kr.yangbob.memorization.db.*
@@ -24,17 +22,20 @@ class MemRepository(memDB: MemDatabase) {
     fun getNeedTestList(): List<Qst> =
         runBlocking { daoQst.getNeedTesList(getDateStr(System.currentTimeMillis())) }
 
-    suspend fun insertQst(qst: Qst) = daoQst.insert(qst)
+    fun insertQst(qst: Qst) = runBlocking { daoQst.insert(qst) }
 
     ////// QstCalendar
+    fun getAllCalendar(): List<QstCalendar> = runBlocking { daoQstCalendar.getAll() }
+
     private fun getCalendarMinDate(): String? = runBlocking { daoQstCalendar.getMinDate() }
 
     fun getTodayCalendar(): QstCalendar? =
         runBlocking { daoQstCalendar.getTodayRow(getDateStr(System.currentTimeMillis())) }
 
     fun getCompletedDateCnt(): Int = runBlocking { daoQstCalendar.getCompletedDateCnt() }
+
     fun insertQstCalendar(qstCalendar: QstCalendar) =
-        GlobalScope.launch { daoQstCalendar.insert(qstCalendar) }
+        runBlocking { daoQstCalendar.insert(qstCalendar) }
 
     fun updateCalComplete() =
         runBlocking { daoQstCalendar.updateComplete(getDateStr(System.currentTimeMillis())) }
@@ -48,9 +49,9 @@ class MemRepository(memDB: MemDatabase) {
     fun getNullRecordsFromDate(dateStr: String): List<QstRecord> =
         runBlocking { daoQstRecord.getNullListFromDate(dateStr) }
 
-    suspend fun insertQstRecord(qstRecord: QstRecord) = daoQstRecord.insert(qstRecord)
+    fun insertQstRecord(qstRecord: QstRecord) = runBlocking { daoQstRecord.insert(qstRecord) }
 
-    fun deleteNoneSolvedRecord() = GlobalScope.launch { daoQstRecord.deleteNoneSolved() }
+    fun deleteNoneSolvedRecord() = runBlocking { daoQstRecord.deleteNoneSolved() }
 
     ////// Others
     fun getEntireDate(): Int {
@@ -66,5 +67,6 @@ class MemRepository(memDB: MemDatabase) {
     }
 
     fun getDateStr(timeMillis: Long): String = dateFormat.format(Date(timeMillis))
+
     fun getDateLong(dateStr: String): Long = dateFormat.parse(dateStr)?.time ?: 0
 }

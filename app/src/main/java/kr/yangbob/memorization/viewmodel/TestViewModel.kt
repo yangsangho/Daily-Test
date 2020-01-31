@@ -2,8 +2,6 @@ package kr.yangbob.memorization.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kr.yangbob.memorization.MILLIS_A_DAY
 import kr.yangbob.memorization.STAGE_LIST
 import kr.yangbob.memorization.Stage
@@ -17,7 +15,7 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
 
     fun getQstFromId(id: Int) = memRepo.getQstFromId(id)
 
-    fun update(qst: Qst, qstRecord: QstRecord, isCorrect: Boolean) = GlobalScope.launch {
+    fun update(qst: Qst, qstRecord: QstRecord, isCorrect: Boolean) {
         val challengeStage = STAGE_LIST[qstRecord.challenge_stage]
         val currentNextDate = memRepo.getDateLong(qst.next_test_date)
         val curStage = STAGE_LIST[qst.cur_stage]
@@ -36,7 +34,7 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
                     qstRecord.is_correct = isCorrect
                     memRepo.insertQstRecord(qstRecord)
                     Log.i("TestViewModel", "$qstRecord")
-                    return@launch
+                    return
                 }
                 isCorrect -> {
                     cntAfterDay = challengeStage.nextTest - curStage.nextTest

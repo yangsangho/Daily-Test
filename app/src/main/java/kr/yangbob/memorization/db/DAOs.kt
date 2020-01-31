@@ -28,13 +28,16 @@ interface DaoQst {
 
 @Dao
 interface DaoQstCalendar {
-    @Query("SELECT * FROM qstcalendar WHERE id == :dateStr LIMIT 1")
+    @Query("SELECT * FROM QstCalendar")
+    suspend fun getAll(): List<QstCalendar>
+
+    @Query("SELECT * FROM QstCalendar WHERE id == :dateStr LIMIT 1")
     suspend fun getTodayRow(dateStr: String): QstCalendar?
 
-    @Query("SELECT COUNT(*) FROM qstcalendar")
+    @Query("SELECT COUNT(*) FROM QstCalendar")
     suspend fun getCnt(): Int
 
-    @Query("SELECT id FROM qstcalendar LIMIT 1")
+    @Query("SELECT id FROM QstCalendar LIMIT 1")
     suspend fun getMinDate(): String?
 
     @Query("SELECT COUNT(*) FROM QstCalendar WHERE test_completion == 1")

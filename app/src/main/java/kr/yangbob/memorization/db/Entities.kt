@@ -1,6 +1,9 @@
 package kr.yangbob.memorization.db
 
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.Index
+import androidx.room.PrimaryKey
 
 @Entity(indices = [Index(value = ["title"], unique = true)])
 data class Qst(
@@ -24,30 +27,22 @@ data class QstCalendar(
 )
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 @Entity(
-    primaryKeys = ["qst_id", "calendar_id"],
     foreignKeys = [
-        ForeignKey(
-            entity = Qst::class,
+        ForeignKey(entity = Qst::class,
             parentColumns = ["id"],
-            childColumns = ["qst_id"],
-            onDelete = ForeignKey.CASCADE
-        ),
-        ForeignKey(
-            entity = QstCalendar::class,
+            childColumns = ["qst_id"]),
+        ForeignKey(entity = QstCalendar::class,
             parentColumns = ["id"],
-            childColumns = ["calendar_id"],
-            onDelete = ForeignKey.CASCADE
-        )
+            childColumns = ["calendar_id"])
     ]
 )
 data class QstRecord(
-    @ColumnInfo(index = true)
     val qst_id: Int,
-    @ColumnInfo(index = true)
     val calendar_id: String,              // date
     val challenge_stage: Int,
-    var is_correct: Boolean? = null           // null : 안 푼걸로 간주
+    var is_correct: Boolean? = null,           // null : 안 푼걸로 간주
+    @PrimaryKey(autoGenerate = true)
+    val id: Long? = null
 )
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
