@@ -16,6 +16,8 @@ object DataBindingAdapter {
                 view.setImageResource(R.drawable.ic_close_black_24dp)
                 view.setColorFilter(ContextCompat.getColor(view.context, android.R.color.holo_red_light), android.graphics.PorterDuff.Mode.SRC_IN)
             }
+        } else {
+            view.setImageResource(android.R.color.transparent)
         }
     }
 //    @BindingAdapter("date")

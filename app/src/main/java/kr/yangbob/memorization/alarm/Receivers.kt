@@ -3,7 +3,6 @@ package kr.yangbob.memorization.alarm
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import kr.yangbob.memorization.db.QstCalendar
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
@@ -27,7 +26,6 @@ fun workForNextTest(memRepo: MemRepository): Boolean {
 
         // 시험 Record 추가
         for (qst in testList) {
-            Log.i("workForNext", "<INSERT_QST_RECORD> : $qst")
             val challengeStage = qst.cur_stage + 1
             val newQstRecord = QstRecord(qst.id!!, todayDate, challengeStage)
             memRepo.insertQstRecord( newQstRecord )

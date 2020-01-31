@@ -85,10 +85,10 @@ class MainActivity : AppCompatActivity() {
         })
 
         // TEST 코드
-        val testList = model.getAllRecord()
-        testList.forEach { Log.i(logTag, "<RECORD>GET_ALL : $it") }
-        val testList2 = model.getAllCalendar()
-        testList2.forEach { Log.i(logTag, "<CALENDAR>GET_ALL : $it") }
+//        val testList = model.getAllRecord()
+//        testList.forEach { Log.i(logTag, "<RECORD>GET_ALL : $it") }
+//        val testList2 = model.getAllCalendar()
+//        testList2.forEach { Log.i(logTag, "<CALENDAR>GET_ALL : $it") }
     }
 
     fun clickAddBtn(view: View) {

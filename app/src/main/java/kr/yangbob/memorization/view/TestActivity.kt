@@ -1,5 +1,6 @@
 package kr.yangbob.memorization.view
 
+import android.app.Activity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,14 +29,15 @@ class TestActivity : AppCompatActivity() {
         setContentView(R.layout.activity_test)
 
         val todayRecords = model.getTodayNullRecords()
-        viewPager.adapter = TestPagerAdapter(todayRecords, model)
+        viewPager.adapter = TestPagerAdapter(todayRecords.shuffled(), model, viewPager, this)
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 }
 
 class TestViewHolder(
     private val model: TestViewModel,
-    private val binding: ItemTestViewpageBinding
+    private val binding: ItemTestViewpageBinding,
+    private val adapter: TestPagerAdapter
 ) : RecyclerView.ViewHolder(binding.root) {
     private val card = binding.card
     private val tvQstAnswer = binding.tvQstAnswer
@@ -87,24 +89,18 @@ class TestViewHolder(
         }
     }
 
-    fun clickSuccess(view: View) {
+    fun clickChk(view: View){
+        val isCorrect = view.id == R.id.btnChkSuccess
         binding.correct?.let {
-            if (it) return
+            if(it == isCorrect) return
         }
-        binding.correct = true
-        model.update(qst, qstRecord, true)
-    }
-
-    fun clickFail(view: View) {
-        binding.correct?.let {
-            if (!it) return
-        }
-        binding.correct = false
-        model.update(qst, qstRecord, false)
+        binding.correct = isCorrect
+        model.update(qst, qstRecord, isCorrect)
+        adapter.move(adapterPosition)
     }
 }
 
-class TestPagerAdapter(private val testList: List<QstRecord>, private val model: TestViewModel) :
+class TestPagerAdapter(private val testList: List<QstRecord>, private val model: TestViewModel, private val pager: ViewPager2, private val activity: Activity) :
     RecyclerView.Adapter<TestViewHolder>() {
     override fun getItemCount(): Int = testList.size
 
@@ -115,10 +111,24 @@ class TestPagerAdapter(private val testList: List<QstRecord>, private val model:
             parent,
             false
         )
-        return TestViewHolder(model, binding)
+        return TestViewHolder(model, binding, this)
     }
 
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
         holder.onBind(testList[position])
+    }
+
+    fun move(position: Int){
+        if(!testList.any { it.is_correct == null }){
+            activity.finish()
+            return
+        }
+
+        val newList = testList.mapIndexed{index, qstRecord -> index to qstRecord }.filter { it.second.is_correct == null }
+        if(newList.any { it.first > position }){
+            pager.currentItem = newList.first { it.first > position }.first
+        } else {
+            pager.currentItem = newList.first().first
+        }
     }
 }

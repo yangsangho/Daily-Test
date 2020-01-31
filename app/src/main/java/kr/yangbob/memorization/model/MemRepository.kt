@@ -25,7 +25,7 @@ class MemRepository(memDB: MemDatabase) {
     fun insertQst(qst: Qst) = runBlocking { daoQst.insert(qst) }
 
     ////// QstCalendar
-    fun getAllCalendar(): List<QstCalendar> = runBlocking { daoQstCalendar.getAll() }
+//    fun getAllCalendar(): List<QstCalendar> = runBlocking { daoQstCalendar.getAll() }
 
     private fun getCalendarMinDate(): String? = runBlocking { daoQstCalendar.getMinDate() }
 
@@ -41,7 +41,7 @@ class MemRepository(memDB: MemDatabase) {
         runBlocking { daoQstCalendar.updateComplete(getDateStr(System.currentTimeMillis())) }
 
     ////// QstRecord
-    fun getAllRecord(): List<QstRecord> = runBlocking { daoQstRecord.getAll() }
+//    fun getAllRecord(): List<QstRecord> = runBlocking { daoQstRecord.getAll() }
 
     fun getAllRecordLDFromDate(dateStr: String): LiveData<List<QstRecord>> =
         daoQstRecord.getAllFromDate(dateStr)

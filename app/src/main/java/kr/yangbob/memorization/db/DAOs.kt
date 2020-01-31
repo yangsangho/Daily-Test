@@ -28,8 +28,8 @@ interface DaoQst {
 
 @Dao
 interface DaoQstCalendar {
-    @Query("SELECT * FROM QstCalendar")
-    suspend fun getAll(): List<QstCalendar>
+//    @Query("SELECT * FROM QstCalendar")
+//    suspend fun getAll(): List<QstCalendar>
 
     @Query("SELECT * FROM QstCalendar WHERE id == :dateStr LIMIT 1")
     suspend fun getTodayRow(dateStr: String): QstCalendar?
@@ -54,8 +54,8 @@ interface DaoQstCalendar {
 
 @Dao
 interface DaoQstRecord {
-    @Query("SELECT * FROM QstRecord")
-    suspend fun getAll(): List<QstRecord>
+//    @Query("SELECT * FROM QstRecord")
+//    suspend fun getAll(): List<QstRecord>
 
     @Query("SELECT * FROM QstRecord WHERE calendar_id == :dateStr")
     fun getAllFromDate(dateStr: String): LiveData<List<QstRecord>>
