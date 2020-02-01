@@ -49,6 +49,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     // Return = 시험 완료 여부 (needTestBtnDisable)
     fun setTodayCardData(): Boolean {
         var needTestBtnDisable = false
+        var needAddPostfix = false
         val qstRecordList = todayQstRecordLD.value!!
         val cntList = qstRecordList.size
         val cntSolved = qstRecordList.filter { it.is_correct != null }.count()
@@ -56,7 +57,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
 
         Log.i(logTag, "listSize = $cntList, cntSolved = $cntSolved, cntCorrect = $cntCorrect")
 
-        todayCard2.value = getApplication<Application>().resources.getString(
+        val todayCard2Text = getApplication<Application>().resources.getString(
             when {
                 cntList == 0 -> {
                     needTestBtnDisable = true
@@ -65,15 +66,17 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
                 cntSolved == 0 -> {
                     R.string.status_msg_no_start
                 }
-                cntList == cntSolved -> {
+                cntList != cntSolved -> {
+                    needAddPostfix = true
+                    R.string.status_msg_ongoing
+                }
+                else -> {
                     needTestBtnDisable = true
                     R.string.status_msg_complete
                 }
-                else -> {
-                    R.string.status_msg_ongoing
-                }
             }
         )
+        todayCard2.value = if(needAddPostfix) "$todayCard2Text\n($cntSolved/$cntList)" else todayCard2Text
 
         todayCard3.value = if (cntSolved > 0) {
             String.format("%.1f%%", cntCorrect / cntSolved.toFloat() * 100)
@@ -89,12 +92,12 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     // 시험 보기 intent result 받고 재 실행 필요 - 시험 완료율
     // completedCnt과 entireDate에는 시작일이 포함되어 있음
     fun setTestCompletionRate() {
-        val completedCnt = memRepo.getCompletedDateCnt()
-        val entireDate = memRepo.getEntireDate()
+        val completedCnt = memRepo.getCompletedDateCnt() - 1
+        val entireDate = memRepo.getEntireDate() - 1
 
         entireCard2.value = if (entireDate > 0) {
             String.format("%.1f%%", completedCnt / entireDate.toFloat() * 100)
-        } else "-"
+        } else "0%"
     }
 
     init {
