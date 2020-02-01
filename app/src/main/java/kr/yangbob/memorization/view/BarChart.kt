@@ -106,14 +106,14 @@ class BarChart : View {
                 val position = idx + 1
 
                 // 세로줄 그리기
-                val verticalLineX = makeVerticalLineX(itemCenterX, position)
-                canvas?.drawLine(
-                    verticalLineX,
-                    0f,
-                    verticalLineX,
-                    height.toFloat(),
-                    grayPaint
-                )  // 세로줄 그리기
+//                val verticalLineX = makeVerticalLineX(itemCenterX, position)
+//                canvas?.drawLine(
+//                    verticalLineX,
+//                    0f,
+//                    verticalLineX,
+//                    height.toFloat(),
+//                    grayPaint
+//                )  // 세로줄 그리기
 
                 // Bar 밑에 ICON 그리기
                 iconVectorList[idx + additionalIconIdx]?.bounds = iconRectList[idx]
@@ -199,7 +199,7 @@ class BarChart : View {
         }
 
     private fun makeItemCenterX(itemBaseX: Float, position: Int) = itemBaseX * (position * 2 - 1)
-    private fun makeVerticalLineX(itemBaseX: Float, position: Int) = itemBaseX * position * 2
+//    private fun makeVerticalLineX(itemBaseX: Float, position: Int) = itemBaseX * position * 2
 
     private fun makeDesiredTextPaint(
         desiredWidth: Float,
@@ -227,7 +227,7 @@ class BarChart : View {
         // 최대 길이의 텍스트 - 최적의 Description Font Size 를 구하기 위한 기준값들
         private const val baseTextCntDescription = "99999"
         private const val baseTextRatioDescription = "(100.0%)"
-        private const val logTag = "BarChart"
+//        private const val logTag = "BarChart"
 
         private val barColorList = listOf(
             Paint().apply { color = Color.rgb(230, 230, 230) },
@@ -245,6 +245,6 @@ class BarChart : View {
             color = Color.BLACK
         }
         private val blackPaint = Paint().apply { color = Color.BLACK }
-        private val grayPaint = Paint().apply { color = Color.LTGRAY }
+//        private val grayPaint = Paint().apply { color = Color.LTGRAY }
     }
 }

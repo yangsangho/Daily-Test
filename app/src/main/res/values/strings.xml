@@ -15,9 +15,8 @@
     <string name="dashboard_entire_card3">Daily Registration</string>
     <string name="dashboard_entire_btn1">Entire List</string>
     <string name="dashboard_entire_btn2">Test Record</string>
-    <string name="question">Question Name</string>
+    <string name="add_question_title">Add\nQuestion</string>
     <string name="question_input">Input the question name</string>
-    <string name="answer">Answer</string>
     <string name="answer_input">Input the answer</string>
     <string name="finish">Finish filling in</string>
     <string name="toast_need_input_qst">Please input question and answer</string>
@@ -31,4 +30,6 @@
     <string name="test_show_question">Show Question</string>
     <string name="test_title_question">&lt;Question&gt;</string>
     <string name="test_title_answer">&lt;Answer&gt;</string>
+    <string name="menu_search">Question Search</string>
+    <string name="menu_write">Question Write</string>
 </resources>
