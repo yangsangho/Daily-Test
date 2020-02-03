@@ -30,10 +30,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // ToolBar 설정
-        appBar.title = resources.getString(R.string.app_name)
-        setSupportActionBar(appBar)
+        toolBar.title = resources.getString(R.string.app_name)
+        setSupportActionBar(toolBar)
+        supportActionBar?.setIcon(R.drawable.ic_appbar_icon)
 
-        // Viewpager 및 TabLayout 설정
+    // Viewpager 및 TabLayout 설정
         mainViewPager.adapter = MainPagerFragmentAdpater(lifecycle, supportFragmentManager)
         mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         mainViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -56,9 +57,8 @@ class MainActivity : AppCompatActivity() {
 //        testList2.forEach { Log.i(logTag, "<CALENDAR>GET_ALL : $it") }
     }
 
-
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
+        menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 

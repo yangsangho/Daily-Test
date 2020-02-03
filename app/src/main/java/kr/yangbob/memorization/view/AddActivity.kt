@@ -1,11 +1,11 @@
 package kr.yangbob.memorization.view
 
-import android.content.Context
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_add.*
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.databinding.ActivityAddBinding
@@ -16,6 +16,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class AddActivity : AppCompatActivity() {
 
     private val model: AddViewModel by viewModel()
+    private var menu: Menu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,21 +25,31 @@ class AddActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.model = model
 
-        binding.qstData.requestFocus()
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
+        toolBar.title = resources.getString(R.string.add_appbar_title)
+        setSupportActionBar(toolBar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        btnFinish.setOnClickListener {
-            if (model.insertDataIsEmpty()) Toast.makeText(
-                this,
-                R.string.toast_need_input_qst,
-                Toast.LENGTH_LONG
-            ).show()
-            else {
-                imm.hideSoftInputFromWindow(it.windowToken, 0)
-                model.insertQst()
-                finish()
-            }
+        binding.qstData.requestFocus()
+
+        val menuObserver = Observer<String> {
+            menu?.findItem(R.id.action_save)?.isEnabled = !model.insertDataIsEmpty()
         }
+        model.answer.observe(this, menuObserver)
+        model.title.observe(this, menuObserver)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_add, menu)
+        this.menu = menu
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId){
+        R.id.action_save -> {
+            model.insertQst()
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 }

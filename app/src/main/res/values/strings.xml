@@ -15,10 +15,9 @@
     <string name="dashboard_entire_card3">Daily Registration</string>
     <string name="dashboard_entire_btn1">Entire List</string>
     <string name="dashboard_entire_btn2">Test Record</string>
-    <string name="add_question_title">Add\nQuestion</string>
-    <string name="question_input">Input the question name</string>
-    <string name="answer_input">Input the answer</string>
-    <string name="finish">Finish filling in</string>
+    <string name="add_appbar_title">Add\nQuestion</string>
+    <string name="add_input_question">Input the question name</string>
+    <string name="add_input_answer">Input the answer</string>
     <string name="toast_need_input_qst">Please input question and answer</string>
     <string name="status_msg_no_start">No Start</string>
     <string name="status_msg_ongoing">Ongoing</string>
@@ -34,4 +33,5 @@
     <string name="menu_write">Question Write</string>
     <string name="chart_desc_today">Distribution of Challenge Stage</string>
     <string name="chart_desc_entire">Distribution of Achievement Stage</string>
+    <string name="add_btn_save">Save</string>
 </resources>

@@ -97,7 +97,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
 
         entireCard2.value = if (entireDate > 0) {
             String.format("%.1f%%", completedCnt / entireDate.toFloat() * 100)
-        } else "0.0%"
+        } else "-"
     }
 
     init {

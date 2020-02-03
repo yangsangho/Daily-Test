@@ -22,8 +22,14 @@
         </receiver>
         <receiver android:name=".alarm.CreateCalendarReceiver" />
 
-        <activity android:name=".view.AddActivity"
-            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".view.AddActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".view.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.MainActivity"/>
+        </activity>
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

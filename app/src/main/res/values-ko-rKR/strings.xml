@@ -16,10 +16,9 @@
     <string name="dashboard_entire_card3">일일 평균 등록</string>
     <string name="dashboard_entire_btn1">전체 목록</string>
     <string name="dashboard_entire_btn2">시험 기록</string>
-    <string name="add_question_title">문제\n추가하기</string>
-    <string name="question_input">문제를 입력해주세요.</string>
-    <string name="answer_input">정답을 입력해주세요.</string>
-    <string name="finish">작성 완료</string>
+    <string name="add_appbar_title">문제\n추가하기</string>
+    <string name="add_input_question">문제를 입력해주세요.</string>
+    <string name="add_input_answer">정답을 입력해주세요.</string>
     <string name="toast_need_input_qst">문제와 정답을 입력해주세요.</string>
     <string name="status_msg_complete">완료</string>
     <string name="status_msg_no_start">미진행</string>
@@ -35,4 +34,5 @@
     <string name="menu_write">문제 작성</string>
     <string name="chart_desc_today">도전 단계 분포도</string>
     <string name="chart_desc_entire">달성 단계 분포도</string>
+    <string name="add_btn_save">저장</string>
 </resources>
