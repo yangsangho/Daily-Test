@@ -1,83 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <data>
-        <variable
-            name="model"
-            type="kr.yangbob.memorization.viewmodel.MainViewModel" />
-        <variable
-            name="mainActivity"
-            type="kr.yangbob.memorization.view.MainActivity" />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/AppTheme"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/appBar"
-            android:layout_width="match_parent"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:layout_constraintTop_toBottomOf="@id/appBar"
+        app:tabMaxWidth="0dp"
+        app:tabIndicatorHeight="4dp"
+        app:tabGravity="fill"
+        app:tabMode="fixed">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/colorPrimary"
-            android:theme="@style/AppTheme"
-            android:elevation="4dp"/>
+            android:text="@string/today_test" />
 
-        <TextView
-            android:id="@+id/tvToday"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/delimiter_top_bot"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/today_test"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toTopOf="@id/dashboard_today"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appBar"/>
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/entire_question" />
+    </com.google.android.material.tabs.TabLayout>
 
-        <include
-            android:id="@+id/dashboard_today"
-            layout="@layout/dashboard_module"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:isToday="@{true}"
-            app:layout_constraintBottom_toTopOf="@id/tvEntire"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvToday"
-            app:model="@{model}"
-            app:main="@{mainActivity}"/>
-
-        <TextView
-            android:id="@+id/tvEntire"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="8dp"
-            android:background="@drawable/delimiter_top_bot"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@string/entire_question"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toTopOf="@id/dashboard_entire"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dashboard_today" />
-
-        <include
-            android:id="@+id/dashboard_entire"
-            layout="@layout/dashboard_module"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:isToday="@{false}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvEntire"
-            app:model="@{model}"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/mainViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:elevation="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout" />
+</androidx.constraintlayout.widget.ConstraintLayout>

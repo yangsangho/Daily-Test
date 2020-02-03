@@ -2,94 +2,51 @@ package kr.yangbob.memorization.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
+import androidx.viewpager2.adapter.FragmentStateAdapter
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.STAGE_LIST
 import kr.yangbob.memorization.Stage
-import kr.yangbob.memorization.databinding.ActivityMainBinding
-import kr.yangbob.memorization.db.Qst
-import kr.yangbob.memorization.db.QstRecord
+import kr.yangbob.memorization.databinding.DashboardModuleBinding
 import kr.yangbob.memorization.setTestChkAlarm
 import kr.yangbob.memorization.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private val logTag = "MainActivity"
-    private val model: MainViewModel by viewModel()
-    private lateinit var qstList: LiveData<List<Qst>>
-    private lateinit var qstRecordList: LiveData<List<QstRecord>>
-    private var isInit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        isInit = false
-//        this.deleteDatabase("BeomS_Memo")   // DB 초기화할 때 사용
-        // set Alarm
-//        cancelAlarm(this)
         setTestChkAlarm(this)
-
-
-        // binding
-        val binding: ActivityMainBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.lifecycleOwner = this
-        binding.model = model
-        binding.mainActivity = this
+        setContentView(R.layout.activity_main)
 
         // ToolBar 설정
-        binding.appBar.title = resources.getString(R.string.app_name)
+        appBar.title = resources.getString(R.string.app_name)
         setSupportActionBar(appBar)
 
-        // get List Data
-        qstList = model.getQstList()
-        qstRecordList = model.getQstRecordList()
-
-        // set BarChart
-        binding.dashboardToday.dashboardChart.setCount(7)
-        binding.dashboardEntire.dashboardChart.setCount(8)
-
-        // set UI Data
-        qstList.observe(this, Observer { rawList ->
-            Log.i(logTag, "<Observe> qstList : size = ${rawList.size}")
-            model.setEntireCardData()
-            if (rawList.isNotEmpty()) {
-                val map = rawList.groupBy { qst -> qst.cur_stage }.mapValues { it.value.size }
-                    .toMutableMap()
-                STAGE_LIST.filter { it.ordinal < 8 }
-                    .forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
-                binding.dashboardEntire.dashboardChart.setDataList(map.toSortedMap().values.toList())
+        // Viewpager 및 TabLayout 설정
+        mainViewPager.adapter = MainPagerFragmentAdpater(lifecycle, supportFragmentManager)
+        mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        mainViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                tabLayout.getTabAt(position)?.select()
             }
         })
-
-        qstRecordList.observe(this, Observer { rawList ->
-            Log.i(logTag, "<Observe> qstRecordList")
-            if (!isInit) {
-                isInit = true
-                model.setTodayTestCount()
-                if (rawList.isNotEmpty()) {
-                    val map = rawList.groupBy { qstRecord -> qstRecord.challenge_stage }
-                        .mapValues { it.value.size }.toMutableMap()
-                    STAGE_LIST.filter { it.ordinal > 0 }
-                        .forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
-                    val reviewCnt = map[Stage.REVIEW.ordinal]
-                    map.remove(Stage.REVIEW.ordinal)
-                    map[Stage.AFTER_MONTH.ordinal] =
-                        (map[Stage.AFTER_MONTH.ordinal] ?: 0) + (reviewCnt ?: 0)
-                    binding.dashboardToday.dashboardChart.setDataList(map.toSortedMap().values.toList())
-                }
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(p0: TabLayout.Tab?) {}
+            override fun onTabUnselected(p0: TabLayout.Tab?) {}
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                mainViewPager.currentItem = tab?.position ?: 0
             }
-            if (model.setTodayCardData()) {
-                binding.dashboardToday.dashboardBtn1.isEnabled = false
-            }
-            model.setTestCompletionRate()
         })
 
         // TEST 코드
@@ -99,20 +56,13 @@ class MainActivity : AppCompatActivity() {
 //        testList2.forEach { Log.i(logTag, "<CALENDAR>GET_ALL : $it") }
     }
 
-    fun clickTestBtn(view: View) {
-        startActivity(Intent(this, TestActivity::class.java))
-    }
-
-    fun clickEntireList(view: View) {
-
-    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_search -> {
             true
         }
@@ -120,6 +70,101 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, AddActivity::class.java))
             true
         }
-        else -> {super.onOptionsItemSelected(item)}
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
+}
+
+class MainPagerFragmentAdpater(mainLifeCycle: Lifecycle, fm: FragmentManager) :
+    FragmentStateAdapter(fm, mainLifeCycle) {
+    override fun getItemCount(): Int = 2
+    override fun createFragment(position: Int): Fragment = PagerFragment.newInstance(position == 0)
+}
+
+class PagerFragment : Fragment() {
+    private val model: MainViewModel by viewModel()
+    private lateinit var binding: DashboardModuleBinding
+    private var isInit = false
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        isInit = false
+        binding = DataBindingUtil.inflate(
+            LayoutInflater.from(context),
+            R.layout.dashboard_module,
+            container,
+            false
+        )
+        binding.lifecycleOwner = this
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        arguments?.let { bundle ->
+            val isToday = bundle.getBoolean("isToday")
+            binding.isToday = isToday
+            binding.model = model
+            binding.fragment = this
+            if (isToday) {
+                binding.dashboardChart.setCount(7)
+                val observeList = model.getQstRecordList()
+                observeList.observe(viewLifecycleOwner, Observer { rawList ->
+                    if (!isInit) {
+                        isInit = true
+                        model.setTodayTestCount()
+                        if (rawList.isNotEmpty()) {
+                            val map = rawList.groupBy { qstRecord -> qstRecord.challenge_stage }
+                                .mapValues { it.value.size }.toMutableMap()
+                            STAGE_LIST.filter { it.ordinal > 0 }
+                                .forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
+                            val reviewCnt = map[Stage.REVIEW.ordinal]
+                            map.remove(Stage.REVIEW.ordinal)
+                            map[Stage.AFTER_MONTH.ordinal] =
+                                (map[Stage.AFTER_MONTH.ordinal] ?: 0) + (reviewCnt ?: 0)
+                            binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
+                        }
+                    }
+                    if (model.setTodayCardData()) {
+                        binding.dashboardBtn1.isEnabled = false
+                    }
+                })
+            } else {
+                binding.dashboardChart.setCount(8)
+                val observeList = model.getQstList()
+                observeList.observe(viewLifecycleOwner, Observer { rawList ->
+                    model.setEntireCardData()
+                    if (rawList.isNotEmpty()) {
+                        val map =
+                            rawList.groupBy { qst -> qst.cur_stage }.mapValues { it.value.size }
+                                .toMutableMap()
+                        STAGE_LIST.filter { it.ordinal < 8 }
+                            .forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
+                        binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
+                    }
+                    model.setTestCompletionRate()
+                })
+            }
+        }
+    }
+
+    companion object {
+        fun newInstance(isToday: Boolean): PagerFragment {
+            val bundle = Bundle()
+            bundle.putBoolean("isToday", isToday)
+            return PagerFragment().apply { arguments = bundle }
+        }
+    }
+
+    fun clickTestBtn(view: View) {
+        startActivity(Intent(context, TestActivity::class.java))
+    }
+
+    fun clickEntireList(view: View) {
+
     }
 }

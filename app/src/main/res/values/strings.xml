@@ -32,4 +32,6 @@
     <string name="test_title_answer">&lt;Answer&gt;</string>
     <string name="menu_search">Question Search</string>
     <string name="menu_write">Question Write</string>
+    <string name="chart_desc_today">Distribution of Challenge Stage</string>
+    <string name="chart_desc_entire">Distribution of Achievement Stage</string>
 </resources>

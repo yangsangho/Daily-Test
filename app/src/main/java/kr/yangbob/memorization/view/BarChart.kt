@@ -2,6 +2,7 @@ package kr.yangbob.memorization.view
 
 import android.content.Context
 import android.graphics.*
+import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
@@ -18,13 +19,18 @@ class BarChart : View {
 
     fun setCount(count: Int){
         numberOfItems = count
-        if(count == 7) additionalIconIdx = 1
+        if(count == 7) {
+            additionalIconIdx = 1
+            strDesc = context.resources.getString(R.string.chart_desc_today)
+        } else {
+            strDesc = context.resources.getString(R.string.chart_desc_entire)
+        }
     }
     private var numberOfItems: Int = 0
     private var additionalIconIdx: Int = 0
 
     // 페인트 객체들
-    private val noItemMsgPaint = Paint().apply {
+    private val noItemMsgPaint = TextPaint().apply {
         color = Color.BLACK
         textAlign = Paint.Align.CENTER
         textSize = resources.getDimensionPixelSize(R.dimen.noItemFontSize).toFloat()
@@ -42,6 +48,9 @@ class BarChart : View {
     private var itemIconCenterY: Float = 0f
     private var itemIconHeight: Float = 0f
     private var itemBarMaxHeight: Float = 0f
+    private var descY: Float = 0f
+    private var descHeight: Float = 0f
+    private var descWidth: Float = 0f
     private var barDescRatioHeight: Int = 0 // 비율 Description 높이 값 (비율 text 위에 개수 text 들어가도록)
 
     // 데이터 세트들
@@ -60,18 +69,21 @@ class BarChart : View {
         VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_15, null),
         VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_30, null)
     )
+    private lateinit var strDesc: String
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         // display 사이즈에 따른 각 항목 위치 및 길이 설정
         centerX = w * 0.5f
         centerY = h * 0.5f
-
+        descY = h * 0.1f
+        descHeight = h * 0.08f
+        descWidth = w * 0.7f
         baseLineY = h * 0.85f
         itemIconHeight = h * 0.075f
         itemCenterX = w / (numberOfItems * 2).toFloat()
         itemWidth = w * 0.05f
-        itemBarMaxHeight = h * 0.7f
+        itemBarMaxHeight = h * 0.6f
 
         itemIconCenterY = baseLineY + itemIconHeight
         if (itemWidth > itemIconHeight) itemWidth = itemIconHeight
@@ -102,18 +114,11 @@ class BarChart : View {
             // 가로줄 그리기
             canvas?.drawLine(0f, baseLineY, width.toFloat(), baseLineY, blackPaint)
 
+            // 그래프 설명 글
+           canvas?.drawText(strDesc, centerX, descY, makeDesiredDescPaint(descWidth, descHeight, strDesc, noItemMsgPaint))
+
             for (idx in 0 until numberOfItems) {
                 val position = idx + 1
-
-                // 세로줄 그리기
-//                val verticalLineX = makeVerticalLineX(itemCenterX, position)
-//                canvas?.drawLine(
-//                    verticalLineX,
-//                    0f,
-//                    verticalLineX,
-//                    height.toFloat(),
-//                    grayPaint
-//                )  // 세로줄 그리기
 
                 // Bar 밑에 ICON 그리기
                 iconVectorList[idx + additionalIconIdx]?.bounds = iconRectList[idx]
@@ -216,6 +221,30 @@ class BarChart : View {
 
         return paint
     }
+
+    private fun makeDesiredDescPaint(
+        desiredWidth: Float,
+        desiredHeight: Float,
+        baseText: String,
+        basePaint: Paint
+    ): Paint {
+        val paint = Paint(basePaint)
+        val bounds = Rect()
+        var desiredTextSize: Float
+
+        paint.getTextBounds(baseText, 0, baseText.length, bounds)
+        desiredTextSize = paint.textSize * desiredHeight / bounds.height()
+        paint.textSize = desiredTextSize
+
+        paint.getTextBounds(baseText, 0, baseText.length, bounds)
+        if(bounds.width() > desiredWidth){
+            desiredTextSize = paint.textSize * desiredWidth / bounds.width()
+            paint.textSize = desiredTextSize
+        }
+
+        return paint
+    }
+
 
     private fun calcBarDescRatioHeight(paint: Paint): Int {
         val bounds = Rect()

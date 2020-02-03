@@ -33,4 +33,6 @@
     <string name="test_title_question">&lt;문제&gt;</string>
     <string name="menu_search">문제 찾기</string>
     <string name="menu_write">문제 작성</string>
+    <string name="chart_desc_today">도전 단계 분포도</string>
+    <string name="chart_desc_entire">달성 단계 분포도</string>
 </resources>
