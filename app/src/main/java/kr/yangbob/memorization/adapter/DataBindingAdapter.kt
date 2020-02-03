@@ -7,19 +7,49 @@ import kr.yangbob.memorization.R
 
 object DataBindingAdapter {
     @BindingAdapter("app:correct")
-    @JvmStatic fun testChkIcon(view: ImageView, correct: Boolean?) {
-        if(correct != null){
-            if(correct) {
+    @JvmStatic
+    fun testChkIcon(view: ImageView, correct: Boolean?) {
+        if (correct != null) {
+            if (correct) {
                 view.setImageResource(R.drawable.ic_check_circle_black_24dp)
-                view.setColorFilter(ContextCompat.getColor(view.context, android.R.color.holo_green_light), android.graphics.PorterDuff.Mode.SRC_IN)
+                view.setColorFilter(
+                    ContextCompat.getColor(
+                        view.context,
+                        android.R.color.holo_green_light
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
             } else {
                 view.setImageResource(R.drawable.ic_close_black_24dp)
-                view.setColorFilter(ContextCompat.getColor(view.context, android.R.color.holo_red_light), android.graphics.PorterDuff.Mode.SRC_IN)
+                view.setColorFilter(
+                    ContextCompat.getColor(
+                        view.context,
+                        android.R.color.holo_red_light
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
             }
         } else {
             view.setImageResource(android.R.color.transparent)
         }
     }
+
+    @BindingAdapter("app:stage")
+    @JvmStatic
+    fun setStage(view: ImageView, stage: Int) {
+        view.setImageResource(
+            when (stage) {
+                1 -> R.drawable.ic_stage_1_1
+                2 -> R.drawable.ic_stage_1_2
+                3 -> R.drawable.ic_stage_1_3
+                4 -> R.drawable.ic_stage_3
+                5 -> R.drawable.ic_stage_7
+                6 -> R.drawable.ic_stage_15
+                7 -> R.drawable.ic_stage_30
+                else -> R.drawable.ic_stage_30
+            }
+        )
+    }
+
+
 //    @BindingAdapter("date")
 //    @JvmStatic
 //    fun date(view: TextView, calendar: Calendar) {

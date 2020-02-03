@@ -2,6 +2,7 @@ package kr.yangbob.memorization.view
 
 import android.app.Activity
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,10 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
 
+        toolBar.title = resources.getString(R.string.test_appbar_title)
+        setSupportActionBar(toolBar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         val todayRecords = model.getTodayNullRecords()
         viewPager.adapter = TestPagerAdapter(todayRecords.shuffled(), model, viewPager, this)
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
@@ -40,9 +45,12 @@ class TestViewHolder(
     private val adapter: TestPagerAdapter
 ) : RecyclerView.ViewHolder(binding.root) {
     private val card = binding.card
-    private val tvQstAnswer = binding.tvQstAnswer
+    private val tvQstAnswer = binding.tvQstAnswer.apply {
+        movementMethod = ScrollingMovementMethod()
+    }
     private val correctChkIcon = binding.correctChkIcon
-    private val tvTitle = binding.tvTitle
+    private val tvDesc = binding.tvDesc
+    private val stageIcon = binding.stageIcon
 
     private lateinit var qstRecord: QstRecord
     private lateinit var qst: Qst
@@ -56,6 +64,7 @@ class TestViewHolder(
         this.qst = model.getQstFromId(qstRecord.qst_id)
         binding.strData = qst.title
         binding.isFront = true
+        binding.stage = qstRecord.challenge_stage
         if (qstRecord.is_correct != null) {
             binding.correct = qstRecord.is_correct
         } else {
@@ -72,7 +81,8 @@ class TestViewHolder(
                     binding.strData = qst.answer
                     tvQstAnswer.rotationY = -180f
                     correctChkIcon.rotationY = -180f
-                    tvTitle.rotationY = -180f
+                    tvDesc.rotationY = -180f
+                    stageIcon.rotationY = -180f
                     binding.isFront = false
                 }
             card.animate().setDuration(ANIMATION_FULL_TIME).rotationY(-180f)
@@ -82,7 +92,8 @@ class TestViewHolder(
                     binding.strData = qst.title
                     tvQstAnswer.rotationY = 0f
                     correctChkIcon.rotationY = 0f
-                    tvTitle.rotationY = 0f
+                    tvDesc.rotationY = 0f
+                    stageIcon.rotationY = 0f
                     binding.isFront = true
                 }
             card.animate().setDuration(ANIMATION_FULL_TIME).rotationY(0f)
@@ -90,7 +101,7 @@ class TestViewHolder(
     }
 
     fun clickChk(view: View){
-        val isCorrect = view.id == R.id.btnChkSuccess
+        val isCorrect = view.id == R.id.btnSuccessLayout
         binding.correct?.let {
             if(it == isCorrect) return
         }
