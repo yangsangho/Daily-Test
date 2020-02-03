@@ -10,7 +10,7 @@ object DataBindingAdapter {
     @JvmStatic fun testChkIcon(view: ImageView, correct: Boolean?) {
         if(correct != null){
             if(correct) {
-                view.setImageResource(R.drawable.ic_check_black_24dp)
+                view.setImageResource(R.drawable.ic_check_circle_black_24dp)
                 view.setColorFilter(ContextCompat.getColor(view.context, android.R.color.holo_green_light), android.graphics.PorterDuff.Mode.SRC_IN)
             } else {
                 view.setImageResource(R.drawable.ic_close_black_24dp)
