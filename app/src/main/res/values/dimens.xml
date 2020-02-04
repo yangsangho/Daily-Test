@@ -2,4 +2,5 @@
 <resources>
     <dimen name="noItemFontSize">20sp</dimen>
     <dimen name="itemDescriptionFontSize">10sp</dimen>
+    <dimen name="qstCard_fontSize">20sp</dimen>
 </resources>

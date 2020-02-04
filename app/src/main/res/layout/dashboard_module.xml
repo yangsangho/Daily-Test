@@ -44,7 +44,6 @@
             app:layout_constraintBottom_toBottomOf="@id/gl6"
             app:layout_constraintTop_toTopOf="parent" />
 
-
         <include
             android:id="@+id/dashboardCard1"
             layout="@layout/dashboard_card"
@@ -131,7 +130,6 @@
                 tools:text="@string/test_result" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

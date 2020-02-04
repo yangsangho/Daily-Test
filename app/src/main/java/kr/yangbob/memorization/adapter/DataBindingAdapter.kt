@@ -19,7 +19,7 @@ object DataBindingAdapter {
                     ), android.graphics.PorterDuff.Mode.SRC_IN
                 )
             } else {
-                view.setImageResource(R.drawable.ic_close_black_24dp)
+                view.setImageResource(R.drawable.ic_x_circle_black_24dp)
                 view.setColorFilter(
                     ContextCompat.getColor(
                         view.context,
@@ -37,6 +37,7 @@ object DataBindingAdapter {
     fun setStage(view: ImageView, stage: Int) {
         view.setImageResource(
             when (stage) {
+                0 -> R.drawable.ic_add_black_24dp
                 1 -> R.drawable.ic_stage_1_1
                 2 -> R.drawable.ic_stage_1_2
                 3 -> R.drawable.ic_stage_1_3

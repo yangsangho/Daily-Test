@@ -2,7 +2,9 @@ package kr.yangbob.memorization.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -20,6 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private val logTag = "MainActivity"
+    private var doubleBackToExitPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolBar)
         supportActionBar?.setIcon(R.drawable.ic_appbar_icon)
 
-    // Viewpager 및 TabLayout 설정
+        // Viewpager 및 TabLayout 설정
         mainViewPager.adapter = MainPagerFragmentAdpater(lifecycle, supportFragmentManager)
         mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         mainViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -70,6 +73,30 @@ class MainActivity : AppCompatActivity() {
         else -> {
             super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed()
+            return
+        }
+
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(this, R.string.main_toast_oneMore_back, Toast.LENGTH_SHORT).show()
+
+        Handler().postDelayed(
+            {
+                doubleBackToExitPressedOnce = false
+            },
+            2000
+        )
+    }
+
+    // 전체 문제 쪽에서 버튼 눌러서 activity 갔다가 돌아왔을 때 전체문제 탭이 선택되도록
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        tabLayout.getTabAt(1)?.select()
+        mainViewPager.currentItem = 1
     }
 }
 
@@ -162,14 +189,16 @@ class PagerFragment : Fragment() {
     }
 
     fun clickEntireList(view: View) {
-
+        startActivityForResult(Intent(context, EntireActivity::class.java), 0)
     }
-    fun clickTodayRecord(view: View){
-        startActivity( Intent(context, ResultActivity::class.java).apply {
+
+    fun clickTodayRecord(view: View) {
+        startActivity(Intent(context, ResultActivity::class.java).apply {
             putExtra(MAIN_TO_RESULT_DATESTR, model.getTodayDateStr())
         })
     }
-    fun clickEntireRecord(view: View){
+
+    fun clickEntireRecord(view: View) {
 
     }
 }
