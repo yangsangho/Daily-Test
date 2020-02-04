@@ -101,7 +101,7 @@ class TestViewHolder(
     }
 
     fun clickChk(view: View){
-        val isCorrect = view.id == R.id.btnSuccessLayout
+        val isCorrect = view.id == R.id.btnChkSuccess
         binding.correct?.let {
             if(it == isCorrect) return
         }

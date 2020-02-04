@@ -29,23 +29,24 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/qstLayout"
             android:layout_width="match_parent"
-            android:layout_marginTop="20dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:elevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolBar"
-            android:background="@color/white">
+            app:layout_constraintTop_toBottomOf="@id/toolBar">
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginLeft="8dp"
-                app:srcCompat="@drawable/ic_note_icon"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/qstData"
                 app:layout_constraintEnd_toStartOf="@id/qstData"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/qstData"
-                app:layout_constraintBottom_toBottomOf="@id/qstData"/>
+                app:srcCompat="@drawable/ic_note_icon" />
 
             <EditText
                 android:id="@+id/qstData"
@@ -59,9 +60,9 @@
                 android:text="@={model.title}"
                 android:theme="@style/EditTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imageView2"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintStart_toEndOf="@id/imageView2"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -71,10 +72,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:background="@color/white"
+            android:elevation="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/qstLayout"
-            android:background="@color/white">
+            app:layout_constraintTop_toBottomOf="@id/qstLayout">
 
 
             <ImageView
@@ -83,11 +85,11 @@
                 android:layout_height="0dp"
                 android:layout_marginLeft="8dp"
                 android:tint="@android:color/holo_green_light"
-                app:srcCompat="@drawable/ic_check_circle_black_24dp"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/answerData"
                 app:layout_constraintEnd_toStartOf="@id/answerData"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/answerData"
-                app:layout_constraintBottom_toBottomOf="@id/answerData"/>
+                app:srcCompat="@drawable/ic_check_circle_black_24dp" />
 
             <EditText
                 android:id="@+id/answerData"
@@ -102,9 +104,9 @@
                 android:text="@={model.answer}"
                 android:theme="@style/EditTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/imageView"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintStart_toEndOf="@id/imageView"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

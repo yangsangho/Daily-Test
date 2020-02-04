@@ -12,6 +12,7 @@ const val MILLIS_A_DAY = 24 * 60 * 60 * 1000
 const val ANIMATION_HALF_TIME: Long = 400
 const val ANIMATION_FULL_TIME: Long = 800
 const val TEST_CHK_RECV_ID = 10
+const val MAIN_TO_RESULT_DATESTR = "dateStr"
 
 val STAGE_LIST = Stage.values()
 

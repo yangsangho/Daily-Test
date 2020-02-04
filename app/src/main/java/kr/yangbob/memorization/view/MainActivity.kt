@@ -13,11 +13,8 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import kotlinx.android.synthetic.main.activity_main.*
-import kr.yangbob.memorization.R
-import kr.yangbob.memorization.STAGE_LIST
-import kr.yangbob.memorization.Stage
+import kr.yangbob.memorization.*
 import kr.yangbob.memorization.databinding.DashboardModuleBinding
-import kr.yangbob.memorization.setTestChkAlarm
 import kr.yangbob.memorization.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -165,6 +162,14 @@ class PagerFragment : Fragment() {
     }
 
     fun clickEntireList(view: View) {
+
+    }
+    fun clickTodayRecord(view: View){
+        startActivity( Intent(context, ResultActivity::class.java).apply {
+            putExtra(MAIN_TO_RESULT_DATESTR, model.getTodayDateStr())
+        })
+    }
+    fun clickEntireRecord(view: View){
 
     }
 }

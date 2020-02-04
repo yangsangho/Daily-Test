@@ -43,6 +43,9 @@ class MemRepository(memDB: MemDatabase) {
     ////// QstRecord
 //    fun getAllRecord(): List<QstRecord> = runBlocking { daoQstRecord.getAll() }
 
+    fun getAllRecordWithName(dateStr: String): LiveData<List<QstRecordWithName>> =
+        daoQstRecord.getAllWithName(dateStr)
+
     fun getAllRecordLDFromDate(dateStr: String): LiveData<List<QstRecord>> =
         daoQstRecord.getAllFromDate(dateStr)
 

@@ -42,9 +42,11 @@
             android:id="@+id/card"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_margin="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="0dp"
             android:background="@color/white"
-            android:onClick="@{holder::clickShow}"
             app:layout_constraintBottom_toTopOf="@+id/gl"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -61,19 +63,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/correctChkIcon"
                 tools:text="@string/test_title_question" />
 
-
             <TextView
                 android:id="@+id/tvQstAnswer"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center"
+                android:onClick="@{holder::clickShow}"
+                android:scrollbars="vertical"
                 android:text="@{strData}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvDesc"
-                android:scrollbars="vertical"
                 tools:text="문제 와 답" />
 
             <ImageView
@@ -93,7 +95,7 @@
                 app:correct="@{correct}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -107,6 +109,7 @@
                 android:id="@+id/glBtnLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@color/black"
                 android:orientation="vertical"
                 app:layout_constraintGuide_percent=".5" />
 
@@ -114,7 +117,6 @@
                 android:id="@+id/btnFailLayout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:onClick="@{holder::clickChk}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/glBtnLayout"
                 app:layout_constraintStart_toStartOf="parent"
@@ -150,6 +152,7 @@
                     android:layout_height="0dp"
                     android:gravity="center"
                     android:maxLines="1"
+                    android:onClick="@{holder::clickChk}"
                     android:padding="4dp"
                     android:shadowColor="#000000"
                     android:shadowDx="3.0"
@@ -159,6 +162,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Large"
                     android:textColor="@android:color/holo_red_light"
                     android:textStyle="bold"
+                    app:autoSizeMaxTextSize="24sp"
                     app:autoSizeTextType="uniform"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/glBtnFail8"
@@ -171,7 +175,6 @@
                 android:id="@+id/btnSuccessLayout"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:onClick="@{holder::clickChk}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/glBtnLayout"
@@ -207,6 +210,7 @@
                     android:layout_height="0dp"
                     android:gravity="center"
                     android:maxLines="1"
+                    android:onClick="@{holder::clickChk}"
                     android:padding="4dp"
                     android:shadowColor="#000000"
                     android:shadowDx="3.0"
@@ -215,6 +219,7 @@
                     android:text="@string/test_correct"
                     android:textColor="@android:color/holo_green_light"
                     android:textStyle="bold"
+                    app:autoSizeMaxTextSize="24sp"
                     app:autoSizeTextType="uniform"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/glBtnSuccess8"

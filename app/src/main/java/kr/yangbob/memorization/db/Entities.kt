@@ -45,4 +45,13 @@ data class QstRecord(
     @PrimaryKey(autoGenerate = true)
     val id: Long? = null
 )
+
+data class QstRecordWithName(
+    val qst_name: String,
+    val qst_id: Int,
+    val calendar_id: String,
+    val challenge_stage: Int,
+    var is_correct: Boolean? = null,
+    val id: Long? = null
+)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

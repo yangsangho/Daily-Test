@@ -5,6 +5,7 @@ import kr.yangbob.memorization.db.MemDatabase
 import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.viewmodel.AddViewModel
 import kr.yangbob.memorization.viewmodel.MainViewModel
+import kr.yangbob.memorization.viewmodel.ResultViewModel
 import kr.yangbob.memorization.viewmodel.TestViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -19,6 +20,9 @@ val viewModelModule = module {
     }
     viewModel {
         TestViewModel(get())
+    }
+    viewModel {
+        ResultViewModel(get())
     }
     single { MemRepository( get() ) }
     single {

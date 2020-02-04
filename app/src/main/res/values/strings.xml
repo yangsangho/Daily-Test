@@ -6,7 +6,7 @@
     <string name="test_go">Go Test</string>
     <string name="test_result">Test Result</string>
     <string name="dashboard_today_card1">Question Count</string>
-    <string name="dashboard_today_card2">Current Status</string>
+    <string name="dashboard_today_card2">Progress</string>
     <string name="dashboard_today_card3">Correct Rate</string>
     <string name="dashboard_today_btn1">Go Test</string>
     <string name="dashboard_today_btn2">Test Result</string>
@@ -33,4 +33,6 @@
     <string name="chart_desc_entire">Distribution of Achievement Stage</string>
     <string name="add_btn_save">Save</string>
     <string name="test_appbar_title">Test</string>
+    <string name="result_appbar_title">Test Result</string>
+    <string name="result_info_format">%d Questions / Progress %.1f%% / Correct Rate %.1f%%</string>
 </resources>
