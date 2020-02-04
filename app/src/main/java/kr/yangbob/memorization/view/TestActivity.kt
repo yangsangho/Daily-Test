@@ -49,7 +49,7 @@ class TestViewHolder(
         movementMethod = ScrollingMovementMethod()
     }
     private val correctChkIcon = binding.correctChkIcon
-    private val tvDesc = binding.tvDesc
+    private val qnaIcon = binding.qnaIcon
     private val stageIcon = binding.stageIcon
 
     private lateinit var qstRecord: QstRecord
@@ -81,7 +81,7 @@ class TestViewHolder(
                     binding.strData = qst.answer
                     tvQstAnswer.rotationY = -180f
                     correctChkIcon.rotationY = -180f
-                    tvDesc.rotationY = -180f
+                    qnaIcon.rotationY = -180f
                     stageIcon.rotationY = -180f
                     binding.isFront = false
                 }
@@ -92,7 +92,7 @@ class TestViewHolder(
                     binding.strData = qst.title
                     tvQstAnswer.rotationY = 0f
                     correctChkIcon.rotationY = 0f
-                    tvDesc.rotationY = 0f
+                    qnaIcon.rotationY = 0f
                     stageIcon.rotationY = 0f
                     binding.isFront = true
                 }

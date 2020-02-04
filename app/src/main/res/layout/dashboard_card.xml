@@ -52,7 +52,7 @@
             android:textColor="@color/colorPrimary"
             android:textStyle="bold"
             app:autoSizeTextType="uniform"
-            app:autoSizeMaxTextSize="30sp"
+            app:autoSizeMaxTextSize="@dimen/maximum_big_font"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

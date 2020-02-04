@@ -52,6 +52,7 @@ class BarChart : View {
     private var descHeight: Float = 0f
     private var descWidth: Float = 0f
     private var barDescRatioHeight: Int = 0 // 비율 Description 높이 값 (비율 text 위에 개수 text 들어가도록)
+    private val maximumTextSize: Float = resources.getDimensionPixelSize(R.dimen.maximum_big_font).toFloat()
 
     // 데이터 세트들
     private var dataList: List<Int> = listOf()
@@ -219,6 +220,8 @@ class BarChart : View {
         desiredTextSize = paint.textSize * desiredWidth / bounds.width()
         paint.textSize = desiredTextSize
 
+        if(paint.textSize > maximumTextSize) paint.textSize = maximumTextSize
+
         return paint
     }
 
@@ -241,6 +244,8 @@ class BarChart : View {
             desiredTextSize = paint.textSize * desiredWidth / bounds.width()
             paint.textSize = desiredTextSize
         }
+
+        if(paint.textSize > maximumTextSize) paint.textSize = maximumTextSize
 
         return paint
     }

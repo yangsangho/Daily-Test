@@ -52,19 +52,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tvDesc"
+            <ImageView
+                android:id="@+id/qnaIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{isFront ? @string/test_title_question : @string/test_title_answer}"
-                android:textColor="@color/black"
+                app:qnaIcon="@{isFront}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/correctChkIcon"
-                tools:text="@string/test_title_question" />
+                app:layout_constraintTop_toBottomOf="@+id/correctChkIcon"/>
 
             <TextView
                 android:id="@+id/tvQstAnswer"
+                android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:gravity="center"
@@ -75,7 +74,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvDesc"
+                app:layout_constraintTop_toBottomOf="@id/qnaIcon"
                 tools:text="문제 와 답" />
 
             <ImageView

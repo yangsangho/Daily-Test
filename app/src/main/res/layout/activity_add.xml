@@ -46,7 +46,7 @@
                 app:layout_constraintEnd_toStartOf="@id/qstData"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/qstData"
-                app:srcCompat="@drawable/ic_note_icon" />
+                app:srcCompat="@drawable/ic_question_black_24dp" />
 
             <EditText
                 android:id="@+id/qstData"
@@ -54,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:ems="10"
                 android:hint="@string/add_input_question"
                 android:inputType="textPersonName"
                 android:text="@={model.title}"
@@ -84,12 +83,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:layout_marginLeft="8dp"
-                android:tint="@android:color/holo_green_light"
                 app:layout_constraintBottom_toBottomOf="@id/answerData"
                 app:layout_constraintEnd_toStartOf="@id/answerData"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/answerData"
-                app:srcCompat="@drawable/ic_check_circle_black_24dp" />
+                app:srcCompat="@drawable/ic_answer_black_24dp" />
 
             <EditText
                 android:id="@+id/answerData"
@@ -97,9 +95,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:ems="10"
                 android:gravity="start|top"
                 android:hint="@string/add_input_answer"
+                android:maxLines="10"
                 android:inputType="textMultiLine"
                 android:text="@={model.answer}"
                 android:theme="@style/EditTextStyle"

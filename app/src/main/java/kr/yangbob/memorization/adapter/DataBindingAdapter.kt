@@ -50,6 +50,12 @@ object DataBindingAdapter {
         )
     }
 
+    @BindingAdapter("app:qnaIcon")
+    @JvmStatic
+    fun setQnaIcon(view: ImageView, isFront: Boolean) {
+        view.setImageResource(if (isFront) R.drawable.ic_question_black_24dp else R.drawable.ic_answer_black_24dp)
+    }
+
 
 //    @BindingAdapter("date")
 //    @JvmStatic

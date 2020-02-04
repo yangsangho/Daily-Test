@@ -1,6 +1,7 @@
 package kr.yangbob.memorization.view
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.view.*
@@ -80,14 +81,10 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
             return
         }
-
         this.doubleBackToExitPressedOnce = true
         Toast.makeText(this, R.string.main_toast_oneMore_back, Toast.LENGTH_SHORT).show()
-
         Handler().postDelayed(
-            {
-                doubleBackToExitPressedOnce = false
-            },
+            { doubleBackToExitPressedOnce = false },
             2000
         )
     }
@@ -155,6 +152,7 @@ class PagerFragment : Fragment() {
                     }
                     if (model.setTodayCardData()) {
                         binding.dashboardBtn1.isEnabled = false
+                        binding.dashboardBtn1.setBackgroundColor(Color.DKGRAY)
                     }
                 })
             } else {
