@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.alarm.workForNextTest
+import kr.yangbob.memorization.workForNextTest
 import kr.yangbob.memorization.model.MemRepository
 
 class MainViewModel(private val memRepo: MemRepository, application: Application) :

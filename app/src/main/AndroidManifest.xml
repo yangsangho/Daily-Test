@@ -37,12 +37,12 @@
                 android:value=".view.MainActivity" />
         </activity>
 
-        <receiver android:name=".alarm.AfterBootReceiver">
+        <receiver android:name=".AfterBootReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".alarm.CreateCalendarReceiver" />
+        <receiver android:name=".CreateCalendarReceiver" />
 
         <activity
             android:name=".view.AddActivity"

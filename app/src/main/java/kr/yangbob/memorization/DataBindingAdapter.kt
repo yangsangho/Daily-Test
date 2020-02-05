@@ -1,4 +1,4 @@
-package kr.yangbob.memorization.adapter
+package kr.yangbob.memorization
 
 import android.widget.ImageView
 import android.widget.TextView

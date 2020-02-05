@@ -1,4 +1,4 @@
-package kr.yangbob.memorization.alarm
+package kr.yangbob.memorization
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -6,7 +6,6 @@ import android.content.Intent
 import kr.yangbob.memorization.db.QstCalendar
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
-import kr.yangbob.memorization.setTestChkAlarm
 import org.koin.core.context.GlobalContext
 import kotlin.system.exitProcess
 
