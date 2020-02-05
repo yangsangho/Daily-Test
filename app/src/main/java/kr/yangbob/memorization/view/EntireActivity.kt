@@ -1,5 +1,6 @@
 package kr.yangbob.memorization.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -11,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_entire.*
+import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.databinding.ItemEntireCardBinding
 import kr.yangbob.memorization.db.Qst
@@ -53,7 +55,12 @@ class EntireActivity : AppCompatActivity() {
 class EntireViewHolder(private val binding: ItemEntireCardBinding, private val model: EntireViewModel) : RecyclerView.ViewHolder(binding.root){
     fun bind(qst: Qst){
         binding.qst = qst
+        binding.holder = this
         binding.tvEntireRegistration.text = model.getFormattedDate(qst.registration_date)
+        binding.card.setOnClickListener {
+            val context = binding.root.context
+            context.startActivity(Intent(context, QstActivity::class.java).putExtra(EXTRA_TO_QST_ID, qst.id))
+        }
     }
 }
 class EntireRecyclerAdapter(private var recordList: List<Qst>, private val model: EntireViewModel) : RecyclerView.Adapter<EntireViewHolder>(){

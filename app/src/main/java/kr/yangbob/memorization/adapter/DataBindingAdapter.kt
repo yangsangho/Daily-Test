@@ -1,9 +1,12 @@
 package kr.yangbob.memorization.adapter
 
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import kr.yangbob.memorization.R
+import kr.yangbob.memorization.dateFormat
+import java.text.DateFormat
 
 object DataBindingAdapter {
     @BindingAdapter("app:correct")
@@ -54,6 +57,14 @@ object DataBindingAdapter {
     @JvmStatic
     fun setQnaIcon(view: ImageView, isFront: Boolean) {
         view.setImageResource(if (isFront) R.drawable.ic_question_black_24dp else R.drawable.ic_answer_black_24dp)
+    }
+
+    @BindingAdapter("app:defaultFormatDate")
+    @JvmStatic
+    fun setFormatDate(view: TextView, dateStr: String) {
+        val time = dateFormat.parse(dateStr)?.time ?: 0
+        val formatter = DateFormat.getDateInstance(DateFormat.DEFAULT)
+        view.text = formatter.format(time)
     }
 
 

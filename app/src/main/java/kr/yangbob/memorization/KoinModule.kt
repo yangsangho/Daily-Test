@@ -24,6 +24,9 @@ val viewModelModule = module {
     viewModel {
         EntireViewModel(get())
     }
+    viewModel {
+        QstViewModel(get())
+    }
     single { MemRepository( get() ) }
     single {
         Room.databaseBuilder(androidContext(),

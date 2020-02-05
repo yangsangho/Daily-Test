@@ -64,10 +64,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.action_search -> {
+        R.id.action_main_search -> {
             true
         }
-        R.id.action_write -> {
+        R.id.action_main_write -> {
             startActivity(Intent(this, AddActivity::class.java))
             true
         }
@@ -192,7 +192,7 @@ class PagerFragment : Fragment() {
 
     fun clickTodayRecord(view: View) {
         startActivity(Intent(context, ResultActivity::class.java).apply {
-            putExtra(MAIN_TO_RESULT_DATESTR, model.getTodayDateStr())
+            putExtra(EXTRA_TO_RESULT_DATESTR, model.getTodayDateStr())
         })
     }
 

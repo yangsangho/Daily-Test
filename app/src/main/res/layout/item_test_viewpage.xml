@@ -54,20 +54,45 @@
 
             <ImageView
                 android:id="@+id/qnaIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:qnaIcon="@{isFront}"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/correctChkIcon"/>
+                app:layout_constraintTop_toBottomOf="@+id/correctChkIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:qnaIcon="@{isFront}"
+                tools:srcCompat="@drawable/ic_question_black_24dp" />
+
+
+            <ImageView
+                android:id="@+id/stageIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:stage="@{stage}"
+                tools:srcCompat="@drawable/ic_stage_1_1" />
+
+            <ImageView
+                android:id="@+id/correctChkIcon"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_margin="8dp"
+                app:correct="@{correct}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/ic_check_circle_black_24dp" />
 
             <TextView
                 android:id="@+id/tvQstAnswer"
-                android:padding="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:onClick="@{holder::clickShow}"
+                android:padding="8dp"
                 android:scrollbars="vertical"
                 android:text="@{strData}"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
@@ -76,25 +101,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/qnaIcon"
                 tools:text="문제 와 답" />
-
-            <ImageView
-                android:id="@+id/stageIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:stage="@{stage}" />
-
-            <ImageView
-                android:id="@+id/correctChkIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="8dp"
-                app:correct="@{correct}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

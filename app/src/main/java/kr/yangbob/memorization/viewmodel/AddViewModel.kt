@@ -12,7 +12,7 @@ class AddViewModel(private val memRepo: MemRepository) : ViewModel() {
     val title = MutableLiveData<String>()      // 문제 add 및 update의 문제명
     val answer = MutableLiveData<String>()      // 문제 add 및 update의 정답
 
-    fun insertDataIsEmpty(): Boolean = title.value.isNullOrEmpty() || answer.value.isNullOrEmpty()
+    fun isPossibleInsert(): Boolean = !title.value.isNullOrEmpty() && !answer.value.isNullOrEmpty()
     fun insertQst() {
         val curTime = System.currentTimeMillis()
         val todayDate = memRepo.getDateStr(curTime)

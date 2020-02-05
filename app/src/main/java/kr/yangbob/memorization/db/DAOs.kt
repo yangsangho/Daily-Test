@@ -57,6 +57,9 @@ interface DaoQstRecord {
 //    @Query("SELECT * FROM QstRecord")
 //    suspend fun getAll(): List<QstRecord>
 
+    @Query("SELECT * FROM QstRecord WHERE qst_id = :id AND is_correct IS NOT NULL")
+    suspend fun getAllFromId(id: Int): List<QstRecord>
+
     @Query("SELECT (SELECT title FROM Qst WHERE id = qst_id) AS qst_name, * FROM QstRecord WHERE calendar_id == :dateStr")
     fun getAllWithName(dateStr: String): LiveData<List<QstRecordWithName>>
 

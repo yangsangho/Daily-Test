@@ -3,13 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/action_main_search"
         android:icon="@drawable/ic_search_white_24dp"
-        android:title="@string/menu_search"
+        android:title="@string/menu_main_search"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/action_write"
+        android:id="@+id/action_main_write"
         android:icon="@drawable/ic_create_white_24dp"
-        android:title="@string/menu_write"
+        android:title="@string/menu_main_write"
         app:showAsAction="ifRoom" />
 </menu>

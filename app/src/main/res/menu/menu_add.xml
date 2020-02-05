@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/action_save"
+        android:id="@+id/action_add_save"
         android:enabled="false"
-        android:title="@string/add_btn_save"
+        android:title="@string/menu_add_save"
         app:showAsAction="ifRoom" />
 </menu>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="qst"
+            type="kr.yangbob.memorization.db.Qst" />
+        <variable
+            name="model"
+            type="kr.yangbob.memorization.viewmodel.QstViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/basicBackground"
+        tools:context=".view.QstActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:elevation="4dp"
+            android:theme="@style/AppTheme"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolBar">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/qstLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/qstDataLayout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_question_black_24dp" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/qstDataLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imageView2"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/qstDataText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:maxLines="3"
+                            android:scrollbars="vertical"
+                            android:text="@{model.qstData}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/qstCard_fontSize"
+                            tools:text="문제1" />
+
+                        <EditText
+                            android:id="@+id/qstDataEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="start|top"
+                            android:hint="@string/add_input_question"
+                            android:inputType="textMultiLine"
+                            android:maxLines="3"
+                            android:text="@={model.qstData}"
+                            android:textColor="@color/black"
+                            android:theme="@style/EditTextStyle"
+                            android:visibility="gone" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/answerLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/white">
+
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/answerDataLayout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_answer_black_24dp" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/answerDataLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/imageView"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/answerDataText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:maxLines="10"
+                            android:scrollbars="vertical"
+                            android:text="@{model.answerData}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/qstCard_fontSize"
+                            tools:text="정답1" />
+
+                        <EditText
+                            android:id="@+id/answerDataEdit"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="start|top"
+                            android:hint="@string/add_input_answer"
+                            android:inputType="textMultiLine"
+                            android:maxLines="10"
+                            android:text="@={model.answerData}"
+                            android:textColor="@color/black"
+                            android:theme="@style/EditTextStyle"
+                            android:visibility="gone" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:id="@+id/tvTitleRegistration"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:text="@string/qst_title_registration"
+                        android:textColor="@color/darkGray"
+                        app:autoSizeMaxTextSize="14sp"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constraintEnd_toStartOf="@id/tvTitleStage"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTitleStage"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:text="@string/qst_title_stage"
+                        android:textColor="@color/darkGray"
+                        app:autoSizeMaxTextSize="14sp"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constraintEnd_toStartOf="@id/tvTitleNextDate"
+                        app:layout_constraintStart_toEndOf="@id/tvTitleRegistration"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTitleNextDate"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:text="@string/qst_title_nextdate"
+                        android:textColor="@color/darkGray"
+                        app:autoSizeMaxTextSize="14sp"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tvTitleStage"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvRegistrationDate"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        app:autoSizeMaxTextSize="@dimen/qstCard_fontSize"
+                        app:autoSizeTextType="uniform"
+                        app:defaultFormatDate="@{qst.registration_date}"
+                        app:layout_constraintEnd_toStartOf="@id/curStageIcon"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTitleRegistration"
+                        tools:text="2020. 12. 31." />
+
+                    <ImageView
+                        android:id="@+id/curStageIcon"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:background="@color/white"
+                        android:scaleType="center"
+                        app:stage="@{qst.cur_stage}"
+                        app:layout_constraintEnd_toStartOf="@id/tvNextDate"
+                        app:layout_constraintStart_toEndOf="@id/tvRegistrationDate"
+                        app:layout_constraintTop_toBottomOf="@id/tvTitleStage"
+                        tools:srcCompat="@drawable/ic_stage_1_1" />
+
+                    <TextView
+                        android:id="@+id/tvNextDate"
+                        android:layout_width="0dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@color/white"
+                        android:gravity="center"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold"
+                        app:defaultFormatDate="@{qst.next_test_date}"
+                        app:autoSizeMaxTextSize="@dimen/qstCard_fontSize"
+                        app:autoSizeTextType="uniform"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/curStageIcon"
+                        app:layout_constraintTop_toBottomOf="@id/tvTitleNextDate"
+                        tools:text="2020. 12. 31." />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/qst_record_title"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/qstCard_fontSize" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recordRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </ScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -28,14 +28,21 @@
     <string name="test_incorrect">오답</string>
     <string name="test_title_answer">&lt;정답&gt;</string>
     <string name="test_title_question">&lt;문제&gt;</string>
-    <string name="menu_search">문제 찾기</string>
-    <string name="menu_write">문제 작성</string>
-    <string name="chart_desc_today">도전 단계 분포도</string>
-    <string name="chart_desc_entire">달성 단계 분포도</string>
-    <string name="add_btn_save">저장</string>
+    <string name="menu_main_search">문제 찾기</string>
+    <string name="menu_main_write">문제 작성</string>
+    <string name="chart_desc_today">도전 단계</string>
+    <string name="chart_desc_entire">달성 단계</string>
+    <string name="menu_add_save">저장</string>
     <string name="test_appbar_title">오늘의 시험</string>
     <string name="result_appbar_title">오늘의 시험 결과</string>
     <string name="result_info_format">%d 문항 / 진행률 %.1f%% / 정답률 %.1f%%</string>
     <string name="entire_appbar_title">전체 문제 목록</string>
     <string name="main_toast_oneMore_back">한번 더 누르시면 종료됩니다</string>
+    <string name="qst_record_title">시험 기록</string>
+    <string name="qst_appbar_title">문제 상세</string>
+    <string name="menu_qst_edit">수정</string>
+    <string name="menu_qst_cancel">취소</string>
+    <string name="qst_title_nextdate">다음 시험 날짜</string>
+    <string name="qst_title_registration">문제 등록 날짜</string>
+    <string name="qst_title_stage">현재 단계</string>
 </resources>

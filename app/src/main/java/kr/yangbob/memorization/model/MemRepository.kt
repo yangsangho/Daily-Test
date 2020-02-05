@@ -3,8 +3,9 @@ package kr.yangbob.memorization.model
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.runBlocking
 import kr.yangbob.memorization.MILLIS_A_DAY
+import kr.yangbob.memorization.dateFormat
 import kr.yangbob.memorization.db.*
-import java.text.SimpleDateFormat
+import java.text.DateFormat
 import java.util.*
 
 
@@ -12,7 +13,6 @@ class MemRepository(memDB: MemDatabase) {
     private val daoQst: DaoQst = memDB.getDaoQst()
     private val daoQstRecord: DaoQstRecord = memDB.getDaoQstRecord()
     private val daoQstCalendar: DaoQstCalendar = memDB.getDaoQstCalendar()
-    private val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
     ////// Qst
     fun getAllQstLD(): LiveData<List<Qst>> = daoQst.getAllLD()
@@ -42,6 +42,7 @@ class MemRepository(memDB: MemDatabase) {
 
     ////// QstRecord
 //    fun getAllRecord(): List<QstRecord> = runBlocking { daoQstRecord.getAll() }
+    fun getAllRecordFromId(id: Int): List<QstRecord> = runBlocking { daoQstRecord.getAllFromId(id) }
 
     fun getAllRecordWithName(dateStr: String): LiveData<List<QstRecordWithName>> =
         daoQstRecord.getAllWithName(dateStr)
@@ -72,4 +73,12 @@ class MemRepository(memDB: MemDatabase) {
     fun getDateStr(timeMillis: Long): String = dateFormat.format(Date(timeMillis))
 
     fun getDateLong(dateStr: String): Long = dateFormat.parse(dateStr)?.time ?: 0
+
+    // type = DateFormat.FULL 등의 상수
+    fun getFormattedDate(dateStr: String, style: Int): String{
+        val time = getDateLong(dateStr)
+        val formatter = DateFormat.getDateInstance(style)
+        //        formatter.timeZone = 나중에 추가가 필요할 수도
+        return formatter.format(time)
+    }
 }

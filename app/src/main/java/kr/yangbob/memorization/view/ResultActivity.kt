@@ -10,7 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_result.*
-import kr.yangbob.memorization.MAIN_TO_RESULT_DATESTR
+import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.databinding.ItemResultCardBinding
 import kr.yangbob.memorization.db.QstRecordWithName
@@ -26,7 +26,7 @@ class ResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
 
-        intent.getStringExtra(MAIN_TO_RESULT_DATESTR)?.let{
+        intent.getStringExtra(EXTRA_TO_RESULT_DATESTR)?.let{
             recordList = model.getRecordList(it)
             tvDate.text = model.getFormattedDate(it)
         }
