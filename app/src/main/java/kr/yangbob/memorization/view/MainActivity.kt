@@ -187,7 +187,10 @@ class PagerFragment : Fragment() {
     }
 
     fun clickEntireList(view: View) {
-        startActivityForResult(Intent(context, EntireActivity::class.java), 0)
+        startActivityForResult(
+            Intent(context, EntireActivity::class.java),
+            0
+        )  // main으로 복귀할 때 2번쩨 page로 가도록
     }
 
     fun clickTodayRecord(view: View) {
@@ -197,6 +200,9 @@ class PagerFragment : Fragment() {
     }
 
     fun clickEntireRecord(view: View) {
-
+        startActivityForResult(
+            Intent(context, CalendarActivity::class.java),
+            1
+        ) // main으로 복귀할 때 2번쩨 page로 가도록
     }
 }

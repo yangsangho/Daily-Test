@@ -15,4 +15,6 @@
         <item name="colorControlActivated">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/black</item>
     </style>
+
+    <style name="CalendarTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
 </resources>
