@@ -48,7 +48,7 @@ class QstActivity : AppCompatActivity() {
         // grid column 개수를 위한 작업
         val displayMetrics: DisplayMetrics = resources.displayMetrics
         val screenWidthDp = displayMetrics.widthPixels / displayMetrics.density
-        val noOfColumns = (screenWidthDp / 166).toInt()     // 166 = card width(150) + margin(16)
+        val noOfColumns = (screenWidthDp / 166).toInt()     // 166dp = card width(150 - 이상적인 걸로 판단) + margin(16)
 
         // 시험 기록 list 작업
         val recordList = model.getRecordList()

@@ -15,7 +15,7 @@
 
         <variable
             name="fragment"
-            type="kr.yangbob.memorization.view.PagerFragment" />
+            type="kr.yangbob.memorization.view.MainPagerFragment" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

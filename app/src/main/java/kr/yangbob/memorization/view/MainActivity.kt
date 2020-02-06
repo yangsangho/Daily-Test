@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kr.yangbob.memorization.*
 import kr.yangbob.memorization.databinding.DashboardModuleBinding
 import kr.yangbob.memorization.viewmodel.MainViewModel
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class MainActivity : AppCompatActivity() {
     private val logTag = "MainActivity"
@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setIcon(R.drawable.ic_appbar_icon)
 
         // Viewpager 및 TabLayout 설정
-        mainViewPager.adapter = MainPagerFragmentAdpater(lifecycle, supportFragmentManager)
+        mainViewPager.adapter = MainPagerFragmentAdapter(lifecycle, supportFragmentManager)
         mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         mainViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -97,14 +97,14 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class MainPagerFragmentAdpater(mainLifeCycle: Lifecycle, fm: FragmentManager) :
+class MainPagerFragmentAdapter(mainLifeCycle: Lifecycle, fm: FragmentManager) :
     FragmentStateAdapter(fm, mainLifeCycle) {
     override fun getItemCount(): Int = 2
-    override fun createFragment(position: Int): Fragment = PagerFragment.newInstance(position == 0)
+    override fun createFragment(position: Int): Fragment = MainPagerFragment.newInstance(position == 0)
 }
 
-class PagerFragment : Fragment() {
-    private val model: MainViewModel by viewModel()
+class MainPagerFragment : Fragment() {
+    private val model: MainViewModel by sharedViewModel()
     private lateinit var binding: DashboardModuleBinding
     private var isInit = false
 
@@ -175,10 +175,10 @@ class PagerFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(isToday: Boolean): PagerFragment {
-            val bundle = Bundle()
-            bundle.putBoolean("isToday", isToday)
-            return PagerFragment().apply { arguments = bundle }
+        fun newInstance(isToday: Boolean) =  MainPagerFragment().apply {
+            arguments = Bundle().apply {
+                putBoolean("isToday", isToday)
+            }
         }
     }
 

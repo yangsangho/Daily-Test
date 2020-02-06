@@ -27,6 +27,8 @@ class MemRepository(memDB: MemDatabase) {
     ////// QstCalendar
 //    fun getAllCalendar(): List<QstCalendar> = runBlocking { daoQstCalendar.getAll() }
 
+    fun getAllCalendar(): List<QstCalendar> = runBlocking { daoQstCalendar.getAll() }
+
     private fun getCalendarMinDate(): String? = runBlocking { daoQstCalendar.getMinDate() }
 
     fun getTodayCalendar(): QstCalendar? =

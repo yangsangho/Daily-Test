@@ -45,4 +45,11 @@
     <string name="qst_title_nextdate">다음 시험 날짜</string>
     <string name="qst_title_registration">문제 등록 날짜</string>
     <string name="qst_title_stage">현재 단계</string>
+    <string name="calendar_friday">금</string>
+    <string name="calendar_monday">월</string>
+    <string name="calendar_saturday">토</string>
+    <string name="calendar_sunday">일</string>
+    <string name="calendar_thursday">목</string>
+    <string name="calendar_tuesday">화</string>
+    <string name="calendar_wednesday">수</string>
 </resources>

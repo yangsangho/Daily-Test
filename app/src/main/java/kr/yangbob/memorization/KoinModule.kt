@@ -27,6 +27,9 @@ val viewModelModule = module {
     viewModel {
         QstViewModel(get())
     }
+    viewModel {
+        CalendarViewModel(get())
+    }
     single { MemRepository( get() ) }
     single {
         Room.databaseBuilder(androidContext(),

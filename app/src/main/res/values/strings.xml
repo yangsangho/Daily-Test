@@ -44,4 +44,14 @@
     <string name="qst_title_registration">Registration Date</string>
     <string name="qst_title_stage">Current Stage</string>
     <string name="qst_title_nextdate">Next Test Date</string>
+    <string name="calendar_monday">Mon</string>
+    <string name="calendar_tuesday">Tue</string>
+    <string name="calendar_wednesday">Wed</string>
+    <string name="calendar_thursday">Thur</string>
+    <string name="calendar_friday">Fri</string>
+    <string name="calendar_saturday">Sat</string>
+    <string name="calendar_sunday">Sun</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
