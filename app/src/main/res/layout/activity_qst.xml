@@ -197,7 +197,7 @@
                         android:layout_marginEnd="8dp"
                         android:background="@color/white"
                         android:gravity="center"
-                        android:text="@string/qst_title_nextdate"
+                        android:text="@string/qst_title_nextDate"
                         android:textColor="@color/darkGray"
                         app:autoSizeMaxTextSize="14sp"
                         app:autoSizeTextType="uniform"

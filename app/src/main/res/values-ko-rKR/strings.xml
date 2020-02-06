@@ -42,7 +42,7 @@
     <string name="qst_appbar_title">문제 상세</string>
     <string name="menu_qst_edit">수정</string>
     <string name="menu_qst_cancel">취소</string>
-    <string name="qst_title_nextdate">다음 시험 날짜</string>
+    <string name="qst_title_nextDate">다음 시험 날짜</string>
     <string name="qst_title_registration">문제 등록 날짜</string>
     <string name="qst_title_stage">현재 단계</string>
     <string name="calendar_friday">금</string>
