@@ -17,4 +17,8 @@
     </style>
 
     <style name="CalendarTheme" parent="Theme.AppCompat.Light.NoActionBar"/>
+
+    <style name="SearchViewTheme" parent="Widget.AppCompat.Light.SearchView">
+        <item name="android:textColorHint">@color/white</item>
+    </style>
 </resources>

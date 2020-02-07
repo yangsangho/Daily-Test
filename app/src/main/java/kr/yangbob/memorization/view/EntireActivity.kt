@@ -3,9 +3,12 @@ package kr.yangbob.memorization.view
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -23,6 +26,8 @@ class EntireActivity : AppCompatActivity() {
     private val model: EntireViewModel by viewModel()
     private lateinit var qstList: LiveData<List<Qst>>
     private lateinit var adapter: EntireRecyclerAdapter
+    private lateinit var appBarTitle: String
+    private lateinit var copyQstList: List<Qst>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +39,52 @@ class EntireActivity : AppCompatActivity() {
 
         qstList = model.getAllQst()
         qstList.observe(this, Observer {
+            copyQstList = it
             adapter.setData(it)
         })
 
-        toolBar.title = resources.getString(R.string.entire_appbar_title)
+        appBarTitle = getString(R.string.entire_appbar_title)
+        toolBar.title = appBarTitle
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_entire_search, menu)
+
+        val searchItem = menu?.findItem(R.id.action_entire_search)
+        searchItem?.setOnActionExpandListener(object: MenuItem.OnActionExpandListener{
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                supportActionBar?.title = ""
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                supportActionBar?.title = appBarTitle
+                adapter.setData(copyQstList)
+                return true
+            }
+        })
+
+        val searchView = searchItem?.actionView as SearchView
+        val searchAutoComplete = searchView.findViewById<SearchView.SearchAutoComplete>(androidx.appcompat.R.id.search_src_text)
+        searchAutoComplete.setHintTextColor(ContextCompat.getColor(this, R.color.white))
+        searchView.queryHint = getString(R.string.entire_search_msg)
+        searchView.maxWidth = Integer.MAX_VALUE
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText != null){
+                    adapter.setData(qstList.value!!.filter { it.title.contains(newText, true) })
+                } else {
+                    adapter.setData(copyQstList)
+                }
+                return false
+            }
+        })
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

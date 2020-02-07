@@ -1,9 +1,11 @@
 package kr.yangbob.memorization.view
 
+import android.content.Context
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.DisplayMetrics
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -106,6 +108,9 @@ class QstActivity : AppCompatActivity() {
         qstDataText.visibility = View.VISIBLE
         answerDataEdit.visibility = View.GONE
         qstDataEdit.visibility = View.GONE
+
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(answerDataText.windowToken, 0)
     }
     private fun displayEdit(){
         answerDataEdit.visibility = View.VISIBLE

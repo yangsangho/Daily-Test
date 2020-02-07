@@ -17,7 +17,8 @@
         <activity android:name=".view.QstActivity"/>
         <activity android:name=".view.EntireActivity"/>
         <activity android:name=".view.ResultActivity"/>
-        <activity android:name=".view.AddActivity"/>
+        <activity android:name=".view.AddActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".view.TestActivity"
             android:parentActivityName=".view.MainActivity">

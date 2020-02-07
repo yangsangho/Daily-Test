@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         // ToolBar 설정
-        toolBar.title = resources.getString(R.string.app_name)
+        toolBar.title = getString(R.string.app_name)
         setSupportActionBar(toolBar)
         supportActionBar?.setIcon(R.drawable.ic_appbar_icon)
 
@@ -58,9 +58,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
-        R.id.action_main_search -> {
-            true
-        }
         R.id.action_main_write -> {
             startActivityForResult(Intent(this, AddActivity::class.java), 2)
             true
