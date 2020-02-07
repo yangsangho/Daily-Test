@@ -55,6 +55,6 @@
     <string name="calendar_appbar_title">시험 기록</string>
     <string name="calendar_item_start_date">시작일</string>
     <string name="calendar_item_today">오늘</string>
-    <string name="menu_entire_search">찾기</string>
+    <string name="menu_search">찾기</string>
     <string name="entire_search_msg">검색어를 입력해주세요</string>
 </resources>

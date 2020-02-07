@@ -1,11 +1,10 @@
 package kr.yangbob.memorization.view
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -22,7 +21,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ResultActivity : AppCompatActivity() {
     private val model: ResultViewModel by viewModel()
     private lateinit var recordList: LiveData<List<QstRecordWithName>>
+    private lateinit var copyRecordList: List<QstRecordWithName>
     private lateinit var adapter: ResultRecyclerAdapter
+    private lateinit var appBarTitle: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,19 +51,60 @@ class ResultActivity : AppCompatActivity() {
                 progressRate,
                 correctRate
             )
+            copyRecordList = rawList
             adapter.setData(rawList)
-
-            if (cntQst == 0) resultNoItemMsg.visibility = View.VISIBLE
-            else resultNoItemMsg.visibility = View.GONE
+            setNoItemMsgVisible(cntQst == 0)
         })
 
         adapter = ResultRecyclerAdapter(listOf())
         resultRecycler.layoutManager = LinearLayoutManager(this)
         resultRecycler.adapter = adapter
 
-        toolBar.title = resources.getString(R.string.result_appbar_title)
+        appBarTitle = resources.getString(R.string.result_appbar_title)
+        toolBar.title = appBarTitle
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_result, menu)
+
+        val searchItem = menu?.findItem(R.id.action_result_search)
+        searchItem?.setOnActionExpandListener(object: MenuItem.OnActionExpandListener{
+            override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+                supportActionBar?.title = ""
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
+                supportActionBar?.title = appBarTitle
+                adapter.setData(copyRecordList)
+                return true
+            }
+        })
+
+        val searchView = searchItem?.actionView as SearchView
+        val searchAutoComplete = searchView.findViewById<SearchView.SearchAutoComplete>(androidx.appcompat.R.id.search_src_text)
+        searchAutoComplete.setHintTextColor(ContextCompat.getColor(this, R.color.white))
+        searchView.queryHint = getString(R.string.entire_search_msg)
+        searchView.maxWidth = Integer.MAX_VALUE
+        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if(newText != null){
+                    val newList = copyRecordList.filter { it.qst_name.contains(newText, true) }
+                    adapter.setData(newList)
+                    setNoItemMsgVisible(newList.isEmpty())
+                } else {
+                    adapter.setData(copyRecordList)
+                    setNoItemMsgVisible(copyRecordList.isEmpty())
+                }
+                return false
+            }
+        })
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
@@ -71,6 +113,10 @@ class ResultActivity : AppCompatActivity() {
             true
         }
         else -> super.onOptionsItemSelected(item)
+    }
+    private fun setNoItemMsgVisible(isEmpty: Boolean){
+        if(isEmpty) resultNoItemMsg.visibility = View.VISIBLE
+        else resultNoItemMsg.visibility = View.GONE
     }
 }
 

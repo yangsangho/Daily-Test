@@ -38,8 +38,7 @@ class EntireActivity : AppCompatActivity() {
         qstList.observe(this, Observer {
             copyQstList = it
             adapter.setData(it)
-            if(it.isEmpty()) entireNoItemMsg.visibility = View.VISIBLE
-            else entireNoItemMsg.visibility = View.GONE
+            setNoItemMsgVisible(it.isEmpty())
         })
 
         appBarTitle = getString(R.string.entire_appbar_title)
@@ -49,7 +48,7 @@ class EntireActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_entire_search, menu)
+        menuInflater.inflate(R.menu.menu_entire, menu)
 
         val searchItem = menu?.findItem(R.id.action_entire_search)
         searchItem?.setOnActionExpandListener(object: MenuItem.OnActionExpandListener{
@@ -76,9 +75,12 @@ class EntireActivity : AppCompatActivity() {
             }
             override fun onQueryTextChange(newText: String?): Boolean {
                 if(newText != null){
-                    adapter.setData(qstList.value!!.filter { it.title.contains(newText, true) })
+                    val newList = copyQstList.filter { it.title.contains(newText, true) }
+                    adapter.setData(newList)
+                    setNoItemMsgVisible(newList.isEmpty())
                 } else {
                     adapter.setData(copyQstList)
+                    setNoItemMsgVisible(copyQstList.isEmpty())
                 }
                 return false
             }
@@ -93,6 +95,11 @@ class EntireActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setNoItemMsgVisible(isEmpty: Boolean){
+        if(isEmpty) entireNoItemMsg.visibility = View.VISIBLE
+        else entireNoItemMsg.visibility = View.GONE
     }
 }
 
