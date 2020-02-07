@@ -5,8 +5,8 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.workForNextTest
 import kr.yangbob.memorization.model.MemRepository
+import kr.yangbob.memorization.workForNextTest
 
 class MainViewModel(private val memRepo: MemRepository, application: Application) :
     AndroidViewModel(application) {
@@ -24,10 +24,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
 
     fun getQstList() = qstListLD
     fun getQstRecordList() = todayQstRecordLD
-//    fun getAllRecord() = memRepo.getAllRecord()
-//    fun getAllCalendar() = memRepo.getAllCalendar()
     fun getTodayDateStr(): String = memRepo.getDateStr( System.currentTimeMillis() )
-
 
     // 문제 추가될 때마다 실행(LiveData) - 전체 문항수, 일일 평균 등록 개수
     fun setEntireCardData() {

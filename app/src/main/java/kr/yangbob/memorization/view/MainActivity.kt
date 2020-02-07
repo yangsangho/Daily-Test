@@ -50,12 +50,6 @@ class MainActivity : AppCompatActivity() {
                 mainViewPager.currentItem = tab?.position ?: 0
             }
         })
-
-        // TEST 코드
-//        val testList = model.getAllRecord()
-//        testList.forEach { Log.i(logTag, "<RECORD>GET_ALL : $it") }
-//        val testList2 = model.getAllCalendar()
-//        testList2.forEach { Log.i(logTag, "<CALENDAR>GET_ALL : $it") }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -68,7 +62,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
         R.id.action_main_write -> {
-            startActivity(Intent(this, AddActivity::class.java))
+            startActivityForResult(Intent(this, AddActivity::class.java), 2)
             true
         }
         else -> {

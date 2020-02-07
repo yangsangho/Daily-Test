@@ -2,6 +2,7 @@ package kr.yangbob.memorization.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -26,22 +27,28 @@ class ResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
 
-        intent.getStringExtra(EXTRA_TO_RESULT_DATESTR)?.let{
+        intent.getStringExtra(EXTRA_TO_RESULT_DATESTR)?.let {
             recordList = model.getRecordList(it)
             tvDate.text = model.getFormattedDate(it)
         }
 
-        recordList.observe(this, Observer {rawList ->
+        recordList.observe(this, Observer { rawList ->
             val cntQst = rawList.size
             val cntSolved = rawList.count { it.is_correct != null }
             val cntCorrect = rawList.count { it.is_correct == true }
 
-            val progressRate = if(cntQst > 0) cntSolved / cntQst.toFloat() * 100
+            val progressRate = if (cntQst > 0) cntSolved / cntQst.toFloat() * 100
             else 0f
-            val correctRate = if(cntSolved > 0) cntCorrect / cntSolved.toFloat() * 100
+            val correctRate = if (cntSolved > 0) cntCorrect / cntSolved.toFloat() * 100
             else 0f
 
-            tvInfo.text = String.format( resources.getString(R.string.result_info_format), cntQst, progressRate, correctRate)
+            tvInfo.text = if (cntQst <= 0) resources.getString(R.string.status_msg_no_test)
+            else String.format(
+                resources.getString(R.string.result_info_format),
+                cntQst,
+                progressRate,
+                correctRate
+            )
 
             adapter.setData(rawList)
         })
@@ -54,16 +61,32 @@ class ResultActivity : AppCompatActivity() {
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        android.R.id.home -> {
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
 }
 
-class ResultViewHolder(private val binding: ItemResultCardBinding) : RecyclerView.ViewHolder(binding.root){
-    fun bind(record: QstRecordWithName){
+class ResultViewHolder(private val binding: ItemResultCardBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    fun bind(record: QstRecordWithName) {
         binding.recordWithName = record
     }
 }
-class ResultRecyclerAdapter(private var recordList: List<QstRecordWithName>) : RecyclerView.Adapter<ResultViewHolder>(){
+
+class ResultRecyclerAdapter(private var recordList: List<QstRecordWithName>) :
+    RecyclerView.Adapter<ResultViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
-        val binding: ItemResultCardBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_result_card, parent, false)
+        val binding: ItemResultCardBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.item_result_card,
+            parent,
+            false
+        )
         return ResultViewHolder(binding)
     }
 
@@ -72,7 +95,8 @@ class ResultRecyclerAdapter(private var recordList: List<QstRecordWithName>) : R
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
         holder.bind(recordList[position])
     }
-    fun setData(recordList: List<QstRecordWithName>){
+
+    fun setData(recordList: List<QstRecordWithName>) {
         this.recordList = recordList
         notifyDataSetChanged()
     }

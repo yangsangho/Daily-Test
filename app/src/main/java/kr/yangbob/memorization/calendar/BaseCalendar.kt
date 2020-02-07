@@ -6,20 +6,24 @@ import java.util.*
 /**
  * Created by WoochanLee on 25/03/2019.
  */
-class BaseCalendar(private val calendar: Calendar){
+class BaseCalendar(yearMonth: String){
 
     companion object {
         const val DAYS_OF_WEEK = 7
         const val LOW_OF_CALENDAR = 6
     }
 
+    private val calendar: Calendar = Calendar.getInstance().apply {
+        set(Calendar.YEAR, yearMonth.substring(0, 4).toInt())
+        set(Calendar.MONTH, yearMonth.substring(4).toInt() - 1)
+    }
+
     var cntPrevMonthDate = 0
     var cntNextMonthDate = 0
     var maxDateCurrentMonth = 0
 
-    private var dateList = mutableListOf<Int>()
+    val dateList = mutableListOf<Int>()
 
-    fun getDateList(): List<Int> = dateList
     /**
      * Init calendar.
      */

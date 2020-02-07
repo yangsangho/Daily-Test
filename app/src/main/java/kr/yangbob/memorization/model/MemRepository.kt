@@ -27,7 +27,23 @@ class MemRepository(memDB: MemDatabase) {
     ////// QstCalendar
 //    fun getAllCalendar(): List<QstCalendar> = runBlocking { daoQstCalendar.getAll() }
 
-    fun getAllCalendar(): List<QstCalendar> = runBlocking { daoQstCalendar.getAll() }
+    fun getAllInfoCalendar(): List<InfoCalendar> = runBlocking {
+        val list = daoQstCalendar.getAll()
+        val maxIdx = list.size - 1
+        list.mapIndexed { index, qstCalendar ->
+            val dateStr = qstCalendar.id
+            val yearMonth = "${dateStr.substring(0, 4)}${dateStr.substring(5, 7)}".toInt()
+            val date = dateStr.substring(8).toInt()
+
+            InfoCalendar(
+                dateStr,
+                yearMonth, date,
+                qstCalendar.test_completion,
+                if (index == 0) true else if (index == maxIdx) false else null
+            )
+        }
+    }
+    fun getStartDateStr(): String = runBlocking { daoQstCalendar.getStartDateStr() }
 
     private fun getCalendarMinDate(): String? = runBlocking { daoQstCalendar.getMinDate() }
 
@@ -77,7 +93,7 @@ class MemRepository(memDB: MemDatabase) {
     fun getDateLong(dateStr: String): Long = dateFormat.parse(dateStr)?.time ?: 0
 
     // type = DateFormat.FULL 등의 상수
-    fun getFormattedDate(dateStr: String, style: Int): String{
+    fun getFormattedDate(dateStr: String, style: Int): String {
         val time = getDateLong(dateStr)
         val formatter = DateFormat.getDateInstance(style)
         //        formatter.timeZone = 나중에 추가가 필요할 수도

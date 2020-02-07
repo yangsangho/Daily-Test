@@ -28,6 +28,9 @@ interface DaoQst {
 
 @Dao
 interface DaoQstCalendar {
+    @Query("SELECT MIN(id) FROM QstCalendar")
+    suspend fun getStartDateStr(): String
+
     @Query("SELECT * FROM QstCalendar")
     suspend fun getAll(): List<QstCalendar>
 

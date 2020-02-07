@@ -26,6 +26,14 @@ data class QstCalendar(
     var test_completion: Boolean
 )
 
+data class InfoCalendar(
+    val id: String,
+    val yearMonth: Int,
+    val date: Int,
+    val isCompleted: Boolean,
+    val isStartOrToday: Boolean? = null    // true = start, false = today
+)
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 @Entity(
     foreignKeys = [

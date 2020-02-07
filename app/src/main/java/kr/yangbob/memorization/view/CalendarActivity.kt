@@ -1,8 +1,10 @@
 package kr.yangbob.memorization.view
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -16,15 +18,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.activity_calendar.*
 import kotlinx.android.synthetic.main.item_calendar_pager.*
+import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.calendar.BaseCalendar
 import kr.yangbob.memorization.databinding.ActivityCalendarBinding
 import kr.yangbob.memorization.databinding.ItemCalendarDateBinding
-import kr.yangbob.memorization.db.QstCalendar
+import kr.yangbob.memorization.db.InfoCalendar
 import kr.yangbob.memorization.viewmodel.CalendarViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import java.util.*
 
 class CalendarActivity : AppCompatActivity() {
 
@@ -37,42 +39,53 @@ class CalendarActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.model = model
 
-        val calendarList = model.getCalendarList()
+        toolBar.title = resources.getString(R.string.calendar_appbar_title)
+        setSupportActionBar(toolBar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
+        val yearMonthList = model.yearMonthList()
         calendarViewPager.adapter =
-            CalendarPagerAdapter(supportFragmentManager, lifecycle, calendarList)
+            CalendarPagerAdapter(supportFragmentManager, lifecycle, yearMonthList)
         calendarViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         calendarViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                model.setCalendar(calendarList[position])
+                model.setCalendar(yearMonthList[position])
             }
         })
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        android.R.id.home -> {
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 }
 
 class CalendarPagerAdapter(
     fm: FragmentManager,
     lifecycle: Lifecycle,
-    private val calendarList: List<Calendar>
+    private val yearMonthList: List<String>
 ) : FragmentStateAdapter(fm, lifecycle) {
-    override fun getItemCount(): Int = calendarList.size
+    override fun getItemCount(): Int = yearMonthList.size
 
     override fun createFragment(position: Int): Fragment {
-        return CalendarFragment.newInstance(calendarList[position])
+        return CalendarFragment.newInstance(yearMonthList[position])
     }
 }
 
 class CalendarFragment : Fragment() {
     private lateinit var baseCalendar: BaseCalendar
-    private lateinit var qstCalendarList: List<QstCalendar>
+    private lateinit var infoCalendarList: List<InfoCalendar>
     private val model: CalendarViewModel by sharedViewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let { bundle ->
-            val cal = bundle.getSerializable("calendar") as Calendar
-            qstCalendarList = model.getQstCalendarList(cal)
-            baseCalendar = BaseCalendar(cal)
+            val yearMonth = bundle.getString("yearMonth")!!
+            infoCalendarList = model.getQstCalendarList(yearMonth.toInt())
+            baseCalendar = BaseCalendar(yearMonth)
         }
     }
 
@@ -86,13 +99,13 @@ class CalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         calendarRecycler.layoutManager = GridLayoutManager(context, BaseCalendar.DAYS_OF_WEEK)
-        calendarRecycler.adapter = CalendarRecyclerAdapter(baseCalendar, qstCalendarList)
+        calendarRecycler.adapter = CalendarRecyclerAdapter(baseCalendar, infoCalendarList)
     }
 
     companion object {
-        fun newInstance(calendar: Calendar) = CalendarFragment().apply {
+        fun newInstance(yearMonth: String) = CalendarFragment().apply {
             arguments = Bundle().apply {
-                putSerializable("calendar", calendar)
+                putString("yearMonth", yearMonth)
             }
         }
     }
@@ -101,22 +114,34 @@ class CalendarFragment : Fragment() {
 class CalendarViewHolder(private val binding: ItemCalendarDateBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun onBind(date: Int, color: Int, isCompleted: Boolean?) {
+    fun onBind(date: Int, color: Int, infoCalendar: InfoCalendar?) {
         binding.tvDateNum.text = "$date"
         binding.tvDateNum.setTextColor(color)
-        binding.isCompleted = isCompleted
+
+        if(infoCalendar != null){
+            if(infoCalendar.isStartOrToday == null){
+                binding.isCompleted = infoCalendar.isCompleted
+                binding.dateLayout.setOnClickListener {
+                    val context = binding.root.context
+                    context.startActivity(Intent(context, ResultActivity::class.java).apply {
+                        putExtra(EXTRA_TO_RESULT_DATESTR, infoCalendar.id)
+                    })
+                }
+            } else {
+                binding.isNeedBackground = true
+                binding.isStart = infoCalendar.isStartOrToday
+                binding.tvDesc.visibility = View.VISIBLE
+                binding.completeIcon.visibility = View.GONE
+            }
+        }
     }
 }
 
 class CalendarRecyclerAdapter(
-    baseCalendar: BaseCalendar,
-    private val qstCalendarList: List<QstCalendar>
-) :
-    RecyclerView.Adapter<CalendarViewHolder>() {
-    private val dateList = baseCalendar.getDateList()
-    private val maxIdxPrevMonthDate = baseCalendar.cntPrevMonthDate - 1
-    private val minIdxNextMonthDate =
-        baseCalendar.cntPrevMonthDate + baseCalendar.maxDateCurrentMonth
+    private val baseCalendar: BaseCalendar,
+    private val infoCalendarList: List<InfoCalendar>
+) : RecyclerView.Adapter<CalendarViewHolder>() {
+    private val minIdxNextMonthDate = baseCalendar.cntPrevMonthDate + baseCalendar.maxDateCurrentMonth
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
         val binding: ItemCalendarDateBinding = DataBindingUtil.inflate(
@@ -130,18 +155,17 @@ class CalendarRecyclerAdapter(
         return CalendarViewHolder(binding)
     }
 
-    override fun getItemCount(): Int = dateList.size
+    override fun getItemCount(): Int = baseCalendar.dateList.size
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         var opacity = 255
-        var isCompleted: Boolean? = null
-        val date = dateList[position]
-        if (position <= maxIdxPrevMonthDate || position >= minIdxNextMonthDate) {
+        var infoCalendar: InfoCalendar? = null
+        val date = baseCalendar.dateList[position]
+
+        if (position < baseCalendar.cntPrevMonthDate || position >= minIdxNextMonthDate) {
             opacity = 80
         } else {
-            qstCalendarList.find { it.id.substring(8, 10).toInt() == date }?.let {
-                isCompleted = it.test_completion
-            }
+            infoCalendar = infoCalendarList.find { it.date == date }
         }
         val color = when {
             position % BaseCalendar.DAYS_OF_WEEK == 0 -> {
@@ -155,6 +179,6 @@ class CalendarRecyclerAdapter(
             }
         }
 
-        holder.onBind(date, color, isCompleted)
+        holder.onBind(date, color, infoCalendar)
     }
 }

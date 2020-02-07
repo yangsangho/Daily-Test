@@ -15,39 +15,12 @@
         android:theme="@style/AppTheme">
         <activity android:name=".view.CalendarActivity"/>
         <activity android:name=".view.QstActivity"/>
-        <activity
-            android:name=".view.EntireActivity"
-            android:parentActivityName=".view.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MainActivity" />
-        </activity>
-        <activity
-            android:name=".view.ResultActivity"
-            android:parentActivityName=".view.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MainActivity" />
-        </activity>
+        <activity android:name=".view.EntireActivity"/>
+        <activity android:name=".view.ResultActivity"/>
+        <activity android:name=".view.AddActivity"/>
         <activity
             android:name=".view.TestActivity"
             android:parentActivityName=".view.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MainActivity" />
-        </activity>
-
-        <receiver android:name=".AfterBootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".CreateCalendarReceiver" />
-
-        <activity
-            android:name=".view.AddActivity"
-            android:parentActivityName=".view.MainActivity"
-            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.MainActivity" />
@@ -60,6 +33,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-    </application>
 
+        <receiver android:name=".AfterBootReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".CreateCalendarReceiver" />
+    </application>
 </manifest>

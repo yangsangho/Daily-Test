@@ -4,6 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="isNeedBackground"
+            type="Boolean" />
+
+        <variable
+            name="isStart"
+            type="Boolean" />
 
         <variable
             name="isCompleted"
@@ -13,7 +20,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dateLayout"
         android:layout_width="match_parent"
-        android:layout_height="30dp">
+        android:layout_height="30dp"
+        android:background="@{isNeedBackground ? @drawable/border : null}">
 
         <TextView
             android:id="@+id/tvDateNum"
@@ -24,17 +32,33 @@
             tools:text="1" />
 
         <ImageView
-            android:layout_margin="2dp"
             android:id="@+id/completeIcon"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_margin="2dp"
             android:scaleType="centerInside"
             app:correct="@{isCompleted}"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDateNum"
             tools:srcCompat="@drawable/ic_check_circle_black_24dp" />
+
+        <TextView
+            android:id="@+id/tvDesc"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="2dp"
+            android:gravity="center"
+            android:text="@{isStart ? @string/calendar_item_start_date : @string/calendar_item_today}"
+            android:textColor="@color/darkGray"
+            android:visibility="gone"
+            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvDateNum" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

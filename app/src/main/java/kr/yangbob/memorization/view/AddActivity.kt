@@ -46,6 +46,10 @@ class AddActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId){
+        android.R.id.home -> {
+            finish()
+            true
+        }
         R.id.action_add_save -> {
             if(model.isPossibleInsert()){
                 model.insertQst()
