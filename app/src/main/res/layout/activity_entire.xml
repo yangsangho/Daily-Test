@@ -25,5 +25,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolBar" />
 
+    <TextView
+        android:id="@+id/entireNoItemMsg"
+        android:gravity="center"
+        android:text="@string/no_item_msg"
+        android:textColor="@color/black"
+        android:textSize="@dimen/maximum_big_font"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolBar"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

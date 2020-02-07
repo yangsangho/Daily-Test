@@ -3,6 +3,7 @@ package kr.yangbob.memorization.view
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -49,8 +50,10 @@ class ResultActivity : AppCompatActivity() {
                 progressRate,
                 correctRate
             )
-
             adapter.setData(rawList)
+
+            if (cntQst == 0) resultNoItemMsg.visibility = View.VISIBLE
+            else resultNoItemMsg.visibility = View.GONE
         })
 
         adapter = ResultRecyclerAdapter(listOf())

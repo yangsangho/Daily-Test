@@ -2,10 +2,7 @@ package kr.yangbob.memorization.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
@@ -41,6 +38,8 @@ class EntireActivity : AppCompatActivity() {
         qstList.observe(this, Observer {
             copyQstList = it
             adapter.setData(it)
+            if(it.isEmpty()) entireNoItemMsg.visibility = View.VISIBLE
+            else entireNoItemMsg.visibility = View.GONE
         })
 
         appBarTitle = getString(R.string.entire_appbar_title)
