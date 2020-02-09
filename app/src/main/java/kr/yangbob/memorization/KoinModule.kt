@@ -4,6 +4,7 @@ import androidx.room.Room
 import kr.yangbob.memorization.db.MemDatabase
 import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.viewmodel.*
+import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -22,7 +23,7 @@ val viewModelModule = module {
         ResultViewModel(get())
     }
     viewModel {
-        EntireViewModel(get())
+        EntireViewModel(androidApplication(), get())
     }
     viewModel {
         QstViewModel(get())

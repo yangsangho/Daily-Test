@@ -78,10 +78,11 @@
                             android:layout_height="match_parent"
                             android:text="@{model.qstData}"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/qstCard_fontSize"
+                            android:textSize="@dimen/size_basic"
                             tools:text="문제1" />
 
                         <EditText
+                            android:theme="@style/EditTextStyle"
                             android:id="@+id/qstDataEdit"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -91,7 +92,6 @@
                             android:maxLines="3"
                             android:text="@={model.qstData}"
                             android:textColor="@color/black"
-                            android:theme="@style/EditTextStyle"
                             android:visibility="gone" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -136,10 +136,11 @@
                             android:layout_height="match_parent"
                             android:text="@{model.answerData}"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/qstCard_fontSize"
+                            android:textSize="@dimen/size_basic"
                             tools:text="정답1" />
 
                         <EditText
+                            android:theme="@style/EditTextStyle"
                             android:id="@+id/answerDataEdit"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -149,7 +150,6 @@
                             android:maxLines="10"
                             android:text="@={model.answerData}"
                             android:textColor="@color/black"
-                            android:theme="@style/EditTextStyle"
                             android:visibility="gone" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -215,7 +215,7 @@
                         android:gravity="center"
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold"
-                        app:autoSizeMaxTextSize="@dimen/qstCard_fontSize"
+                        app:autoSizeMaxTextSize="@dimen/size_basic"
                         app:autoSizeTextType="uniform"
                         app:defaultFormatDate="@{qst.registration_date}"
                         app:layout_constraintEnd_toStartOf="@id/curStageIcon"
@@ -246,7 +246,7 @@
                         android:textColor="@color/colorPrimary"
                         android:textStyle="bold"
                         app:defaultFormatDate="@{qst.next_test_date}"
-                        app:autoSizeMaxTextSize="@dimen/qstCard_fontSize"
+                        app:autoSizeMaxTextSize="@dimen/size_basic"
                         app:autoSizeTextType="uniform"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/curStageIcon"
@@ -265,7 +265,7 @@
                     android:padding="8dp"
                     android:text="@string/qst_record_title"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/qstCard_fontSize" />
+                    android:textSize="@dimen/size_basic" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recordRecycler"

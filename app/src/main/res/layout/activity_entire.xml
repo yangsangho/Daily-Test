@@ -12,8 +12,9 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
+        app:popupTheme="@style/PopupMenu"
         android:theme="@style/AppTheme"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/entireRecycler"
@@ -30,7 +31,7 @@
         android:gravity="center"
         android:text="@string/no_item_msg"
         android:textColor="@color/black"
-        android:textSize="@dimen/maximum_big_font"
+        android:textSize="@dimen/noItemFontSize"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"

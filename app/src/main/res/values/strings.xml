@@ -56,4 +56,12 @@
     <string name="calendar_item_today">Today</string>
     <string name="menu_search">Search</string>
     <string name="entire_search_msg">Please input search word</string>
+    <string name="menu_align">Align</string>
+    <string name="menu_entire_align_stage">Stage</string>
+    <string name="menu_entire_align_qst">Question</string>
+    <string name="menu_entire_align_regi">Registration</string>
+    <string name="entire_alert_sort1">Stage</string>
+    <string name="entire_alert_sort2">Question</string>
+    <string name="entire_alert_sort3">Registration Date</string>
+    <string name="entire_alert_title">List Item Sort</string>
 </resources>

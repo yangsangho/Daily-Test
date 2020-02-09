@@ -57,4 +57,12 @@
     <string name="calendar_item_today">오늘</string>
     <string name="menu_search">찾기</string>
     <string name="entire_search_msg">검색어를 입력해주세요</string>
+    <string name="menu_align">정렬</string>
+    <string name="menu_entire_align_stage">단계</string>
+    <string name="menu_entire_align_qst">문제</string>
+    <string name="menu_entire_align_regi">등록일</string>
+    <string name="entire_alert_sort1">단계</string>
+    <string name="entire_alert_sort2">문제</string>
+    <string name="entire_alert_sort3">등록일</string>
+    <string name="entire_alert_title">목록 정렬</string>
 </resources>

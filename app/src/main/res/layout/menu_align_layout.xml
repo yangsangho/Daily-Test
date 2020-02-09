@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="kr.yangbob.memorization.viewmodel.EntireViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/entireSortLayout1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{model::clickSort}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/sortByBasis1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="@{model.sortByBasis1}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_list_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/sortIcon1"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="aa" />
+
+            <ImageView
+                android:id="@+id/sortIcon1"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:alignIcon="@{model.sortIcon1}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/sortByBasis1"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/entireSortLayout2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:onClick="@{model::clickSort}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/entireSortLayout1">
+
+            <TextView
+                android:id="@+id/sortByBasis2"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="@{model.sortByBasis2}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_list_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/sortIcon2"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Registration" />
+
+            <ImageView
+                android:id="@+id/sortIcon2"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:alignIcon="@{model.sortIcon2}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/sortByBasis2"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:onClick="@{model::clickSort}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/entireSortLayout2">
+
+            <TextView
+                android:id="@+id/sortByBasis3"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:text="@{model.sortByBasis3}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/size_list_title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/sortIcon3"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Registration" />
+
+            <ImageView
+                android:id="@+id/sortIcon3"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:alignIcon="@{model.sortIcon3}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/sortByBasis3"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
+

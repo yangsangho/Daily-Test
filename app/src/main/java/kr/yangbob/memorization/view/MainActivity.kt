@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         tabLayout.getTabAt(1)?.select()
         mainViewPager.currentItem = 1
     }
+
 }
 
 class MainPagerFragmentAdapter(mainLifeCycle: Lifecycle, fm: FragmentManager) :

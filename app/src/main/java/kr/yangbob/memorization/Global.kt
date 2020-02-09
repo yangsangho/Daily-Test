@@ -25,6 +25,9 @@ enum class Stage(val nextTest: Int) {
     BEGIN_ONE(1), BEGIN_TWO(1), BEGIN_THREE(3), AFTER_THREE(7),
     AFTER_WEEK(15), AFTER_HALF(30), AFTER_MONTH(30), REVIEW(30)
 }
+enum class IconSetting {
+    NONE, UP, DOWN
+}
 
 
 // Receiver 관련

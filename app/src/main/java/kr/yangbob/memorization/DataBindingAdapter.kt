@@ -1,11 +1,10 @@
 package kr.yangbob.memorization
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import kr.yangbob.memorization.R
-import kr.yangbob.memorization.dateFormat
 import java.text.DateFormat
 
 object DataBindingAdapter {
@@ -67,6 +66,25 @@ object DataBindingAdapter {
         view.text = formatter.format(time)
     }
 
+    @BindingAdapter("app:alignIcon")
+    @JvmStatic
+    fun setAlignIcon(view: ImageView, iconSetting: IconSetting?) {
+        if (iconSetting != null) {
+            when (iconSetting) {
+                IconSetting.NONE -> {
+                    view.visibility = View.INVISIBLE
+                }
+                IconSetting.UP -> {
+                    view.visibility = View.VISIBLE
+                    view.setImageResource(R.drawable.ic_arrow_upward_black_24dp)
+                }
+                IconSetting.DOWN -> {
+                    view.visibility = View.VISIBLE
+                    view.setImageResource(R.drawable.ic_arrow_downward_black_24dp)
+                }
+            }
+        }
+    }
 
 //    @BindingAdapter("date")
 //    @JvmStatic

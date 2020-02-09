@@ -5,8 +5,10 @@ import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
+import androidx.core.content.res.ResourcesCompat
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kr.yangbob.memorization.R
+
 
 // Canvas 기본 함수 : drawPoint(), drawLine(), drawRect(), drawCircle(), drawArc(), drawText(), drawBitmap(), drawRoundRect(), drawOval()
 // Paint 기본 함수 : setColor(), setARGB, setAntiAlias(),, setStyle(), setStrokeWidth(), setStrokeCap(), setStrokeJoin()
@@ -35,6 +37,7 @@ class BarChart : View {
         textAlign = Paint.Align.CENTER
         textSize = resources.getDimensionPixelSize(R.dimen.noItemFontSize).toFloat()
         isAntiAlias = true
+        typeface = ResourcesCompat.getFont(context, R.font.font_nanum)
     }
     private lateinit var barCntDescFontPaint: Paint
     private lateinit var barRatioDescFontPaint: Paint
@@ -52,7 +55,7 @@ class BarChart : View {
     private var descHeight: Float = 0f
     private var descWidth: Float = 0f
     private var barDescRatioHeight: Int = 0 // 비율 Description 높이 값 (비율 text 위에 개수 text 들어가도록)
-    private val maximumTextSize: Float = resources.getDimensionPixelSize(R.dimen.maximum_big_font).toFloat()
+    private val maximumTextSize: Float = resources.getDimensionPixelSize(R.dimen.size_list_title).toFloat()
 
     // 데이터 세트들
     private var dataList: List<Int> = listOf()

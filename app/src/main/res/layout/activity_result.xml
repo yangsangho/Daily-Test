@@ -58,7 +58,7 @@
         android:gravity="center"
         android:text="@string/no_item_msg"
         android:textColor="@color/black"
-        android:textSize="@dimen/maximum_big_font"
+        android:textSize="@dimen/noItemFontSize"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:visibility="gone"

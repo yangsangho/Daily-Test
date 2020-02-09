@@ -43,7 +43,7 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="@{recordWithName.qst_name}"
-                android:textSize="@dimen/qstCard_fontSize"
+                android:textSize="@dimen/size_basic"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/resultIcon"
                 app:layout_constraintStart_toEndOf="@id/resultStageIcon"

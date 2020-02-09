@@ -90,8 +90,8 @@
 
             <Button
                 android:id="@+id/dashboardBtn1"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
@@ -100,7 +100,7 @@
                 android:onClick="@{isToday ? fragment::clickTestBtn : fragment::clickEntireList}"
                 android:text="@{isToday ? @string/dashboard_today_btn1 : @string/dashboard_entire_btn1}"
                 android:textAllCaps="false"
-                app:autoSizeMaxTextSize="@dimen/maximum_big_font"
+                app:autoSizeMaxTextSize="@dimen/size_basic"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/dashboardBtn2"
@@ -111,8 +111,8 @@
 
             <Button
                 android:id="@+id/dashboardBtn2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
@@ -121,7 +121,7 @@
                 android:onClick="@{isToday ? fragment::clickTodayRecord : fragment::clickEntireRecord}"
                 android:text="@{isToday ? @string/dashboard_today_btn2 : @string/dashboard_entire_btn2}"
                 android:textAllCaps="false"
-                app:autoSizeMaxTextSize="@dimen/maximum_big_font"
+                app:autoSizeMaxTextSize="@dimen/size_basic"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
