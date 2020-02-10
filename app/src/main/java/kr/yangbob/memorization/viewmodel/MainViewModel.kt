@@ -11,6 +11,20 @@ import kr.yangbob.memorization.workForNextTest
 class MainViewModel(private val memRepo: MemRepository, application: Application) :
     AndroidViewModel(application) {
     private val logTag = "MainViewModel"
+
+    private var isPossibleClick = false
+    fun resetIsPossibleClick(){
+        isPossibleClick = false
+    }
+    fun checkIsPossibleClick(): Boolean{
+        return if(isPossibleClick){
+            false
+        } else {
+            isPossibleClick = true
+            true
+        }
+    }
+
     private val qstListLD = memRepo.getAllQstLD()
     private val todayQstRecordLD =
         memRepo.getAllRecordLDFromDate(memRepo.getDateStr(System.currentTimeMillis()))

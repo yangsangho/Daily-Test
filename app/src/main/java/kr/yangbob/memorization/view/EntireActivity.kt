@@ -58,6 +58,11 @@ class EntireActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
+    override fun onResume() {
+        model.resetIsPossibleClick()
+        super.onResume()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_entire, menu)
 
@@ -111,7 +116,7 @@ class EntireActivity : AppCompatActivity() {
             true
         }
         R.id.action_entire_sort -> {
-            showSortDialog()
+            if(model.checkIsPossibleClick()) showSortDialog()
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -148,13 +153,15 @@ class EntireViewHolder(
         binding.holder = this
         binding.tvEntireRegistration.text = model.getFormattedDate(qst.registration_date)
         binding.card.setOnClickListener {
-            val context = binding.root.context
-            context.startActivity(
-                Intent(context, QstActivity::class.java).putExtra(
-                    EXTRA_TO_QST_ID,
-                    qst.id
+            if(model.checkIsPossibleClick()){
+                val context = binding.root.context
+                context.startActivity(
+                    Intent(context, QstActivity::class.java).putExtra(
+                        EXTRA_TO_QST_ID,
+                        qst.id
+                    )
                 )
-            )
+            }
         }
     }
 }

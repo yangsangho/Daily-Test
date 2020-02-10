@@ -54,6 +54,11 @@ class CalendarActivity : AppCompatActivity() {
         })
     }
 
+    override fun onResume() {
+        model.resetIsPossibleClick()
+        super.onResume()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         android.R.id.home -> {
             finish()
@@ -99,7 +104,7 @@ class CalendarFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         calendarRecycler.layoutManager = GridLayoutManager(context, BaseCalendar.DAYS_OF_WEEK)
-        calendarRecycler.adapter = CalendarRecyclerAdapter(baseCalendar, infoCalendarList)
+        calendarRecycler.adapter = CalendarRecyclerAdapter(baseCalendar, infoCalendarList, model)
     }
 
     companion object {
@@ -111,7 +116,7 @@ class CalendarFragment : Fragment() {
     }
 }
 
-class CalendarViewHolder(private val binding: ItemCalendarDateBinding) :
+class CalendarViewHolder(private val binding: ItemCalendarDateBinding, private val model: CalendarViewModel) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(date: Int, color: Int, infoCalendar: InfoCalendar?) {
@@ -122,10 +127,12 @@ class CalendarViewHolder(private val binding: ItemCalendarDateBinding) :
             if(infoCalendar.isStartOrToday == null){
                 binding.isCompleted = infoCalendar.isCompleted
                 binding.dateLayout.setOnClickListener {
-                    val context = binding.root.context
-                    context.startActivity(Intent(context, ResultActivity::class.java).apply {
-                        putExtra(EXTRA_TO_RESULT_DATESTR, infoCalendar.id)
-                    })
+                    if(model.checkIsPossibleClick()){
+                        val context = binding.root.context
+                        context.startActivity(Intent(context, ResultActivity::class.java).apply {
+                            putExtra(EXTRA_TO_RESULT_DATESTR, infoCalendar.id)
+                        })
+                    }
                 }
             } else {
                 binding.isNeedBackground = true
@@ -139,7 +146,8 @@ class CalendarViewHolder(private val binding: ItemCalendarDateBinding) :
 
 class CalendarRecyclerAdapter(
     private val baseCalendar: BaseCalendar,
-    private val infoCalendarList: List<InfoCalendar>
+    private val infoCalendarList: List<InfoCalendar>,
+    private val model: CalendarViewModel
 ) : RecyclerView.Adapter<CalendarViewHolder>() {
     private val minIdxNextMonthDate = baseCalendar.cntPrevMonthDate + baseCalendar.maxDateCurrentMonth
 
@@ -152,7 +160,7 @@ class CalendarRecyclerAdapter(
         )
         val itemHeight = parent.measuredHeight / BaseCalendar.LOW_OF_CALENDAR
         binding.dateLayout.layoutParams.height = itemHeight
-        return CalendarViewHolder(binding)
+        return CalendarViewHolder(binding, model)
     }
 
     override fun getItemCount(): Int = baseCalendar.dateList.size

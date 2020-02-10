@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +37,14 @@ class TestActivity : AppCompatActivity() {
         val todayRecords = model.getTodayNullRecords()
         viewPager.adapter = TestPagerAdapter(todayRecords.shuffled(), model, viewPager, this)
         viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =  when(item.itemId){
+        android.R.id.home -> {
+            finish()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 }
 
@@ -102,12 +111,12 @@ class TestViewHolder(
 
     fun clickChk(view: View){
         val isCorrect = view.id == R.id.btnChkSuccess
-        binding.correct?.let {
-            if(it == isCorrect) return
+        if(binding.correct == isCorrect){
+            binding.correct = null
+        } else {
+            binding.correct = isCorrect
         }
-        binding.correct = isCorrect
-        model.update(qst, qstRecord, isCorrect)
-        adapter.move(adapterPosition)
+        if(model.update(qst, qstRecord, isCorrect)) adapter.move(adapterPosition)
     }
 }
 

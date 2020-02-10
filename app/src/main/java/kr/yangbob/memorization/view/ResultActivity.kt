@@ -1,5 +1,6 @@
 package kr.yangbob.memorization.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_result.*
+import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.databinding.ItemResultCardBinding
@@ -56,7 +58,7 @@ class ResultActivity : AppCompatActivity() {
             setNoItemMsgVisible(cntQst == 0)
         })
 
-        adapter = ResultRecyclerAdapter(listOf())
+        adapter = ResultRecyclerAdapter(listOf(), model)
         resultRecycler.layoutManager = LinearLayoutManager(this)
         resultRecycler.adapter = adapter
 
@@ -64,6 +66,11 @@ class ResultActivity : AppCompatActivity() {
         toolBar.title = appBarTitle
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        model.resetIsPossibleClick()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -109,7 +116,9 @@ class ResultActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         android.R.id.home -> {
-            finish()
+            if(model.checkIsPossibleClick()){
+                finish()
+            }
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -120,14 +129,25 @@ class ResultActivity : AppCompatActivity() {
     }
 }
 
-class ResultViewHolder(private val binding: ItemResultCardBinding) :
+class ResultViewHolder(private val binding: ItemResultCardBinding, private val model: ResultViewModel) :
     RecyclerView.ViewHolder(binding.root) {
     fun bind(record: QstRecordWithName) {
         binding.recordWithName = record
+        binding.card.setOnClickListener {
+            if(model.checkIsPossibleClick()){
+                val context = binding.root.context
+                context.startActivity(
+                    Intent(context, QstActivity::class.java).putExtra(
+                        EXTRA_TO_QST_ID,
+                        record.qst_id
+                    )
+                )
+            }
+        }
     }
 }
 
-class ResultRecyclerAdapter(private var recordList: List<QstRecordWithName>) :
+class ResultRecyclerAdapter(private var recordList: List<QstRecordWithName>, private val model: ResultViewModel) :
     RecyclerView.Adapter<ResultViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
         val binding: ItemResultCardBinding = DataBindingUtil.inflate(
@@ -136,7 +156,7 @@ class ResultRecyclerAdapter(private var recordList: List<QstRecordWithName>) :
             parent,
             false
         )
-        return ResultViewHolder(binding)
+        return ResultViewHolder(binding, model)
     }
 
     override fun getItemCount(): Int = recordList.size

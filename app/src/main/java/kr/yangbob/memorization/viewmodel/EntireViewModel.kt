@@ -14,6 +14,19 @@ import java.text.DateFormat
 
 class EntireViewModel(application: Application, private val memRepo: MemRepository) :
     AndroidViewModel(application) {
+    private var isPossibleClick = false
+    fun resetIsPossibleClick(){
+        isPossibleClick = false
+    }
+    fun checkIsPossibleClick(): Boolean{
+        return if(isPossibleClick){
+            false
+        } else {
+            isPossibleClick = true
+            true
+        }
+    }
+
     private val qstList: LiveData<List<Qst>> = memRepo.getAllQstLD()
 
     fun getAllQst() = qstList

@@ -7,6 +7,19 @@ import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
 
 class QstViewModel(private val memRepo: MemRepository) : ViewModel() {
+    private var isPossibleClick = false
+    fun resetIsPossibleClick() {
+        isPossibleClick = false
+    }
+
+    fun checkIsPossibleClick(): Boolean {
+        return if (isPossibleClick) false
+        else {
+            isPossibleClick = true
+            true
+        }
+    }
+
     val qstData = MutableLiveData<String>().apply { value = "" }
     val answerData = MutableLiveData<String>().apply { value = "" }
 

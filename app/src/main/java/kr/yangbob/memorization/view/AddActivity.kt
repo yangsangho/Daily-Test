@@ -30,13 +30,11 @@ class AddActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.qstData.requestFocus()
+    }
 
-// menu default로 enable false로 두고
-//        val menuObserver = Observer<String> {
-//            menu?.isEnabled = !model.insertDataIsEmpty()
-//        }
-//        model.answer.observe(this, menuObserver)
-//        model.title.observe(this, menuObserver)
+    override fun onResume() {
+        model.resetIsPossibleClick()
+        super.onResume()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -51,11 +49,13 @@ class AddActivity : AppCompatActivity() {
             true
         }
         R.id.action_add_save -> {
-            if(model.isPossibleInsert()){
-                model.insertQst()
-                finish()
-            } else {
-                Toast.makeText(this, R.string.toast_need_input_qst, Toast.LENGTH_LONG).show()
+            if(model.checkIsPossibleClick()){
+                if(model.isPossibleInsert()){
+                    model.insertQst()
+                    finish()
+                } else {
+                    Toast.makeText(this, R.string.toast_need_input_qst, Toast.LENGTH_LONG).show()
+                }
             }
             true
         }

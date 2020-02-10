@@ -13,19 +13,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.CalendarActivity"/>
-        <activity android:name=".view.QstActivity"/>
-        <activity android:name=".view.EntireActivity"/>
-        <activity android:name=".view.ResultActivity"/>
-        <activity android:name=".view.AddActivity"
-            android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".view.CalendarActivity" />
+        <activity android:name=".view.QstActivity" />
+        <activity android:name=".view.EntireActivity" />
+        <activity android:name=".view.ResultActivity" />
+        <activity android:name=".view.TestActivity" />
         <activity
-            android:name=".view.TestActivity"
-            android:parentActivityName=".view.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".view.MainActivity" />
-        </activity>
+            android:name=".view.AddActivity"
+            android:windowSoftInputMode="adjustResize" />
+
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -8,6 +8,19 @@ import java.text.DateFormat
 
 class ResultViewModel(private val memRepo: MemRepository) : ViewModel() {
 
+    private var isPossibleClick = false
+    fun resetIsPossibleClick(){
+        isPossibleClick = false
+    }
+    fun checkIsPossibleClick(): Boolean{
+        return if(isPossibleClick){
+            false
+        } else {
+            isPossibleClick = true
+            true
+        }
+    }
+
     fun getRecordList(dateStr: String): LiveData<List<QstRecordWithName>> =
         memRepo.getAllRecordWithName(dateStr)
 

@@ -21,7 +21,8 @@
         android:id="@+id/dateLayout"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:background="@{isNeedBackground ? @drawable/border : null}">
+        android:background="@{isNeedBackground ? @drawable/border : null}"
+        android:paddingTop="4dp">
 
         <TextView
             android:id="@+id/tvDateNum"
@@ -53,7 +54,7 @@
             android:text="@{isStart ? @string/calendar_item_start_date : @string/calendar_item_today}"
             android:textColor="@color/darkGray"
             android:visibility="gone"
-            app:autoSizeMaxTextSize="14sp"
+            app:autoSizeMaxTextSize="@dimen/size_basic"
             app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

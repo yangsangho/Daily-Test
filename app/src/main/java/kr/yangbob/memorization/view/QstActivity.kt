@@ -59,6 +59,11 @@ class QstActivity : AppCompatActivity() {
         recordRecycler.adapter = adapter
     }
 
+    override fun onResume() {
+        model.resetIsPossibleClick()
+        super.onResume()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_qst, menu)
         editMenu = menu?.findItem(R.id.action_qst_edit)

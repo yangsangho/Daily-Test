@@ -20,9 +20,12 @@ import kr.yangbob.memorization.*
 import kr.yangbob.memorization.databinding.DashboardModuleBinding
 import kr.yangbob.memorization.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class MainActivity : AppCompatActivity() {
     private val logTag = "MainActivity"
+    private val model: MainViewModel by viewModel()
     private var doubleBackToExitPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +55,11 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        model.resetIsPossibleClick()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
@@ -59,7 +67,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_main_write -> {
-            startActivityForResult(Intent(this, AddActivity::class.java), 2)
+            if(model.checkIsPossibleClick()){
+                startActivityForResult(Intent(this, AddActivity::class.java), 2)
+            }
             true
         }
         else -> {
@@ -175,26 +185,35 @@ class MainPagerFragment : Fragment() {
     }
 
     fun clickTestBtn(view: View) {
-        startActivity(Intent(context, TestActivity::class.java))
+        if(model.checkIsPossibleClick()){
+            startActivity(Intent(context, TestActivity::class.java))
+        }
     }
 
     fun clickEntireList(view: View) {
-        startActivityForResult(
-            Intent(context, EntireActivity::class.java),
-            0
-        )  // main으로 복귀할 때 2번쩨 page로 가도록
+
+        if(model.checkIsPossibleClick()){
+            startActivityForResult(
+                Intent(context, EntireActivity::class.java),
+                0
+            )  // main으로 복귀할 때 2번쩨 page로 가도록
+        }
     }
 
     fun clickTodayRecord(view: View) {
-        startActivity(Intent(context, ResultActivity::class.java).apply {
-            putExtra(EXTRA_TO_RESULT_DATESTR, model.getTodayDateStr())
-        })
+        if(model.checkIsPossibleClick()){
+            startActivity(Intent(context, ResultActivity::class.java).apply {
+                putExtra(EXTRA_TO_RESULT_DATESTR, model.getTodayDateStr())
+            })
+        }
     }
 
     fun clickEntireRecord(view: View) {
-        startActivityForResult(
-            Intent(context, CalendarActivity::class.java),
-            1
-        ) // main으로 복귀할 때 2번쩨 page로 가도록
+        if(model.checkIsPossibleClick()){
+            startActivityForResult(
+                Intent(context, CalendarActivity::class.java),
+                1
+            ) // main으로 복귀할 때 2번쩨 page로 가도록
+        }
     }
 }

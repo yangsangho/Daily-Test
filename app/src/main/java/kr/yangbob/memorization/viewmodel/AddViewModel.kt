@@ -8,6 +8,18 @@ import kr.yangbob.memorization.model.MemRepository
 
 class AddViewModel(private val memRepo: MemRepository) : ViewModel() {
     private val logTag = "AddViewModel"
+    private var isPossibleClick = false
+    fun resetIsPossibleClick() {
+        isPossibleClick = false
+    }
+
+    fun checkIsPossibleClick(): Boolean {
+        return if (isPossibleClick) false
+        else {
+            isPossibleClick = true
+            true
+        }
+    }
 
     val title = MutableLiveData<String>()      // 문제 add 및 update의 문제명
     val answer = MutableLiveData<String>()      // 문제 add 및 update의 정답

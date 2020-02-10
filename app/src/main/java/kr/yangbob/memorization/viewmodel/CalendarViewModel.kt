@@ -8,6 +8,19 @@ import kr.yangbob.memorization.model.MemRepository
 import java.util.*
 
 class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
+    private var isPossibleClick = false
+    fun resetIsPossibleClick() {
+        isPossibleClick = false
+    }
+
+    fun checkIsPossibleClick(): Boolean {
+        return if (isPossibleClick) false
+        else {
+            isPossibleClick = true
+            true
+        }
+    }
+
     private val _strMonth = MutableLiveData<String>()
     private val _strYear = MutableLiveData<String>()
     val strMonth: LiveData<String> = _strMonth
@@ -55,4 +68,6 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
             makeCalList(cal2, minCal, listOf(cal) + acc)
         }
     }
+
+
 }
