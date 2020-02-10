@@ -5,6 +5,7 @@ import kotlinx.coroutines.runBlocking
 import kr.yangbob.memorization.MILLIS_A_DAY
 import kr.yangbob.memorization.dateFormat
 import kr.yangbob.memorization.db.*
+import kr.yangbob.memorization.todayDateStr
 import java.text.DateFormat
 import java.util.*
 
@@ -19,14 +20,14 @@ class MemRepository(memDB: MemDatabase) {
 
     fun getQstFromId(id: Int): Qst = runBlocking { daoQst.getFromId(id) }
 
-    fun getNeedTestList(): List<Qst> =
-        runBlocking { daoQst.getNeedTesList(getDateStr(System.currentTimeMillis())) }
+    fun getNeedTestList(dateStr: String): List<Qst> =
+            runBlocking { daoQst.getNeedTesList(dateStr) }
 
     fun insertQst(qst: Qst) = runBlocking { daoQst.insert(qst) }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// QstCalendar
 //    fun getAllCalendar(): List<QstCalendar> = runBlocking { daoQstCalendar.getAll() }
-
     fun getAllInfoCalendar(): List<InfoCalendar> = runBlocking {
         val list = daoQstCalendar.getAll()
         val maxIdx = list.size - 1
@@ -36,56 +37,62 @@ class MemRepository(memDB: MemDatabase) {
             val date = dateStr.substring(8).toInt()
 
             InfoCalendar(
-                dateStr,
-                yearMonth, date,
-                qstCalendar.test_completion,
-                if (index == 0) true else if (index == maxIdx) false else null
-            )
+                    dateStr,
+                    yearMonth, date,
+                    qstCalendar.test_completion,
+                    if (index == 0) true else if (index == maxIdx) false else null
+                        )
         }
     }
+
     fun getStartDateStr(): String = runBlocking { daoQstCalendar.getStartDateStr() }
 
-    private fun getCalendarMinDate(): String? = runBlocking { daoQstCalendar.getMinDate() }
-
-    fun getTodayCalendar(): QstCalendar? =
-        runBlocking { daoQstCalendar.getTodayRow(getDateStr(System.currentTimeMillis())) }
+    fun getCalendarMaxDate(): String? = runBlocking { daoQstCalendar.getMaxDate() }
 
     fun getCompletedDateCnt(): Int = runBlocking { daoQstCalendar.getCompletedDateCnt() }
 
     fun insertQstCalendar(qstCalendar: QstCalendar) =
-        runBlocking { daoQstCalendar.insert(qstCalendar) }
+            runBlocking { daoQstCalendar.insert(qstCalendar) }
 
     fun updateCalComplete() =
-        runBlocking { daoQstCalendar.updateComplete(getDateStr(System.currentTimeMillis())) }
+            runBlocking {
+                val qstCalendar = daoQstCalendar.getFromId(todayDateStr)
+                if (qstCalendar.test_completion != null) {
+                    qstCalendar.test_completion = true
+                    daoQstCalendar.insert(qstCalendar)
+                }
+            }
 
+    fun getCalCntHasTest(): Int = runBlocking { daoQstCalendar.getCntHasTest() }
+
+    fun getCalCnt(): Int = runBlocking { daoQstCalendar.getCnt() }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// QstRecord
 //    fun getAllRecord(): List<QstRecord> = runBlocking { daoQstRecord.getAll() }
     fun getAllRecordFromId(id: Int): List<QstRecord> = runBlocking { daoQstRecord.getAllFromId(id) }
 
     fun getAllRecordWithName(dateStr: String): LiveData<List<QstRecordWithName>> =
-        daoQstRecord.getAllWithName(dateStr)
+            daoQstRecord.getAllWithName(dateStr)
 
     fun getAllRecordLDFromDate(dateStr: String): LiveData<List<QstRecord>> =
-        daoQstRecord.getAllFromDate(dateStr)
+            daoQstRecord.getAllFromDate(dateStr)
 
     fun getNullRecordsFromDate(dateStr: String): List<QstRecord> =
-        runBlocking { daoQstRecord.getNullListFromDate(dateStr) }
+            runBlocking { daoQstRecord.getNullListFromDate(dateStr) }
 
     fun insertQstRecord(qstRecord: QstRecord) = runBlocking { daoQstRecord.insert(qstRecord) }
 
-    fun deleteNoneSolvedRecord() = runBlocking { daoQstRecord.deleteNoneSolved() }
+//    fun deleteNoneSolvedRecord() = runBlocking { daoQstRecord.deleteNoneSolved() }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// Others
-    fun getEntireDate(): Int {
-        val minDate = getCalendarMinDate()?.let {
-            dateFormat.parse(it)?.time
-        } ?: 0
-        return if (minDate > 0) {
-            val curDate = dateFormat.parse(getDateStr(System.currentTimeMillis()))?.time ?: 0
-            ((curDate - minDate) / MILLIS_A_DAY).toInt() + 1
-        } else {
-            0
-        }
+    private val dormantBasisDay = 3
+
+    fun chkDormant(today: String, dateStr: String): Boolean {
+        val todayTime = getDateLong(today)
+        val targetTime = getDateLong(dateStr)
+        return ((todayTime - targetTime) / MILLIS_A_DAY) >= dormantBasisDay
     }
 
     fun getDateStr(timeMillis: Long): String = dateFormat.format(Date(timeMillis))

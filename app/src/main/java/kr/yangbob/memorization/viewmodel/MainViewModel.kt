@@ -46,7 +46,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
         entireCard1.value = "$size"
 
         entireCard3.value = if (size > 0) {
-            val entireDate = memRepo.getEntireDate()
+            val entireDate = memRepo.getCalCnt()
             String.format("%.2f", size / entireDate.toFloat())
         } else "0"
     }
@@ -105,11 +105,11 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     // 시험 보기 intent result 받고 재 실행 필요 - 시험 완료율
     // completedCnt과 entireDate에는 시작일이 포함되어 있음
     fun setTestCompletionRate() {
-        val completedCnt = memRepo.getCompletedDateCnt() - 1
-        val entireDate = memRepo.getEntireDate() - 1
+        val completedCnt = memRepo.getCompletedDateCnt()
+        val cntHasTest = memRepo.getCalCntHasTest()
 
-        entireCard2.value = if (entireDate > 0) {
-            String.format("%.1f%%", completedCnt / entireDate.toFloat() * 100)
+        entireCard2.value = if (cntHasTest > 0) {
+            String.format("%.1f%%", completedCnt / cntHasTest.toFloat() * 100)
         } else "-"
     }
 

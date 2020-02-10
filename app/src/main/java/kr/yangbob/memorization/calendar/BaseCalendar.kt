@@ -31,11 +31,6 @@ class BaseCalendar(yearMonth: String){
         makeMonthDate()
     }
 
-    override fun toString(): String {
-        val formatter = SimpleDateFormat("yyyy-MM", Locale.KOREA)
-        return formatter.format(Date(calendar.timeInMillis))
-    }
-
     /**
      * make month date.
      */

@@ -17,10 +17,7 @@ interface DaoQst {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(qst: Qst)
 
-    @Query("SELECT COUNT(*) FROM qst WHERE next_test_date <= :dateStr")
-    suspend fun getNeedTestCnt(dateStr: String): Int
-
-    @Query("SELECT * FROM qst WHERE next_test_date <= :dateStr")
+    @Query("SELECT * FROM qst WHERE is_dormant = 0 AND next_test_date <= :dateStr")
     suspend fun getNeedTesList(dateStr: String): List<Qst>
 }
 
@@ -28,28 +25,29 @@ interface DaoQst {
 
 @Dao
 interface DaoQstCalendar {
-    @Query("SELECT MIN(id) FROM QstCalendar")
-    suspend fun getStartDateStr(): String
 
     @Query("SELECT * FROM QstCalendar")
     suspend fun getAll(): List<QstCalendar>
 
-    @Query("SELECT * FROM QstCalendar WHERE id == :dateStr LIMIT 1")
-    suspend fun getTodayRow(dateStr: String): QstCalendar?
+    @Query("SELECT * FROM QstCalendar WHERE id = :dateStr")
+    suspend fun getFromId(dateStr: String): QstCalendar
 
     @Query("SELECT COUNT(*) FROM QstCalendar")
     suspend fun getCnt(): Int
 
-    @Query("SELECT id FROM QstCalendar LIMIT 1")
-    suspend fun getMinDate(): String?
+    @Query("SELECT MIN(id) FROM QstCalendar")
+    suspend fun getStartDateStr(): String
+
+    @Query("SELECT MAX(id) FROM QstCalendar")
+    suspend fun getMaxDate(): String?
 
     @Query("SELECT COUNT(*) FROM QstCalendar WHERE test_completion == 1")
     suspend fun getCompletedDateCnt(): Int
 
-    @Query("UPDATE QstCalendar set test_completion = 1 WHERE id == :dateStr")
-    suspend fun updateComplete(dateStr: String)
+    @Query("SELECT COUNT(*) FROM QstCalendar WHERE test_completion IS NOT NULL")
+    suspend fun getCntHasTest(): Int
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(qstCalendar: QstCalendar)
 }
 
@@ -72,8 +70,8 @@ interface DaoQstRecord {
     @Query("SELECT * FROM QstRecord WHERE calendar_id == :dateStr AND is_correct IS NULL")
     suspend fun getNullListFromDate(dateStr: String): List<QstRecord>
 
-    @Query("DELETE FROM QstRecord WHERE is_correct IS NULL")
-    suspend fun deleteNoneSolved()
+//    @Query("DELETE FROM QstRecord WHERE is_correct IS NULL")
+//    suspend fun deleteNoneSolved()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(qstRecord: QstRecord)

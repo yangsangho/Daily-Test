@@ -12,6 +12,7 @@ data class Qst(
     val registration_date: String,                     //date
     var next_test_date: String,                         //date
     var cur_stage: Int = 0,
+    var is_dormant: Boolean = false,
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null
 )
@@ -22,15 +23,14 @@ data class Qst(
 data class QstCalendar(
     @PrimaryKey
     val id: String,   // date
-    val cnt_need_test: Int,
-    var test_completion: Boolean
+    var test_completion: Boolean? = null
 )
 
 data class InfoCalendar(
     val id: String,
     val yearMonth: Int,
     val date: Int,
-    val isCompleted: Boolean,
+    val isCompleted: Boolean?,
     val isStartOrToday: Boolean? = null    // true = start, false = today
 )
 

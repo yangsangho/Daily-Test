@@ -8,6 +8,30 @@ import androidx.databinding.BindingAdapter
 import java.text.DateFormat
 
 object DataBindingAdapter {
+    @BindingAdapter("app:complete")
+    @JvmStatic
+    fun setCompleteIcon(view: ImageView, complete: Boolean?){
+        if (complete != null) {
+            if (complete) {
+                view.setImageResource(R.drawable.ic_check_circle_black_24dp)
+                view.setColorFilter(
+                    ContextCompat.getColor(
+                        view.context,
+                        android.R.color.holo_green_light
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
+            } else {
+                view.setImageResource(R.drawable.ic_x_circle_black_24dp)
+                view.setColorFilter(
+                    ContextCompat.getColor(
+                        view.context,
+                        android.R.color.holo_red_light
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                )
+            }
+        }
+    }
+
     @BindingAdapter("app:correct")
     @JvmStatic
     fun testChkIcon(view: ImageView, correct: Boolean?) {
@@ -30,7 +54,13 @@ object DataBindingAdapter {
                 )
             }
         } else {
-            view.setImageResource(android.R.color.transparent)
+            view.setImageResource(R.drawable.ic_no_circle_black_24dp)
+            view.setColorFilter(
+                ContextCompat.getColor(
+                    view.context,
+                    android.R.color.darker_gray
+                ), android.graphics.PorterDuff.Mode.SRC_IN
+            )
         }
     }
 

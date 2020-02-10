@@ -37,13 +37,15 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="2dp"
+            android:visibility="invisible"
             android:scaleType="centerInside"
-            app:correct="@{isCompleted}"
+            app:complete="@{isCompleted}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvDateNum"
-            tools:srcCompat="@drawable/ic_check_circle_black_24dp" />
+            app:srcCompat="@drawable/ic_no_circle_black_24dp"
+            android:tint="@color/darkGray"/>
 
         <TextView
             android:id="@+id/tvDesc"

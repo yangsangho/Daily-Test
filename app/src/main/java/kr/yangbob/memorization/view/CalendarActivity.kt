@@ -125,6 +125,7 @@ class CalendarViewHolder(private val binding: ItemCalendarDateBinding, private v
 
         if(infoCalendar != null){
             if(infoCalendar.isStartOrToday == null){
+                binding.completeIcon.visibility = View.VISIBLE
                 binding.isCompleted = infoCalendar.isCompleted
                 binding.dateLayout.setOnClickListener {
                     if(model.checkIsPossibleClick()){
@@ -135,10 +136,10 @@ class CalendarViewHolder(private val binding: ItemCalendarDateBinding, private v
                     }
                 }
             } else {
+                binding.completeIcon.visibility = View.GONE
+                binding.tvDesc.visibility = View.VISIBLE
                 binding.isNeedBackground = true
                 binding.isStart = infoCalendar.isStartOrToday
-                binding.tvDesc.visibility = View.VISIBLE
-                binding.completeIcon.visibility = View.GONE
             }
         }
     }

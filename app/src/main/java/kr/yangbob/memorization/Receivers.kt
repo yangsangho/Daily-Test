@@ -3,6 +3,7 @@ package kr.yangbob.memorization
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstCalendar
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
@@ -11,23 +12,43 @@ import kotlin.system.exitProcess
 
 //const val receiversLogTag = "Receivers"
 fun workForNextTest(memRepo: MemRepository): Boolean {
-    val qstCal = memRepo.getTodayCalendar()
-    if (qstCal == null) {
-        // <안 푼 문제 기록 삭제>
-        memRepo.deleteNoneSolvedRecord()
+    val todayDate = memRepo.getDateStr(System.currentTimeMillis())
+    val maxDateStr = memRepo.getCalendarMaxDate()
 
-        // 새로운 날짜 데이터 입력
-        val todayDate = memRepo.getDateStr(System.currentTimeMillis())
-        val testList = memRepo.getNeedTestList()
-
-        val newQstCal = QstCalendar(todayDate, testList.size, testList.isEmpty())
+    if(maxDateStr == null){ // null이면 처음인 것
+        val newQstCal = QstCalendar(todayDate)
         memRepo.insertQstCalendar(newQstCal)
+        return true
+    }
 
-        // 시험 Record 추가
-        for (qst in testList) {
-            val challengeStage = qst.cur_stage + 1
-            val newQstRecord = QstRecord(qst.id!!, todayDate, challengeStage)
-            memRepo.insertQstRecord( newQstRecord )
+    if (todayDate != maxDateStr) {
+        var dateStr: String = maxDateStr
+        while(todayDate != dateStr){
+            val time = memRepo.getDateLong(dateStr) + MILLIS_A_DAY
+            dateStr = memRepo.getDateStr(time)
+
+            val testList: List<Qst> = memRepo.getNeedTestList(dateStr)
+            val pair = testList.partition { it.next_test_date == dateStr }
+            val noChkList = pair.first.toMutableList()
+            val needDormantChkList = pair.second
+
+            for(qst in needDormantChkList){
+                if(memRepo.chkDormant(dateStr, qst.next_test_date)){
+                    qst.is_dormant = true
+                    memRepo.insertQst(qst)
+                    continue
+                }
+                noChkList.add(qst)
+            }
+
+            val newQstCal = QstCalendar(dateStr, if(noChkList.isEmpty()) null else false)
+            memRepo.insertQstCalendar(newQstCal)
+
+            for (qst in noChkList) {
+                val challengeStage = qst.cur_stage + 1
+                val newQstRecord = QstRecord(qst.id!!, dateStr, challengeStage)
+                memRepo.insertQstRecord( newQstRecord )
+            }
         }
         return true
     } else return false
