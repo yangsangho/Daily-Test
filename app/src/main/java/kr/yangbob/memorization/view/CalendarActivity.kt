@@ -35,7 +35,7 @@ class CalendarActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding: ActivityCalendarBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_calendar)
+                DataBindingUtil.setContentView(this, R.layout.activity_calendar)
         binding.lifecycleOwner = this
         binding.model = model
 
@@ -45,7 +45,7 @@ class CalendarActivity : AppCompatActivity() {
 
         val yearMonthList = model.yearMonthList()
         calendarViewPager.adapter =
-            CalendarPagerAdapter(supportFragmentManager, lifecycle, yearMonthList)
+                CalendarPagerAdapter(supportFragmentManager, lifecycle, yearMonthList)
         calendarViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         calendarViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -64,15 +64,15 @@ class CalendarActivity : AppCompatActivity() {
             finish()
             true
         }
-        else -> super.onOptionsItemSelected(item)
+        else              -> super.onOptionsItemSelected(item)
     }
 }
 
 class CalendarPagerAdapter(
-    fm: FragmentManager,
-    lifecycle: Lifecycle,
-    private val yearMonthList: List<String>
-) : FragmentStateAdapter(fm, lifecycle) {
+        fm: FragmentManager,
+        lifecycle: Lifecycle,
+        private val yearMonthList: List<String>
+                          ) : FragmentStateAdapter(fm, lifecycle) {
     override fun getItemCount(): Int = yearMonthList.size
 
     override fun createFragment(position: Int): Fragment {
@@ -95,9 +95,9 @@ class CalendarFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
+                             ): View? {
         return inflater.inflate(R.layout.item_calendar_pager, container, false)
     }
 
@@ -116,19 +116,21 @@ class CalendarFragment : Fragment() {
     }
 }
 
-class CalendarViewHolder(private val binding: ItemCalendarDateBinding, private val model: CalendarViewModel) :
-    RecyclerView.ViewHolder(binding.root) {
+class CalendarViewHolder(
+        private val binding: ItemCalendarDateBinding,
+        private val model: CalendarViewModel) :
+        RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(date: Int, color: Int, infoCalendar: InfoCalendar?) {
         binding.tvDateNum.text = "$date"
         binding.tvDateNum.setTextColor(color)
 
-        if(infoCalendar != null){
-            if(infoCalendar.isStartOrToday == null){
+        if (infoCalendar != null) {
+            if (infoCalendar.isStartOrToday == null) {
                 binding.completeIcon.visibility = View.VISIBLE
                 binding.isCompleted = infoCalendar.isCompleted
                 binding.dateLayout.setOnClickListener {
-                    if(model.checkIsPossibleClick()){
+                    if (model.checkIsPossibleClick()) {
                         val context = binding.root.context
                         context.startActivity(Intent(context, ResultActivity::class.java).apply {
                             putExtra(EXTRA_TO_RESULT_DATESTR, infoCalendar.id)
@@ -146,19 +148,20 @@ class CalendarViewHolder(private val binding: ItemCalendarDateBinding, private v
 }
 
 class CalendarRecyclerAdapter(
-    private val baseCalendar: BaseCalendar,
-    private val infoCalendarList: List<InfoCalendar>,
-    private val model: CalendarViewModel
-) : RecyclerView.Adapter<CalendarViewHolder>() {
-    private val minIdxNextMonthDate = baseCalendar.cntPrevMonthDate + baseCalendar.maxDateCurrentMonth
+        private val baseCalendar: BaseCalendar,
+        private val infoCalendarList: List<InfoCalendar>,
+        private val model: CalendarViewModel
+                             ) : RecyclerView.Adapter<CalendarViewHolder>() {
+    private val minIdxNextMonthDate =
+            baseCalendar.cntPrevMonthDate + baseCalendar.maxDateCurrentMonth
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
         val binding: ItemCalendarDateBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.item_calendar_date,
-            parent,
-            false
-        )
+                LayoutInflater.from(parent.context),
+                R.layout.item_calendar_date,
+                parent,
+                false
+                                                                      )
         val itemHeight = parent.measuredHeight / BaseCalendar.LOW_OF_CALENDAR
         binding.dateLayout.layoutParams.height = itemHeight
         return CalendarViewHolder(binding, model)
@@ -183,7 +186,7 @@ class CalendarRecyclerAdapter(
             position % BaseCalendar.DAYS_OF_WEEK == 6 -> {
                 Color.argb(opacity, 0, 0, 255)
             }
-            else -> {
+            else                                      -> {
                 Color.argb(opacity, 0, 0, 0)
             }
         }
