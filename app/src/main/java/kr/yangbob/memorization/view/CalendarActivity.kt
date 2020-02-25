@@ -40,7 +40,7 @@ class CalendarActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
         binding.model = model
 
-        toolBar.title = resources.getString(R.string.calendar_appbar_title)
+        toolBar.title = getString(R.string.calendar_appbar_title)
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

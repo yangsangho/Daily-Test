@@ -65,4 +65,7 @@
     <string name="entire_alert_sort2">문제</string>
     <string name="entire_alert_sort3">등록일</string>
     <string name="entire_alert_title">목록 정렬</string>
+    <string name="test_dormant_appbar_title">휴면 문제</string>
+    <string name="test_dormant_snackbar_msg">휴면 상태를 해제하려면 시험을 보세요.\\n정답을 맞추면 단계가 유지되며, 틀리면 단계가 하락합니다.</string>
+    <string name="confirmation">확인</string>
 </resources>

@@ -10,10 +10,15 @@ import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
 
 class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
+    var isDormant: Boolean = false
+
     fun getTodayNullRecords() =
         memRepo.getNullRecordsFromDate(memRepo.getDateStr(System.currentTimeMillis()))
+    fun insertQst(qst: Qst) = memRepo.insertQst(qst)
+
 
     fun getQstFromId(id: Int) = memRepo.getQstFromId(id)
+    fun getAllDormantQst() = memRepo.getAllDormantQst()
 
     fun update(qst: Qst, qstRecord: QstRecord, isCorrect: Boolean): Boolean {
         val challengeStage = STAGE_LIST[qstRecord.challenge_stage]
@@ -67,5 +72,9 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
         memRepo.insertQst(qst)
         memRepo.insertQstRecord(qstRecord)      // qstRecord를 먼저 insert하니까 사라지네
         return goMove
+    }
+
+    fun updateDormant(qst: Qst, isCorrect: Boolean): Boolean{
+        return false
     }
 }

@@ -19,6 +19,9 @@ interface DaoQst {
 
     @Query("SELECT * FROM qst WHERE is_dormant = 0 AND next_test_date <= :dateStr")
     suspend fun getNeedTesList(dateStr: String): List<Qst>
+
+    @Query("SELECT * FROM Qst WHERE is_dormant = 1")
+    suspend fun getAllDormant(): List<Qst>
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

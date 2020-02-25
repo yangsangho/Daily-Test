@@ -50,9 +50,9 @@ class ResultActivity : AppCompatActivity() {
             val correctRate = if (cntSolved > 0) cntCorrect / cntSolved.toFloat() * 100
             else 0f
 
-            tvInfo.text = if (cntQst <= 0) resources.getString(R.string.status_msg_no_test)
+            tvInfo.text = if (cntQst <= 0) getString(R.string.status_msg_no_test)
             else String.format(
-                resources.getString(R.string.result_info_format),
+                getString(R.string.result_info_format),
                 cntQst,
                 progressRate,
                 correctRate
@@ -66,7 +66,7 @@ class ResultActivity : AppCompatActivity() {
         resultRecycler.layoutManager = LinearLayoutManager(this)
         resultRecycler.adapter = adapter
 
-        appBarTitle = resources.getString(R.string.result_appbar_title)
+        appBarTitle = getString(R.string.result_appbar_title)
         toolBar.title = appBarTitle
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

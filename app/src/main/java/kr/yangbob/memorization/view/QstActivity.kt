@@ -47,7 +47,7 @@ class QstActivity : AppCompatActivity() {
         answerDataText.movementMethod = ScrollingMovementMethod()
 
         // appbar 설정
-        toolBar.title = resources.getString(R.string.qst_appbar_title)
+        toolBar.title = getString(R.string.qst_appbar_title)
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 

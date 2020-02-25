@@ -5,14 +5,17 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_test.*
 import kr.yangbob.memorization.ANIMATION_FULL_TIME
 import kr.yangbob.memorization.ANIMATION_HALF_TIME
 import kr.yangbob.memorization.R
+import kr.yangbob.memorization.Stage
 import kr.yangbob.memorization.databinding.ItemTestViewpageBinding
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstRecord
@@ -31,12 +34,37 @@ class TestActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_test)
 
-        toolBar.title = resources.getString(R.string.test_appbar_title)
+        val testRecordList: List<QstRecord>
+        model.isDormant = intent.getBooleanExtra("isDormant", false)
+        if (model.isDormant) {
+            toolBar.title = getString(R.string.test_dormant_appbar_title)
+            val partitionList = model.getAllDormantQst().partition { it.cur_stage <= Stage.BEGIN_TWO.ordinal }
+            // BEGIN_TWO 이하는 초기화
+            partitionList.first.forEach {
+                it.is_dormant = false
+                it.cur_stage = 0
+                model.insertQst(it) }
+            testRecordList = partitionList.second.map { QstRecord(it.id!!, "", it.cur_stage) }
+
+            if(testRecordList.isEmpty()){
+                // yangbob
+                Toast.makeText(this, "", Toast.LENGTH_LONG).show()
+                finish()
+            } else {
+                val snackBar = Snackbar.make(testLayout, R.string.test_dormant_snackbar_msg, Snackbar.LENGTH_INDEFINITE)
+                snackBar.setAction(R.string.confirmation) {
+                    snackBar.dismiss()
+                }
+                snackBar.show()
+            }
+        } else {
+            toolBar.title = getString(R.string.test_appbar_title)
+            testRecordList = model.getTodayNullRecords()
+        }
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val todayRecords = model.getTodayNullRecords()
-        viewPager.adapter = TestPagerAdapter(todayRecords.shuffled(), model, viewPager, this)
+        viewPager.adapter = TestPagerAdapter(testRecordList.shuffled(), model, viewPager, this)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
@@ -112,7 +140,11 @@ class TestViewHolder(private val model: TestViewModel, private val binding: Item
         } else {
             binding.correct = isCorrect
         }
-        if (model.update(qst, qstRecord, isCorrect)) adapter.move(adapterPosition)
+
+        val goMove = if(model.isDormant) model.updateDormant(qst, isCorrect)
+        else model.update(qst, qstRecord, isCorrect)
+
+        if(goMove) adapter.move(adapterPosition)
     }
 }
 
