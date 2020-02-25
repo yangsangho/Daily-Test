@@ -47,8 +47,7 @@ class TestActivity : AppCompatActivity() {
             testRecordList = partitionList.second.map { QstRecord(it.id!!, "", it.cur_stage) }
 
             if(testRecordList.isEmpty()){
-                // yangbob
-                Toast.makeText(this, "", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, R.string.test_dormant_initialize_msg, Toast.LENGTH_LONG).show()
                 finish()
             } else {
                 val snackBar = Snackbar.make(testLayout, R.string.test_dormant_snackbar_msg, Snackbar.LENGTH_INDEFINITE)
@@ -141,7 +140,7 @@ class TestViewHolder(private val model: TestViewModel, private val binding: Item
             binding.correct = isCorrect
         }
 
-        val goMove = if(model.isDormant) model.updateDormant(qst, isCorrect)
+        val goMove = if(model.isDormant) model.updateDormant(qst, qstRecord, isCorrect)
         else model.update(qst, qstRecord, isCorrect)
 
         if(goMove) adapter.move(adapterPosition)

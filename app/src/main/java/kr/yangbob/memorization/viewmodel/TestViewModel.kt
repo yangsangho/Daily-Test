@@ -74,7 +74,27 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
         return goMove
     }
 
-    fun updateDormant(qst: Qst, isCorrect: Boolean): Boolean{
-        return false
+    fun updateDormant(qst: Qst, qstRecord: QstRecord, isCorrect: Boolean): Boolean{
+        var goMove = true
+        if (qstRecord.is_correct == null){
+            qstRecord.is_correct = isCorrect
+            qst.is_dormant = false
+            if(!isCorrect){
+                qst.cur_stage--
+            }
+            insertQst(qst)
+        } else {
+            if(qstRecord.is_correct == isCorrect){
+                qstRecord.is_correct = null
+                qst.is_dormant = true
+                if(!isCorrect){
+                    qst.cur_stage++
+                }
+                insertQst(qst)
+            } else {
+
+            }
+        }
+        return goMove
     }
 }
