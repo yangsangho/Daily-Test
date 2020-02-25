@@ -1,6 +1,7 @@
 package kr.yangbob.memorization.view
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -31,6 +32,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTestChkAlarm(this)
+        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
         setContentView(R.layout.activity_main)
 
         // ToolBar 설정
@@ -67,7 +71,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_main_write -> {
-            if(model.checkIsPossibleClick()){
+            if (model.checkIsPossibleClick()) {
                 startActivityForResult(Intent(this, AddActivity::class.java), 2)
             }
             true
@@ -85,8 +89,8 @@ class MainActivity : AppCompatActivity() {
         this.doubleBackToExitPressedOnce = true
         Toast.makeText(this, R.string.main_toast_oneMore_back, Toast.LENGTH_SHORT).show()
         Handler().postDelayed(
-            { doubleBackToExitPressedOnce = false },
-            2000
+                { doubleBackToExitPressedOnce = false },
+                2000
         )
     }
 
@@ -100,9 +104,10 @@ class MainActivity : AppCompatActivity() {
 }
 
 class MainPagerFragmentAdapter(mainLifeCycle: Lifecycle, fm: FragmentManager) :
-    FragmentStateAdapter(fm, mainLifeCycle) {
+        FragmentStateAdapter(fm, mainLifeCycle) {
     override fun getItemCount(): Int = 2
-    override fun createFragment(position: Int): Fragment = MainPagerFragment.newInstance(position == 0)
+    override fun createFragment(position: Int): Fragment =
+            MainPagerFragment.newInstance(position == 0)
 }
 
 class MainPagerFragment : Fragment() {
@@ -111,16 +116,16 @@ class MainPagerFragment : Fragment() {
     private var isInit = false
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         isInit = false
         binding = DataBindingUtil.inflate(
-            LayoutInflater.from(context),
-            R.layout.dashboard_module,
-            container,
-            false
+                LayoutInflater.from(context),
+                R.layout.dashboard_module,
+                container,
+                false
         )
         binding.lifecycleOwner = this
         return binding.root
@@ -142,13 +147,15 @@ class MainPagerFragment : Fragment() {
                         model.setTodayTestCount()
                         if (rawList.isNotEmpty()) {
                             val map = rawList.groupBy { qstRecord -> qstRecord.challenge_stage }
-                                .mapValues { it.value.size }.toMutableMap()
+                                    .mapValues { it.value.size }.toMutableMap()
                             STAGE_LIST.filter { it.ordinal > 0 }
-                                .forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
+                                    .forEach {
+                                        if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0
+                                    }
                             val reviewCnt = map[Stage.REVIEW.ordinal]
                             map.remove(Stage.REVIEW.ordinal)
                             map[Stage.AFTER_MONTH.ordinal] =
-                                (map[Stage.AFTER_MONTH.ordinal] ?: 0) + (reviewCnt ?: 0)
+                                    (map[Stage.AFTER_MONTH.ordinal] ?: 0) + (reviewCnt ?: 0)
                             binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
                         }
                     }
@@ -164,10 +171,10 @@ class MainPagerFragment : Fragment() {
                     model.setEntireCardData()
                     if (rawList.isNotEmpty()) {
                         val map =
-                            rawList.groupBy { qst -> qst.cur_stage }.mapValues { it.value.size }
-                                .toMutableMap()
+                                rawList.groupBy { qst -> qst.cur_stage }.mapValues { it.value.size }
+                                        .toMutableMap()
                         STAGE_LIST.filter { it.ordinal < 8 }
-                            .forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
+                                .forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
                         binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
                     }
                     model.setTestCompletionRate()
@@ -177,7 +184,7 @@ class MainPagerFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(isToday: Boolean) =  MainPagerFragment().apply {
+        fun newInstance(isToday: Boolean) = MainPagerFragment().apply {
             arguments = Bundle().apply {
                 putBoolean("isToday", isToday)
             }
@@ -185,23 +192,23 @@ class MainPagerFragment : Fragment() {
     }
 
     fun clickTestBtn(view: View) {
-        if(model.checkIsPossibleClick()){
+        if (model.checkIsPossibleClick()) {
             startActivity(Intent(context, TestActivity::class.java))
         }
     }
 
     fun clickEntireList(view: View) {
 
-        if(model.checkIsPossibleClick()){
+        if (model.checkIsPossibleClick()) {
             startActivityForResult(
-                Intent(context, EntireActivity::class.java),
-                0
+                    Intent(context, EntireActivity::class.java),
+                    0
             )  // main으로 복귀할 때 2번쩨 page로 가도록
         }
     }
 
     fun clickTodayRecord(view: View) {
-        if(model.checkIsPossibleClick()){
+        if (model.checkIsPossibleClick()) {
             startActivity(Intent(context, ResultActivity::class.java).apply {
                 putExtra(EXTRA_TO_RESULT_DATESTR, model.getTodayDateStr())
             })
@@ -209,10 +216,10 @@ class MainPagerFragment : Fragment() {
     }
 
     fun clickEntireRecord(view: View) {
-        if(model.checkIsPossibleClick()){
+        if (model.checkIsPossibleClick()) {
             startActivityForResult(
-                Intent(context, CalendarActivity::class.java),
-                1
+                    Intent(context, CalendarActivity::class.java),
+                    1
             ) // main으로 복귀할 때 2번쩨 page로 가도록
         }
     }

@@ -1,6 +1,7 @@
 package kr.yangbob.memorization.view
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.DisplayMetrics
@@ -30,6 +31,9 @@ class QstActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
         model.setQstId(intent.getIntExtra(EXTRA_TO_QST_ID, -1))
 
         val binding: ActivityQstBinding =

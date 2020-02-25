@@ -1,6 +1,7 @@
 package kr.yangbob.memorization.view
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
@@ -32,6 +33,9 @@ class EntireActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
         setContentView(R.layout.activity_entire)
 
         adapter = EntireRecyclerAdapter(listOf(), model)

@@ -24,10 +24,12 @@
 
         <kr.yangbob.memorization.view.BarChart
             android:id="@+id/dashboardChart"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent=".7"
-            app:layout_constraintBottom_toTopOf="@id/dashboardCard1"
+            app:layout_constraintWidth_percent=".8"
+            app:layout_constraintBottom_toTopOf="@id/dashboardBtnLayout"
+            app:layout_constraintEnd_toStartOf="@id/dashboardCard1"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
@@ -36,10 +38,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:data="@{isToday ? model.todayCard1 : model.entireCard1}"
-            app:layout_constraintBottom_toTopOf="@id/dashboardBtnLayout"
-            app:layout_constraintEnd_toStartOf="@id/dashboardCard2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dashboardChart"
+            app:layout_constraintStart_toEndOf="@id/dashboardChart"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/dashboardCard2"
+            app:layout_constraintEnd_toEndOf="parent"
+
             app:title="@{isToday ? @string/dashboard_today_card1 : @string/dashboard_entire_card1}" />
 
         <include
@@ -47,13 +50,13 @@
             layout="@layout/dashboard_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
             app:data="@{isToday ? model.todayCard2 : model.entireCard2}"
-            app:layout_constraintBottom_toTopOf="@id/dashboardBtnLayout"
-            app:layout_constraintEnd_toStartOf="@id/dashboardCard3"
-            app:layout_constraintStart_toEndOf="@id/dashboardCard1"
-            app:layout_constraintTop_toBottomOf="@id/dashboardChart"
+            app:layout_constraintStart_toEndOf="@id/dashboardChart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dashboardCard1"
+            app:layout_constraintBottom_toTopOf="@id/dashboardCard3"
             app:title="@{isToday ? @string/dashboard_today_card2 : @string/dashboard_entire_card2}" />
 
         <include
@@ -62,23 +65,27 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:data="@{isToday ? model.todayCard3 : model.entireCard3}"
-            app:layout_constraintBottom_toTopOf="@id/dashboardBtnLayout"
+            app:layout_constraintStart_toEndOf="@id/dashboardChart"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/dashboardCard2"
-            app:layout_constraintTop_toBottomOf="@id/dashboardChart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dashboardCard2"
             app:title="@{isToday ? @string/dashboard_today_card3 : @string/dashboard_entire_card3}" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dashboardBtnLayout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/dashboardCard1"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/dashboardBtn1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/colorPrimary"
                 android:onClick="@{isToday ? fragment::clickTestBtn : fragment::clickEntireList}"
@@ -97,7 +104,9 @@
                 android:id="@+id/dashboardBtn2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/colorPrimary"
                 android:onClick="@{isToday ? fragment::clickTodayRecord : fragment::clickEntireRecord}"

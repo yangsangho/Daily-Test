@@ -4,6 +4,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/basicBackground</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:statusBarColor">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/white</item>
@@ -35,5 +36,9 @@
         <item name="windowFixedWidthMinor">@dimen/align_dialog_width_minor</item>
         <!-- window ~~ Major : 최대크기, minor : 최소크기   -> %로 비율 지정-->
 <!--        근데 minor에 따라 달라지네...??-->
+    </style>
+
+    <style name="TabLayoutTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
     </style>
 </resources>

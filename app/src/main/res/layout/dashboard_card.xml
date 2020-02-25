@@ -17,32 +17,29 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/delimiter_horizontal">
+        android:background="@color/white">
 
         <TextView
+            android:id="@+id/cardTitle"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:ellipsize="end"
+            app:layout_constraintHeight_percent=".3"
             android:gravity="center"
             android:maxLines="1"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:text="@{title}"
             app:autoSizeTextType="uniform"
             app:autoSizeMaxTextSize="@dimen/size_basic"
             android:textColor="@color/darkGray"
-            app:layout_constraintBottom_toTopOf="@id/glH"
+            app:layout_constraintBottom_toTopOf="@id/cardData"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Test Completion" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/glH"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.3" />
-
         <TextView
+            android:id="@+id/cardData"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:ellipsize="end"
@@ -56,7 +53,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/glH"
+            app:layout_constraintTop_toBottomOf="@id/cardTitle"
             android:lines="2"
             tools:text="1,024" />
 

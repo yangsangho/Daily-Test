@@ -1,12 +1,10 @@
 package kr.yangbob.memorization.view
 
 import android.app.Activity
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -28,6 +26,9 @@ class TestActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
         setContentView(R.layout.activity_test)
 
         toolBar.title = resources.getString(R.string.test_appbar_title)
@@ -36,10 +37,9 @@ class TestActivity : AppCompatActivity() {
 
         val todayRecords = model.getTodayNullRecords()
         viewPager.adapter = TestPagerAdapter(todayRecords.shuffled(), model, viewPager, this)
-        viewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =  when(item.itemId){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         android.R.id.home -> {
             finish()
             true
@@ -48,11 +48,7 @@ class TestActivity : AppCompatActivity() {
     }
 }
 
-class TestViewHolder(
-    private val model: TestViewModel,
-    private val binding: ItemTestViewpageBinding,
-    private val adapter: TestPagerAdapter
-) : RecyclerView.ViewHolder(binding.root) {
+class TestViewHolder(private val model: TestViewModel, private val binding: ItemTestViewpageBinding, private val adapter: TestPagerAdapter) : RecyclerView.ViewHolder(binding.root) {
     private val card = binding.card
     private val tvQstAnswer = binding.tvQstAnswer.apply {
         movementMethod = ScrollingMovementMethod()
@@ -86,50 +82,49 @@ class TestViewHolder(
         card.cameraDistance = (10 * card.width).toFloat()
         if (binding.isFront!!) {
             tvQstAnswer.animate().setDuration(ANIMATION_HALF_TIME).alpha(1.0f)
-                .withEndAction {
-                    binding.strData = qst.answer
-                    tvQstAnswer.rotationY = -180f
-                    correctChkIcon.rotationY = -180f
-                    qnaIcon.rotationY = -180f
-                    stageIcon.rotationY = -180f
-                    binding.isFront = false
-                }
+                    .withEndAction {
+                        binding.strData = qst.answer
+                        tvQstAnswer.rotationY = -180f
+                        correctChkIcon.rotationY = -180f
+                        qnaIcon.rotationY = -180f
+                        stageIcon.rotationY = -180f
+                        binding.isFront = false
+                    }
             card.animate().setDuration(ANIMATION_FULL_TIME).rotationY(-180f)
         } else {
             tvQstAnswer.animate().setDuration(ANIMATION_HALF_TIME).alpha(1.0f)
-                .withEndAction {
-                    binding.strData = qst.title
-                    tvQstAnswer.rotationY = 0f
-                    correctChkIcon.rotationY = 0f
-                    qnaIcon.rotationY = 0f
-                    stageIcon.rotationY = 0f
-                    binding.isFront = true
-                }
+                    .withEndAction {
+                        binding.strData = qst.title
+                        tvQstAnswer.rotationY = 0f
+                        correctChkIcon.rotationY = 0f
+                        qnaIcon.rotationY = 0f
+                        stageIcon.rotationY = 0f
+                        binding.isFront = true
+                    }
             card.animate().setDuration(ANIMATION_FULL_TIME).rotationY(0f)
         }
     }
 
-    fun clickChk(view: View){
-        val isCorrect = view.id == R.id.btnChkSuccess
-        if(binding.correct == isCorrect){
+    fun clickChk(view: View) {
+        val isCorrect = view.id == R.id.btnSuccessLayout
+        if (binding.correct == isCorrect) {
             binding.correct = null
         } else {
             binding.correct = isCorrect
         }
-        if(model.update(qst, qstRecord, isCorrect)) adapter.move(adapterPosition)
+        if (model.update(qst, qstRecord, isCorrect)) adapter.move(adapterPosition)
     }
 }
 
-class TestPagerAdapter(private val testList: List<QstRecord>, private val model: TestViewModel, private val pager: ViewPager2, private val activity: Activity) :
-    RecyclerView.Adapter<TestViewHolder>() {
+class TestPagerAdapter(private val testList: List<QstRecord>, private val model: TestViewModel, private val pager: ViewPager2, private val activity: Activity) : RecyclerView.Adapter<TestViewHolder>() {
     override fun getItemCount(): Int = testList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestViewHolder {
         val binding: ItemTestViewpageBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.item_test_viewpage,
-            parent,
-            false
+                LayoutInflater.from(parent.context),
+                R.layout.item_test_viewpage,
+                parent,
+                false
         )
         return TestViewHolder(model, binding, this)
     }
@@ -138,14 +133,14 @@ class TestPagerAdapter(private val testList: List<QstRecord>, private val model:
         holder.onBind(testList[position])
     }
 
-    fun move(position: Int){
-        if(!testList.any { it.is_correct == null }){
+    fun move(position: Int) {
+        if (!testList.any { it.is_correct == null }) {
             activity.finish()
             return
         }
 
-        val newList = testList.mapIndexed{index, qstRecord -> index to qstRecord }.filter { it.second.is_correct == null }
-        if(newList.any { it.first > position }){
+        val newList = testList.mapIndexed { index, qstRecord -> index to qstRecord }.filter { it.second.is_correct == null }
+        if (newList.any { it.first > position }) {
             pager.currentItem = newList.first { it.first > position }.first
         } else {
             pager.currentItem = newList.first().first
