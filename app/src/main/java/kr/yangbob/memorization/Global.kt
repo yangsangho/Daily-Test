@@ -17,8 +17,8 @@ const val EXTRA_TO_RESULT_DATESTR = "dateStr"
 const val EXTRA_TO_QST_ID = "qstID"
 
 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-val todayDateStr = dateFormat.format(Date(System.currentTimeMillis()))
-val todayTime = dateFormat.parse(todayDateStr)?.time ?: 0
+val todayDateStr: String = dateFormat.format(Date(System.currentTimeMillis()))
+val todayTime: Long = dateFormat.parse(todayDateStr)?.time ?: 0
 
 val STAGE_LIST = Stage.values()
 

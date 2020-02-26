@@ -25,6 +25,8 @@ class MemRepository(memDB: MemDatabase) {
 
     fun insertQst(qst: Qst) = runBlocking { daoQst.insert(qst) }
 
+    fun getAllDormantQstLD(): LiveData<List<Qst>> = daoQst.getAllDormantLD()
+
     fun getAllDormantQst(): List<Qst> = runBlocking { daoQst.getAllDormant() }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

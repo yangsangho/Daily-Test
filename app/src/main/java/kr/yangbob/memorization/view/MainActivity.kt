@@ -42,6 +42,28 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolBar)
         supportActionBar?.setIcon(R.drawable.ic_appbar_icon)
 
+        model.getDormantQstList().observe(this, Observer {
+            if(it.isEmpty()){
+                if(dormantBtn.visibility == View.VISIBLE){
+                    dormantBtn.visibility = View.GONE
+                    dormantCnt.visibility = View.GONE
+                }
+            } else {
+                if(dormantBtn.visibility == View.GONE){
+                    dormantBtn.visibility = View.VISIBLE
+                    dormantCnt.visibility = View.VISIBLE
+                }
+                if(it.size > 99) dormantCnt.text = "99+"
+                else dormantCnt.text = "${it.size}"
+            }
+        })
+
+        dormantBtn.setOnClickListener {
+            startActivity(Intent(this, TestActivity::class.java).apply {
+                putExtra("isDormant", true)
+            })
+        }
+
         // Viewpager 및 TabLayout 설정
         mainViewPager.adapter = MainPagerFragmentAdapter(lifecycle, supportFragmentManager)
         mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL

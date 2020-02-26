@@ -8,17 +8,21 @@ import kr.yangbob.memorization.Stage
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
+import kr.yangbob.memorization.todayTime
 
 class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
     var isDormant: Boolean = false
 
     fun getTodayNullRecords() =
-        memRepo.getNullRecordsFromDate(memRepo.getDateStr(System.currentTimeMillis()))
+            memRepo.getNullRecordsFromDate(memRepo.getDateStr(System.currentTimeMillis()))
+
     fun insertQst(qst: Qst) = memRepo.insertQst(qst)
 
 
     fun getQstFromId(id: Int) = memRepo.getQstFromId(id)
     fun getAllDormantQst() = memRepo.getAllDormantQst()
+
+    fun getDateStr(time: Long): String = memRepo.getDateStr(time)
 
     fun update(qst: Qst, qstRecord: QstRecord, isCorrect: Boolean): Boolean {
         val challengeStage = STAGE_LIST[qstRecord.challenge_stage]
@@ -41,7 +45,7 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
                         if (challengeStage != Stage.REVIEW) qst.cur_stage--
                         -challengeStage.nextTest
                     } else {
-                        if(challengeStage <= Stage.BEGIN_TWO) qst.cur_stage--
+                        if (challengeStage <= Stage.BEGIN_TWO) qst.cur_stage--
                         -curStage.nextTest
                     }
                     qstRecord.is_correct = null
@@ -63,7 +67,7 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
                 }
             }
         }
-        if(goMove) qstRecord.is_correct = isCorrect
+        if (goMove) qstRecord.is_correct = isCorrect
         val newNextDate = currentNextDate + MILLIS_A_DAY * cntAfterDay
         qst.next_test_date = memRepo.getDateStr(newNextDate)
 
@@ -74,27 +78,31 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
         return goMove
     }
 
-    fun updateDormant(qst: Qst, qstRecord: QstRecord, isCorrect: Boolean): Boolean{
+    fun updateDormant(qst: Qst, qstRecord: QstRecord, isCorrect: Boolean): Boolean {
         var goMove = true
-        if (qstRecord.is_correct == null){
+        if (qstRecord.is_correct == null) {
             qstRecord.is_correct = isCorrect
             qst.is_dormant = false
-            if(!isCorrect){
+            if (!isCorrect) {
                 qst.cur_stage--
             }
-            insertQst(qst)
+            qst.next_test_date = memRepo.getDateStr(todayTime + (STAGE_LIST[qst.cur_stage].nextTest * MILLIS_A_DAY))
         } else {
-            if(qstRecord.is_correct == isCorrect){
+            if (qstRecord.is_correct == isCorrect) {
                 qstRecord.is_correct = null
                 qst.is_dormant = true
-                if(!isCorrect){
+                if (!isCorrect) {
                     qst.cur_stage++
                 }
-                insertQst(qst)
+                goMove = false
             } else {
-
+                qstRecord.is_correct = isCorrect
+                if (isCorrect) qst.cur_stage++
+                else qst.cur_stage--
+                qst.next_test_date = memRepo.getDateStr(todayTime + (STAGE_LIST[qst.cur_stage].nextTest * MILLIS_A_DAY))
             }
         }
+        insertQst(qst)
         return goMove
     }
 }

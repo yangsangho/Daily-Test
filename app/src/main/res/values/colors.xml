@@ -4,6 +4,7 @@
     <color name="colorPrimary">#2984E6</color>
     <color name="colorPrimaryDark">#003c8f</color>
     <color name="colorAccent">@android:color/holo_orange_light</color>
+    <color name="accent">#FD3A3A</color>
     <color name="basicBackground">#F3F3F3</color>
     <color name="lightGray">#F3F3F3</color>
     <color name="darkGray">#CBCBCB</color>

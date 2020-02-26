@@ -5,6 +5,7 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -12,10 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_test.*
-import kr.yangbob.memorization.ANIMATION_FULL_TIME
-import kr.yangbob.memorization.ANIMATION_HALF_TIME
-import kr.yangbob.memorization.R
-import kr.yangbob.memorization.Stage
+import kr.yangbob.memorization.*
 import kr.yangbob.memorization.databinding.ItemTestViewpageBinding
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstRecord
@@ -43,6 +41,7 @@ class TestActivity : AppCompatActivity() {
             partitionList.first.forEach {
                 it.is_dormant = false
                 it.cur_stage = 0
+                it.next_test_date = model.getDateStr(todayTime + MILLIS_A_DAY)
                 model.insertQst(it) }
             testRecordList = partitionList.second.map { QstRecord(it.id!!, "", it.cur_stage) }
 
@@ -54,6 +53,7 @@ class TestActivity : AppCompatActivity() {
                 snackBar.setAction(R.string.confirmation) {
                     snackBar.dismiss()
                 }
+                snackBar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).maxLines = 3
                 snackBar.show()
             }
         } else {

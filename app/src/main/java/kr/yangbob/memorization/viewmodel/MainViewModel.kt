@@ -9,25 +9,24 @@ import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.workForNextTest
 
 class MainViewModel(private val memRepo: MemRepository, application: Application) :
-    AndroidViewModel(application) {
+        AndroidViewModel(application) {
     private val logTag = "MainViewModel"
 
     private var isPossibleClick = false
-    fun resetIsPossibleClick(){
+    fun resetIsPossibleClick() {
         isPossibleClick = false
     }
-    fun checkIsPossibleClick(): Boolean{
-        return if(isPossibleClick){
-            false
-        } else {
-            isPossibleClick = true
-            true
-        }
-    }
+
+    fun checkIsPossibleClick(): Boolean =
+            if (isPossibleClick) false
+            else {
+                isPossibleClick = true
+                true
+            }
 
     private val qstListLD = memRepo.getAllQstLD()
-    private val todayQstRecordLD =
-        memRepo.getAllRecordLDFromDate(memRepo.getDateStr(System.currentTimeMillis()))
+    private val dormantQstListLD = memRepo.getAllDormantQstLD()
+    private val todayQstRecordLD = memRepo.getAllRecordLDFromDate(memRepo.getDateStr(System.currentTimeMillis()))
 
     val todayCard1 = MutableLiveData<String>()      // 오늘의 시험 문항수
     val todayCard2 = MutableLiveData<String>()      // 시험 진행 상태
@@ -37,8 +36,9 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     val entireCard3 = MutableLiveData<String>()     // 일일 평균 등록 개수
 
     fun getQstList() = qstListLD
+    fun getDormantQstList() = dormantQstListLD
     fun getQstRecordList() = todayQstRecordLD
-    fun getTodayDateStr(): String = memRepo.getDateStr( System.currentTimeMillis() )
+    fun getTodayDateStr(): String = memRepo.getDateStr(System.currentTimeMillis())
 
     // 문제 추가될 때마다 실행(LiveData) - 전체 문항수, 일일 평균 등록 개수
     fun setEntireCardData() {
@@ -59,7 +59,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     }
 
     // 시험 보기 intent result 받고 재 실행 필요 - 시험 진행상태, 정답률
-    // Return = 시험 완료 여부 (needTestBtnDisable)
+// Return = 시험 완료 여부 (needTestBtnDisable)
     fun setTodayCardData(): Boolean {
         var needTestBtnDisable = false
         var needAddPostfix = false
@@ -71,25 +71,25 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
         Log.i(logTag, "listSize = $cntList, cntSolved = $cntSolved, cntCorrect = $cntCorrect")
 
         val todayCard2Text = getApplication<Application>().resources.getString(
-            when {
-                cntList == 0 -> {
-                    needTestBtnDisable = true
-                    R.string.status_msg_no_test
+                when {
+                    cntList == 0 -> {
+                        needTestBtnDisable = true
+                        R.string.status_msg_no_test
+                    }
+                    cntSolved == 0 -> {
+                        R.string.status_msg_no_start
+                    }
+                    cntList != cntSolved -> {
+                        needAddPostfix = true
+                        R.string.status_msg_ongoing
+                    }
+                    else -> {
+                        needTestBtnDisable = true
+                        R.string.status_msg_complete
+                    }
                 }
-                cntSolved == 0 -> {
-                    R.string.status_msg_no_start
-                }
-                cntList != cntSolved -> {
-                    needAddPostfix = true
-                    R.string.status_msg_ongoing
-                }
-                else -> {
-                    needTestBtnDisable = true
-                    R.string.status_msg_complete
-                }
-            }
         )
-        todayCard2.value = if(needAddPostfix) "$todayCard2Text\n($cntSolved/$cntList)" else todayCard2Text
+        todayCard2.value = if (needAddPostfix) "$todayCard2Text\n($cntSolved/$cntList)" else todayCard2Text
 
         todayCard3.value = if (cntSolved > 0) {
             String.format("%.1f%%", cntCorrect / cntSolved.toFloat() * 100)
@@ -103,7 +103,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     }
 
     // 시험 보기 intent result 받고 재 실행 필요 - 시험 완료율
-    // completedCnt과 entireDate에는 시작일이 포함되어 있음
+// completedCnt과 entireDate에는 시작일이 포함되어 있음
     fun setTestCompletionRate() {
         val completedCnt = memRepo.getCompletedDateCnt()
         val cntHasTest = memRepo.getCalCntHasTest()
@@ -112,6 +112,8 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
             String.format("%.1f%%", completedCnt / cntHasTest.toFloat() * 100)
         } else "-"
     }
+
+
 
     init {
         workForNextTest(memRepo)

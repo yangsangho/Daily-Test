@@ -21,6 +21,9 @@ interface DaoQst {
     suspend fun getNeedTesList(dateStr: String): List<Qst>
 
     @Query("SELECT * FROM Qst WHERE is_dormant = 1")
+    fun getAllDormantLD(): LiveData<List<Qst>>
+
+    @Query("SELECT * FROM Qst WHERE is_dormant = 1")
     suspend fun getAllDormant(): List<Qst>
 }
 
