@@ -21,10 +21,10 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
         }
     }
 
-    private val _strMonth = MutableLiveData<String>()
-    private val _strYear = MutableLiveData<String>()
-    val strMonth: LiveData<String> = _strMonth
-    val strYear: LiveData<String> = _strYear
+    private val _month = MutableLiveData<Int>()
+    private val _year = MutableLiveData<Int>()
+    val month: LiveData<Int> = _month
+    val year: LiveData<Int> = _year
     private val infoCalendarList: List<InfoCalendar> = memRepo.getAllInfoCalendar()
 
     fun getQstCalendarList(yearMonth: Int) = infoCalendarList.filter {
@@ -45,8 +45,8 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     }
 
     fun setCalendar(yearMonth: String) {
-        _strMonth.value = "${yearMonth.substring(4)}월"
-        _strYear.value = "${yearMonth.substring(0, 4)}년"
+        _month.value = yearMonth.substring(4).toInt() - 1
+        _year.value = yearMonth.substring(0, 4).toInt()
     }
 
     private tailrec fun makeCalList(

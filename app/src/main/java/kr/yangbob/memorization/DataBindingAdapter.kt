@@ -8,6 +8,19 @@ import androidx.databinding.BindingAdapter
 import java.text.DateFormat
 
 object DataBindingAdapter {
+    @BindingAdapter("app:setMonth")
+    @JvmStatic
+    fun setMonth(view: TextView, month: Int){
+        view.text = view.context.resources.getStringArray(R.array.calendar_month)[month]
+    }
+
+    @BindingAdapter("app:setYear")
+    @JvmStatic
+    fun setYear(view: TextView, year: Int){
+        view.text = String.format(view.context.resources.getString(R.string.calendar_year), year)
+    }
+
+
     @BindingAdapter("app:complete")
     @JvmStatic
     fun setCompleteIcon(view: ImageView, complete: Boolean?){

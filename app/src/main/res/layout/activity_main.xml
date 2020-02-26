@@ -56,13 +56,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
+            android:visibility="gone"
             app:srcCompat="@drawable/ic_dormant" />
 
         <TextView
             android:id="@+id/dormantCnt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
+            android:layout_gravity="end"
             android:background="@drawable/round"
             android:elevation="8dp"
             android:gravity="center"
@@ -71,6 +72,7 @@
             android:textColor="@color/colorAccent"
             android:textSize="12sp"
             android:textStyle="bold"
+            android:visibility="gone"
             tools:text="1" />
 
     </FrameLayout>

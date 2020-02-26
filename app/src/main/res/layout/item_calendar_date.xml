@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="isNeedBackground"
             type="Boolean" />
@@ -20,49 +21,53 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/dateLayout"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@{isNeedBackground ? @drawable/border : null}"
-        android:paddingTop="4dp">
+        android:layout_height="34dp"
+        android:background="@{isNeedBackground ? @drawable/border : null}">
 
         <TextView
             android:id="@+id/tvDateNum"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_height="0dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:gravity="center|top"
+            app:autoSizeMaxTextSize="@dimen/size_basic"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@id/dateDataLayout"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="1" />
 
-        <ImageView
-            android:id="@+id/completeIcon"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/dateDataLayout"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="2dp"
-            android:visibility="invisible"
-            android:scaleType="centerInside"
-            app:complete="@{isCompleted}"
+            android:paddingBottom="2dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDateNum"
-            app:srcCompat="@drawable/ic_no_circle_black_24dp"
-            android:tint="@color/darkGray"/>
+            app:layout_constraintTop_toBottomOf="@id/tvDateNum">
 
-        <TextView
-            android:id="@+id/tvDesc"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="2dp"
-            android:gravity="center"
-            android:text="@{isStart ? @string/calendar_item_start_date : @string/calendar_item_today}"
-            android:textColor="@color/darkGray"
-            android:visibility="gone"
-            app:autoSizeMaxTextSize="@dimen/size_basic"
-            app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvDateNum" />
+            <ImageView
+                android:id="@+id/completeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:scaleType="centerInside"
+                android:tint="@color/darkGray"
+                android:visibility="gone"
+                app:complete="@{isCompleted}"
+                app:srcCompat="@drawable/ic_no_circle_black_24dp" />
 
-
+            <TextView
+                android:id="@+id/tvDesc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center|top"
+                android:text="@{isStart ? @string/calendar_item_start_date : @string/calendar_item_today}"
+                android:textColor="@color/darkGray"
+                android:visibility="gone"
+                app:autoSizeMaxTextSize="@dimen/size_basic"
+                app:autoSizeTextType="uniform"
+                tools:text="시작일" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
