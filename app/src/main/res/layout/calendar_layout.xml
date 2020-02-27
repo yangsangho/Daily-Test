@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/day1"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day8"
+            app:layout_constraintEnd_toStartOf="@id/day2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day2"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day9"
+            app:layout_constraintEnd_toStartOf="@id/day3"
+            app:layout_constraintStart_toEndOf="@id/day1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day3"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day10"
+            app:layout_constraintEnd_toStartOf="@id/day4"
+            app:layout_constraintStart_toEndOf="@id/day2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day4"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day11"
+            app:layout_constraintEnd_toStartOf="@id/day5"
+            app:layout_constraintStart_toEndOf="@id/day3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day5"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day12"
+            app:layout_constraintEnd_toStartOf="@id/day6"
+            app:layout_constraintStart_toEndOf="@id/day4"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day6"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day13"
+            app:layout_constraintEnd_toStartOf="@id/day7"
+            app:layout_constraintStart_toEndOf="@id/day5"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day7"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day14"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/day6"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/day8"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day15"
+            app:layout_constraintEnd_toStartOf="@id/day9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/day1"/>
+
+        <include
+            android:id="@+id/day9"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day16"
+            app:layout_constraintEnd_toStartOf="@id/day10"
+            app:layout_constraintStart_toEndOf="@id/day8"
+            app:layout_constraintTop_toBottomOf="@id/day2" />
+
+        <include
+            android:id="@+id/day10"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day17"
+            app:layout_constraintEnd_toStartOf="@id/day11"
+            app:layout_constraintStart_toEndOf="@id/day9"
+            app:layout_constraintTop_toBottomOf="@id/day3" />
+
+        <include
+            android:id="@+id/day11"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day18"
+            app:layout_constraintEnd_toStartOf="@id/day12"
+            app:layout_constraintStart_toEndOf="@id/day10"
+            app:layout_constraintTop_toBottomOf="@id/day4" />
+
+        <include
+            android:id="@+id/day12"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day19"
+            app:layout_constraintEnd_toStartOf="@id/day13"
+            app:layout_constraintStart_toEndOf="@id/day11"
+            app:layout_constraintTop_toBottomOf="@id/day5" />
+
+        <include
+            android:id="@+id/day13"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day20"
+            app:layout_constraintEnd_toStartOf="@id/day14"
+            app:layout_constraintStart_toEndOf="@id/day12"
+            app:layout_constraintTop_toBottomOf="@id/day6" />
+
+        <include
+            android:id="@+id/day14"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day21"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/day13"
+            app:layout_constraintTop_toBottomOf="@id/day7" />
+
+        <include
+            android:id="@+id/day15"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day22"
+            app:layout_constraintEnd_toStartOf="@id/day16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/day8"/>
+
+        <include
+            android:id="@+id/day16"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day23"
+            app:layout_constraintEnd_toStartOf="@id/day17"
+            app:layout_constraintStart_toEndOf="@id/day15"
+            app:layout_constraintTop_toBottomOf="@id/day9" />
+
+        <include
+            android:id="@+id/day17"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day24"
+            app:layout_constraintEnd_toStartOf="@id/day18"
+            app:layout_constraintStart_toEndOf="@id/day16"
+            app:layout_constraintTop_toBottomOf="@id/day10" />
+
+        <include
+            android:id="@+id/day18"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day25"
+            app:layout_constraintEnd_toStartOf="@id/day19"
+            app:layout_constraintStart_toEndOf="@id/day17"
+            app:layout_constraintTop_toBottomOf="@id/day11" />
+
+        <include
+            android:id="@+id/day19"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day26"
+            app:layout_constraintEnd_toStartOf="@id/day20"
+            app:layout_constraintStart_toEndOf="@id/day18"
+            app:layout_constraintTop_toBottomOf="@id/day12" />
+
+        <include
+            android:id="@+id/day20"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day27"
+            app:layout_constraintEnd_toStartOf="@id/day21"
+            app:layout_constraintStart_toEndOf="@id/day19"
+            app:layout_constraintTop_toBottomOf="@id/day13" />
+
+        <include
+            android:id="@+id/day21"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day28"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/day20"
+            app:layout_constraintTop_toBottomOf="@id/day14" />
+
+        <include
+            android:id="@+id/day22"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day29"
+            app:layout_constraintEnd_toStartOf="@id/day23"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/day15" />
+
+        <include
+            android:id="@+id/day23"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day30"
+            app:layout_constraintEnd_toStartOf="@id/day24"
+            app:layout_constraintStart_toEndOf="@id/day22"
+            app:layout_constraintTop_toBottomOf="@id/day16" />
+
+        <include
+            android:id="@+id/day24"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day31"
+            app:layout_constraintEnd_toStartOf="@id/day25"
+            app:layout_constraintStart_toEndOf="@id/day23"
+            app:layout_constraintTop_toBottomOf="@id/day17" />
+
+        <include
+            android:id="@+id/day25"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day32"
+            app:layout_constraintEnd_toStartOf="@id/day26"
+            app:layout_constraintStart_toEndOf="@id/day24"
+            app:layout_constraintTop_toBottomOf="@id/day18" />
+
+        <include
+            android:id="@+id/day26"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day33"
+            app:layout_constraintEnd_toStartOf="@id/day27"
+            app:layout_constraintStart_toEndOf="@id/day25"
+            app:layout_constraintTop_toBottomOf="@id/day19" />
+
+        <include
+            android:id="@+id/day27"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day34"
+            app:layout_constraintEnd_toStartOf="@id/day28"
+            app:layout_constraintStart_toEndOf="@id/day26"
+            app:layout_constraintTop_toBottomOf="@id/day20" />
+
+        <include
+            android:id="@+id/day28"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day35"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/day27"
+            app:layout_constraintTop_toBottomOf="@id/day21" />
+
+        <include
+            android:id="@+id/day29"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day36"
+            app:layout_constraintEnd_toStartOf="@id/day30"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/day22"/>
+
+        <include
+            android:id="@+id/day30"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day37"
+            app:layout_constraintEnd_toStartOf="@id/day31"
+            app:layout_constraintStart_toEndOf="@id/day29"
+            app:layout_constraintTop_toBottomOf="@id/day23" />
+
+        <include
+            android:id="@+id/day31"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day38"
+            app:layout_constraintEnd_toStartOf="@id/day32"
+            app:layout_constraintStart_toEndOf="@id/day30"
+            app:layout_constraintTop_toBottomOf="@id/day24" />
+
+        <include
+            android:id="@+id/day32"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day39"
+            app:layout_constraintEnd_toStartOf="@id/day33"
+            app:layout_constraintStart_toEndOf="@id/day31"
+            app:layout_constraintTop_toBottomOf="@id/day25" />
+
+        <include
+            android:id="@+id/day33"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day40"
+            app:layout_constraintEnd_toStartOf="@id/day34"
+            app:layout_constraintStart_toEndOf="@id/day32"
+            app:layout_constraintTop_toBottomOf="@id/day26" />
+
+        <include
+            android:id="@+id/day34"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day41"
+            app:layout_constraintEnd_toStartOf="@id/day35"
+            app:layout_constraintStart_toEndOf="@id/day33"
+            app:layout_constraintTop_toBottomOf="@id/day27" />
+
+        <include
+            android:id="@+id/day35"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/day42"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/day34"
+            app:layout_constraintTop_toBottomOf="@id/day28" />
+
+        <include
+            android:id="@+id/day36"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day37"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/day29" />
+
+        <include
+            android:id="@+id/day37"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day38"
+            app:layout_constraintStart_toEndOf="@id/day36"
+            app:layout_constraintTop_toBottomOf="@id/day30" />
+
+        <include
+            android:id="@+id/day38"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day39"
+            app:layout_constraintStart_toEndOf="@id/day37"
+            app:layout_constraintTop_toBottomOf="@id/day31" />
+
+        <include
+            android:id="@+id/day39"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day40"
+            app:layout_constraintStart_toEndOf="@id/day38"
+            app:layout_constraintTop_toBottomOf="@id/day32" />
+
+        <include
+            android:id="@+id/day40"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day41"
+            app:layout_constraintStart_toEndOf="@id/day39"
+            app:layout_constraintTop_toBottomOf="@id/day33" />
+
+        <include
+            android:id="@+id/day41"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/day42"
+            app:layout_constraintStart_toEndOf="@id/day40"
+            app:layout_constraintTop_toBottomOf="@id/day34" />
+
+        <include
+            android:id="@+id/day42"
+            layout="@layout/calendar_day_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/day41"
+            app:layout_constraintTop_toBottomOf="@id/day35" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
