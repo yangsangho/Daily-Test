@@ -21,7 +21,7 @@ class MemRepository(memDB: MemDatabase) {
     fun getQstFromId(id: Int): Qst = runBlocking { daoQst.getFromId(id) }
 
     fun getNeedTestList(dateStr: String): List<Qst> =
-        runBlocking { daoQst.getNeedTesList(dateStr) }
+            runBlocking { daoQst.getNeedTesList(dateStr) }
 
     fun insertQst(qst: Qst) = runBlocking { daoQst.insert(qst) }
 
@@ -34,17 +34,18 @@ class MemRepository(memDB: MemDatabase) {
 //    fun getAllCalendar(): List<QstCalendar> = runBlocking { daoQstCalendar.getAll() }
     fun getAllInfoCalendar(): List<InfoCalendar> = runBlocking {
         val list = daoQstCalendar.getAll()
-        list.map{ qstCalendar ->
+        val infoCalList = list.map { qstCalendar ->
             val dateStr = qstCalendar.id
             val yearMonth = "${dateStr.substring(0, 4)}${dateStr.substring(5, 7)}".toInt()
             val date = dateStr.substring(8).toInt()
 
             InfoCalendar(
-                dateStr,
-                yearMonth, date,
-                qstCalendar.test_completion
+                    dateStr, yearMonth, date,
+                    qstCalendar.test_completion
             )
         }
+        infoCalList.first().isStartDay = true
+        infoCalList
     }
 
     fun getStartDateStr(): String = runBlocking { daoQstCalendar.getStartDateStr() }
@@ -54,16 +55,16 @@ class MemRepository(memDB: MemDatabase) {
     fun getCompletedDateCnt(): Int = runBlocking { daoQstCalendar.getCompletedDateCnt() }
 
     fun insertQstCalendar(qstCalendar: QstCalendar) =
-        runBlocking { daoQstCalendar.insert(qstCalendar) }
+            runBlocking { daoQstCalendar.insert(qstCalendar) }
 
     fun updateCalComplete() =
-        runBlocking {
-            val qstCalendar = daoQstCalendar.getFromId(todayDateStr)
-            if (qstCalendar.test_completion != null) {
-                qstCalendar.test_completion = true
-                daoQstCalendar.insert(qstCalendar)
+            runBlocking {
+                val qstCalendar = daoQstCalendar.getFromId(todayDateStr)
+                if (qstCalendar.test_completion != null) {
+                    qstCalendar.test_completion = true
+                    daoQstCalendar.insert(qstCalendar)
+                }
             }
-        }
 
     fun getCalCntHasTest(): Int = runBlocking { daoQstCalendar.getCntHasTest() }
 
@@ -72,16 +73,18 @@ class MemRepository(memDB: MemDatabase) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// QstRecord
 //    fun getAllRecord(): List<QstRecord> = runBlocking { daoQstRecord.getAll() }
+    fun getAllRecordFromDate(dateStr: String): List<QstRecord> = runBlocking { daoQstRecord.getAllFromDate(dateStr) }
+
     fun getAllRecordFromId(id: Int): List<QstRecord> = runBlocking { daoQstRecord.getAllFromId(id) }
 
     fun getAllRecordWithName(dateStr: String): LiveData<List<QstRecordWithName>> =
-        daoQstRecord.getAllWithName(dateStr)
+            daoQstRecord.getAllWithName(dateStr)
 
     fun getAllRecordLDFromDate(dateStr: String): LiveData<List<QstRecord>> =
-        daoQstRecord.getAllFromDate(dateStr)
+            daoQstRecord.getAllLDFromDate(dateStr)
 
     fun getNullRecordsFromDate(dateStr: String): List<QstRecord> =
-        runBlocking { daoQstRecord.getNullListFromDate(dateStr) }
+            runBlocking { daoQstRecord.getNullListFromDate(dateStr) }
 
     fun insertQstRecord(qstRecord: QstRecord) = runBlocking { daoQstRecord.insert(qstRecord) }
 

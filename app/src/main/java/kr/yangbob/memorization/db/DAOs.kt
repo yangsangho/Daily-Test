@@ -71,7 +71,10 @@ interface DaoQstRecord {
     fun getAllWithName(dateStr: String): LiveData<List<QstRecordWithName>>
 
     @Query("SELECT * FROM QstRecord WHERE calendar_id == :dateStr")
-    fun getAllFromDate(dateStr: String): LiveData<List<QstRecord>>
+    fun getAllLDFromDate(dateStr: String): LiveData<List<QstRecord>>
+
+    @Query("SELECT * FROM QstRecord WHERE calendar_id == :dateStr")
+    suspend fun getAllFromDate(dateStr: String): List<QstRecord>
 
     @Query("SELECT * FROM QstRecord WHERE calendar_id == :dateStr AND is_correct IS NULL")
     suspend fun getNullListFromDate(dateStr: String): List<QstRecord>

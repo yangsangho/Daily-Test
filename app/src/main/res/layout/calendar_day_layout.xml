@@ -1,26 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <import type="android.view.View" />
+
         <variable
             name="dayInfo"
             type="kr.yangbob.memorization.calendar.DayInfo" />
+
         <variable
             name="isSunday"
             type="Boolean" />
+
+        <variable
+            name="isClicked"
+            type="Boolean" />
         <!-- true : sunday, false : saturday , null : remain -->
+
+        <variable
+            name="holder"
+            type="kr.yangbob.memorization.view.TestViewHolder2" />
     </data>
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        app:isSunday="@{isSunday}"
-        app:dayInfo="@{dayInfo}"
-        tools:text="11"
-        app:autoSizeTextType="uniform"
-        app:autoSizeMaxTextSize="20sp" />
+        android:onClick="@{() -> holder.click(dayInfo.infoCalendar)}"
+        android:background="@{isClicked ? @drawable/border : null}">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerInside"
+            android:layout_margin="3dp"
+            android:visibility="gone"
+            app:setCalendarBackground="@{dayInfo.infoCalendar}"
+            app:srcCompat="@drawable/ic_check_complete_calendar" />
+
+        <kr.yangbob.memorization.view.OutlineTextView
+            xmlns:outline="http://schemas.android.com/apk/res/kr.yangbob.memorization"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            app:autoSizeMaxTextSize="20sp"
+            app:autoSizeTextType="uniform"
+            app:dayInfo="@{dayInfo}"
+            app:isSunday="@{isSunday}"
+            outline:textStroke="true"
+            outline:textStrokeColor="@color/black"
+            outline:textStrokeWidth=".5dp"
+            tools:text="11"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
 

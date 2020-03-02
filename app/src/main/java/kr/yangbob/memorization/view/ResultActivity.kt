@@ -30,7 +30,7 @@ class ResultActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
         setContentView(R.layout.activity_result)
@@ -52,10 +52,10 @@ class ResultActivity : AppCompatActivity() {
 
             tvInfo.text = if (cntQst <= 0) getString(R.string.status_msg_no_test)
             else String.format(
-                getString(R.string.result_info_format),
-                cntQst,
-                progressRate,
-                correctRate
+                    getString(R.string.result_info_format),
+                    cntQst,
+                    progressRate,
+                    correctRate
             )
             copyRecordList = rawList
             adapter.setData(rawList)
@@ -81,7 +81,7 @@ class ResultActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.menu_result, menu)
 
         val searchItem = menu?.findItem(R.id.action_result_search)
-        searchItem?.setOnActionExpandListener(object: MenuItem.OnActionExpandListener{
+        searchItem?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 supportActionBar?.title = ""
                 return true
@@ -99,12 +99,13 @@ class ResultActivity : AppCompatActivity() {
         searchAutoComplete.setHintTextColor(ContextCompat.getColor(this, R.color.white))
         searchView.queryHint = getString(R.string.entire_search_msg)
         searchView.maxWidth = Integer.MAX_VALUE
-        searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
+
             override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText != null){
+                if (newText != null) {
                     val newList = copyRecordList.filter { it.qst_name.contains(newText, true) }
                     adapter.setData(newList)
                     setNoItemMsgVisible(newList.isEmpty())
@@ -120,31 +121,32 @@ class ResultActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         android.R.id.home -> {
-            if(model.checkIsPossibleClick()){
+            if (model.checkIsPossibleClick()) {
                 finish()
             }
             true
         }
         else -> super.onOptionsItemSelected(item)
     }
-    private fun setNoItemMsgVisible(isEmpty: Boolean){
-        if(isEmpty) resultNoItemMsg.visibility = View.VISIBLE
+
+    private fun setNoItemMsgVisible(isEmpty: Boolean) {
+        if (isEmpty) resultNoItemMsg.visibility = View.VISIBLE
         else resultNoItemMsg.visibility = View.GONE
     }
 }
 
 class ResultViewHolder(private val binding: ItemResultCardBinding, private val model: ResultViewModel) :
-    RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
     fun bind(record: QstRecordWithName) {
         binding.recordWithName = record
         binding.card.setOnClickListener {
-            if(model.checkIsPossibleClick()){
+            if (model.checkIsPossibleClick()) {
                 val context = binding.root.context
                 context.startActivity(
-                    Intent(context, QstActivity::class.java).putExtra(
-                        EXTRA_TO_QST_ID,
-                        record.qst_id
-                    )
+                        Intent(context, QstActivity::class.java).putExtra(
+                                EXTRA_TO_QST_ID,
+                                record.qst_id
+                        )
                 )
             }
         }
@@ -152,13 +154,13 @@ class ResultViewHolder(private val binding: ItemResultCardBinding, private val m
 }
 
 class ResultRecyclerAdapter(private var recordList: List<QstRecordWithName>, private val model: ResultViewModel) :
-    RecyclerView.Adapter<ResultViewHolder>() {
+        RecyclerView.Adapter<ResultViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
         val binding: ItemResultCardBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.item_result_card,
-            parent,
-            false
+                LayoutInflater.from(parent.context),
+                R.layout.item_result_card,
+                parent,
+                false
         )
         return ResultViewHolder(binding, model)
     }

@@ -38,7 +38,6 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     fun getQstList() = qstListLD
     fun getDormantQstList() = dormantQstListLD
     fun getQstRecordList() = todayQstRecordLD
-    fun getTodayDateStr(): String = memRepo.getDateStr(System.currentTimeMillis())
 
     // 문제 추가될 때마다 실행(LiveData) - 전체 문항수, 일일 평균 등록 개수
     fun setEntireCardData() {

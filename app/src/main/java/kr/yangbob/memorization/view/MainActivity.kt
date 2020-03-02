@@ -232,7 +232,7 @@ class MainPagerFragment : Fragment() {
     fun clickTodayRecord(view: View) {
         if (model.checkIsPossibleClick()) {
             startActivity(Intent(context, ResultActivity::class.java).apply {
-                putExtra(EXTRA_TO_RESULT_DATESTR, model.getTodayDateStr())
+                putExtra(EXTRA_TO_RESULT_DATESTR, todayDateStr)
             })
         }
     }

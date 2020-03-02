@@ -30,7 +30,8 @@ data class InfoCalendar(
     val id: String,
     val yearMonth: Int,
     val date: Int,
-    val isCompleted: Boolean?
+    val isCompleted: Boolean?,
+    var isStartDay: Boolean = false        // true : start day , false : remain all
 )
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

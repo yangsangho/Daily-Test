@@ -57,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
-            android:background="@color/white"
+            android:background="@drawable/round_calendar_background"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -152,8 +152,34 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/recordText"
                 app:layout_constraintTop_toBottomOf="@id/textView7" />
+
+            <TextView
+                android:id="@+id/recordText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:background="@drawable/delimiter_top"
+                android:paddingBottom="20dp"
+                android:paddingTop="50dp"
+                app:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="@dimen/size_basic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/calendarViewPager"
+                android:text="@{model.record}"
+                tools:text="문항 수 50개 / 완료율 100% / 정답률 100%"
+                />
+
+            <Button
+                android:id="@+id/moveToDetailBtn"
+                android:layout_margin="8dp"
+                android:layout_width="80dp"
+                android:onClick="@{model::detailBtnClick}"
+                android:layout_height="30dp"
+                app:layout_constraintTop_toTopOf="@id/recordText"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/calendar_detail_button"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

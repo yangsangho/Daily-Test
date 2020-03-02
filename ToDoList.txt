@@ -31,4 +31,5 @@
 
 2. record에서 안 푼문제 삭제되는 것 같은데 ?
 
-3. Today 월을 먼저 보여주기
+3. calendar activity 시작 딜레이 처리
+4. qst 삭제할 때, calendar view에서는 어떻게 할 것인가.

@@ -35,11 +35,12 @@
     <string name="test_appbar_title">Today\'s Test</string>
     <string name="test_dormant_appbar_title">Dormant Question</string>
     <string name="result_appbar_title">Test Result</string>
-    <string name="result_info_format">%d Questions / Progress %.1f%% / Correct Rate %.1f%%</string>
+    <string name="result_info_format">%d Questions / Completion %.1f%% / Correct %.1f%%</string>
     <string name="entire_appbar_title">Entire Question List</string>
     <string name="main_toast_oneMore_back">Please click BACK again to exit</string>
     <string name="qst_record_title">Test Record</string>
     <string name="qst_appbar_title">Question Detail</string>
+    <string name="calendar_detail_button">Detail</string>
     <string name="menu_qst_edit">Edit</string>
     <string name="menu_qst_cancel">Cancel</string>
     <string name="qst_title_registration">Registration Date</string>
@@ -53,7 +54,6 @@
     <string name="calendar_saturday">Sat</string>
     <string name="calendar_sunday">Sun</string>
     <string name="calendar_appbar_title">Test Record</string>
-    <string name="calendar_item_start_date">Start</string>
     <string name="calendar_item_today">Today</string>
     <string name="menu_search">Search</string>
     <string name="entire_search_msg">Please input search word</string>
@@ -83,4 +83,5 @@
         <item>NOV</item>
         <item>DEC</item>
     </string-array>
+    <string name="calendar_start_day">Start Day</string>
 </resources>
