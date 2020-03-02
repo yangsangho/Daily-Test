@@ -1,13 +1,28 @@
 package kr.yangbob.memorization
 
+import android.graphics.Color
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import kr.yangbob.memorization.calendar.DayInfo
 import java.text.DateFormat
 
 object DataBindingAdapter {
+    @BindingAdapter("app:isSunday", "app:dayInfo")
+    @JvmStatic
+    fun setDayText(view: TextView, isSunday: Boolean?, dayInfo: DayInfo){
+        val alpha = if(dayInfo.isInOut) 80 else 255
+        val color = when {
+            isSunday == null -> Color.argb(alpha, 0, 0, 0)
+            isSunday -> Color.argb(alpha, 255, 0, 0)
+            else -> Color.argb(alpha, 0, 0, 255)
+        }
+        view.text = dayInfo.day.toString()
+        view.setTextColor(color)
+    }
+
     @BindingAdapter("app:setMonth")
     @JvmStatic
     fun setMonth(view: TextView, month: Int){

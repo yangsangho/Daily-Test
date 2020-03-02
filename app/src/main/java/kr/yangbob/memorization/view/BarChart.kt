@@ -37,7 +37,7 @@ class BarChart : View {
         textAlign = Paint.Align.CENTER
         textSize = resources.getDimensionPixelSize(R.dimen.noItemFontSize).toFloat()
         isAntiAlias = true
-        typeface = ResourcesCompat.getFont(context, R.font.font_nanum)
+//        typeface = ResourcesCompat.getFont(context, R.font.font_nanum)
     }
     private lateinit var barCntDescFontPaint: Paint
     private lateinit var barRatioDescFontPaint: Paint

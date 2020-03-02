@@ -1,8 +1,6 @@
 package kr.yangbob.memorization.view
 
-import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -15,13 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import kotlinx.android.synthetic.main.activity_calendar.*
-import kotlinx.android.synthetic.main.item_calendar_pager.*
-import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.calendar.BaseCalendar
 import kr.yangbob.memorization.databinding.ActivityCalendarBinding
 import kr.yangbob.memorization.databinding.CalendarLayoutBinding
-import kr.yangbob.memorization.databinding.ItemCalendarDateBinding
 import kr.yangbob.memorization.db.InfoCalendar
 import kr.yangbob.memorization.viewmodel.CalendarViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
@@ -50,7 +45,7 @@ class CalendarActivity : AppCompatActivity() {
 
         calendarViewPager.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                calendarViewPager.adapter = TestAdapter(supportFragmentManager, lifecycle, yearMonthList)
+                calendarViewPager.adapter = TestAdapter2(yearMonthList, model)
                 calendarViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                     override fun onPageSelected(position: Int) {
                         model.setCalendar(yearMonthList[position])
@@ -75,45 +70,70 @@ class CalendarActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 }
-class TestAdapter(fm: FragmentManager, lifecycle: Lifecycle, private val yearMonthList: List<String>) : FragmentStateAdapter(fm, lifecycle) {
+
+class TestAdapter2(private val yearMonthList: List<String>, private val model: CalendarViewModel) : RecyclerView.Adapter<TestViewHolder2>() {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestViewHolder2 {
+        val binding = CalendarLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return  TestViewHolder2(binding, model)
+    }
+
     override fun getItemCount(): Int = yearMonthList.size
 
-    override fun createFragment(position: Int): Fragment {
-        return TestFragment.newInstance(yearMonthList[position])
+    override fun onBindViewHolder(holder: TestViewHolder2, position: Int) {
+        holder.bind(yearMonthList[position])
     }
 }
 
-class TestFragment : Fragment() {
-    private lateinit var baseCalendar: BaseCalendar
+class TestViewHolder2(private val binding: CalendarLayoutBinding, private val model: CalendarViewModel) : RecyclerView.ViewHolder(binding.root) {
     private lateinit var infoCalendarList: List<InfoCalendar>
-    private val model: CalendarViewModel by sharedViewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let { bundle ->
-            val yearMonth = bundle.getString("yearMonth")!!
-            infoCalendarList = model.getQstCalendarList(yearMonth.toInt())
-            baseCalendar = BaseCalendar(yearMonth)
-        }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val binding = CalendarLayoutBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    companion object {
-        fun newInstance(yearMonth: String) = TestFragment().apply {
-            arguments = Bundle().apply {
-                putString("yearMonth", yearMonth)
-            }
-        }
+    fun bind(yearMonth: String) {
+        infoCalendarList = model.getQstCalendarList(yearMonth.toInt()) // 이걸 좀 바꿔서 활용해서 한번에 다 넣을 수 있게끔 디자인 다시 해보기.
+        val baseCalendar = BaseCalendar(yearMonth)
+        binding.dayList = baseCalendar.dayList
     }
 }
+
+//class TestAdapter(fm: FragmentManager, lifecycle: Lifecycle, private val yearMonthList: List<String>) : FragmentStateAdapter(fm, lifecycle) {
+//    override fun getItemCount(): Int = yearMonthList.size
+//
+//    override fun createFragment(position: Int): Fragment {
+//        return TestFragment.newInstance(yearMonthList[position])
+//    }
+//}
+//
+//class TestFragment : Fragment() {
+//    private lateinit var baseCalendar: BaseCalendar
+//    private lateinit var infoCalendarList: List<InfoCalendar>
+//    private val model: CalendarViewModel by sharedViewModel()
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        arguments?.let { bundle ->
+//            val yearMonth = bundle.getString("yearMonth")!!
+//            infoCalendarList = model.getQstCalendarList(yearMonth.toInt())
+//            baseCalendar = BaseCalendar(yearMonth)
+//        }
+//    }
+//
+//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        val binding = CalendarLayoutBinding.inflate(inflater, container, false)
+//        binding.baseCalendar = baseCalendar
+//        return binding.root
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//    }
+//
+//    companion object {
+//        fun newInstance(yearMonth: String) = TestFragment().apply {
+//            arguments = Bundle().apply {
+//                putString("yearMonth", yearMonth)
+//            }
+//        }
+//    }
+//}
 
 
 //class CalendarPagerAdapter(fm: FragmentManager, lifecycle: Lifecycle, private val yearMonthList: List<String>, private val itemHeight: Int) : FragmentStateAdapter(fm, lifecycle) {

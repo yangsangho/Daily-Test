@@ -1,11 +1,15 @@
 package kr.yangbob.memorization.calendar
 
-import java.text.SimpleDateFormat
 import java.util.*
 
 /**
  * Created by WoochanLee on 25/03/2019.
  */
+data class DayInfo(
+    val day: Int,
+    val isInOut: Boolean
+)
+
 class BaseCalendar(yearMonth: String){
 
     companion object {
@@ -22,7 +26,7 @@ class BaseCalendar(yearMonth: String){
     var cntNextMonthDate = 0
     var maxDateCurrentMonth = 0
 
-    val dateList = mutableListOf<Int>()
+    val dayList = mutableListOf<DayInfo>()
 
     /**
      * Init calendar.
@@ -36,7 +40,7 @@ class BaseCalendar(yearMonth: String){
      */
     private fun makeMonthDate() {
 
-        dateList.clear()
+        dayList.clear()
 
         calendar.set(Calendar.DATE, 1)
 
@@ -59,14 +63,14 @@ class BaseCalendar(yearMonth: String){
         val maxDate = calendar.getActualMaximum(Calendar.DATE)
         var maxOffsetDate = maxDate - cntPrevMonthDate
 
-        for (i in 1..cntPrevMonthDate) dateList.add(++maxOffsetDate)
+        for (i in 1..cntPrevMonthDate) dayList.add(DayInfo(++maxOffsetDate, true))
     }
 
     /**
      * Generate data for the current calendar.
      */
     private fun makeCurrentMonth(calendar: Calendar) {
-        for (i in 1..calendar.getActualMaximum(Calendar.DATE)) dateList.add(i)
+        for (i in 1..calendar.getActualMaximum(Calendar.DATE)) dayList.add(DayInfo(i,false))
     }
 
     /**
@@ -75,6 +79,6 @@ class BaseCalendar(yearMonth: String){
     private fun makeNextMonthHead() {
         var date = 1
 
-        for (i in 1..cntNextMonthDate) dateList.add(date++)
+        for (i in 1..cntNextMonthDate) dayList.add(DayInfo(date++, true))
     }
 }
