@@ -8,6 +8,7 @@ import android.util.DisplayMetrics
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -28,16 +29,18 @@ class QstActivity : AppCompatActivity() {
     private var cancelMenu: MenuItem? = null
     private var editMenu: MenuItem? = null
     private var saveMenu: MenuItem? = null
+    private var deleteMenu: MenuItem? = null
+    private lateinit var deleteDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
         model.setQstId(intent.getIntExtra(EXTRA_TO_QST_ID, -1))
 
         val binding: ActivityQstBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_qst)
+                DataBindingUtil.setContentView(this, R.layout.activity_qst)
         binding.lifecycleOwner = this
         binding.model = model
         binding.qst = model.getQst()
@@ -61,6 +64,13 @@ class QstActivity : AppCompatActivity() {
         val adapter = QstRecyclerAdapter(recordList, model)
         recordRecycler.layoutManager = GridLayoutManager(this, noOfColumns)
         recordRecycler.adapter = adapter
+
+        // dialog 생성
+        deleteDialog = AlertDialog.Builder(this, R.style.DeleteDialog).setTitle(R.string.qst_delete_msg)
+                .setPositiveButton(R.string.delete) { _, _ ->
+                    model.delete()
+                    finish()
+                }.setNegativeButton(R.string.cancel) { _, _ -> }.create()
     }
 
     override fun onResume() {
@@ -73,27 +83,34 @@ class QstActivity : AppCompatActivity() {
         editMenu = menu?.findItem(R.id.action_qst_edit)
         cancelMenu = menu?.findItem(R.id.action_qst_cancel)
         saveMenu = menu?.findItem(R.id.action_qst_save)
+        deleteMenu = menu?.findItem(R.id.action_qst_delete)
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         // up 버튼(HomeAsUp)을 눌렀을 때, 어느 페이지로 갈지 알 수 없으니 finish로 재정의
         android.R.id.home -> {
             finish()
             true
         }
+        R.id.action_qst_delete -> {
+            deleteDialog.show()
+            true
+        }
         R.id.action_qst_edit -> {
             item.isVisible = false
+            deleteMenu?.isVisible = false
             saveMenu?.isVisible = true
             cancelMenu?.isVisible = true
             displayEdit()
             true
         }
         R.id.action_qst_save -> {
-            if(model.isPossibleSave()){
+            if (model.isPossibleSave()) {
                 item.isVisible = false
                 cancelMenu?.isVisible = false
                 editMenu?.isVisible = true
+                deleteMenu?.isVisible = true
                 model.save()
                 displayText()
             } else {
@@ -105,6 +122,7 @@ class QstActivity : AppCompatActivity() {
             item.isVisible = false
             saveMenu?.isVisible = false
             editMenu?.isVisible = true
+            deleteMenu?.isVisible = true
             model.cancel()
             displayText()
             true
@@ -112,7 +130,7 @@ class QstActivity : AppCompatActivity() {
         else -> super.onOptionsItemSelected(item)
     }
 
-    private fun displayText(){
+    private fun displayText() {
         answerDataText.visibility = View.VISIBLE
         qstDataText.visibility = View.VISIBLE
         answerDataEdit.visibility = View.GONE
@@ -121,7 +139,8 @@ class QstActivity : AppCompatActivity() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(answerDataText.windowToken, 0)
     }
-    private fun displayEdit(){
+
+    private fun displayEdit() {
         answerDataEdit.visibility = View.VISIBLE
         qstDataEdit.visibility = View.VISIBLE
         answerDataText.visibility = View.GONE
@@ -130,20 +149,20 @@ class QstActivity : AppCompatActivity() {
 }
 
 class QstViewHolder(private val binding: ItemRecordCardBinding, private val model: QstViewModel) :
-    RecyclerView.ViewHolder(binding.root) {
+        RecyclerView.ViewHolder(binding.root) {
     fun onBind(record: QstRecord) {
         binding.record = record
     }
 }
 
 class QstRecyclerAdapter(private val recordList: List<QstRecord>, private val model: QstViewModel) :
-    RecyclerView.Adapter<QstViewHolder>() {
+        RecyclerView.Adapter<QstViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QstViewHolder {
         val binding: ItemRecordCardBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.item_record_card,
-            parent,
-            false
+                LayoutInflater.from(parent.context),
+                R.layout.item_record_card,
+                parent,
+                false
         )
         return QstViewHolder(binding, model)
     }

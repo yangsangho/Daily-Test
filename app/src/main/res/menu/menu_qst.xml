@@ -6,9 +6,14 @@
         android:id="@+id/action_qst_edit"
         android:title="@string/menu_qst_edit"
         app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_qst_delete"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_qst_cancel"
-        android:title="@string/menu_qst_cancel"
+        android:title="@string/cancel"
         app:showAsAction="ifRoom"
         android:visible="false"/>
     <item

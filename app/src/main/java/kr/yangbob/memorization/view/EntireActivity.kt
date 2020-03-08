@@ -139,7 +139,7 @@ class EntireActivity : AppCompatActivity() {
         val title = layoutInflater.inflate(R.layout.menu_align_title, null) as TextView
         title.text = getString(R.string.entire_alert_title)
 
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this, R.style.AlignAlertDialog).apply {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this, R.style.SortAlertDialog).apply {
             setCustomTitle(title)
             setView(binding.root)
         }

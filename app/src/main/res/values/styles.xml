@@ -29,7 +29,7 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
-    <style name="AlignAlertDialog" parent="Theme.AppCompat.Light.Dialog">
+    <style name="SortAlertDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:textColor">@color/white</item>
         <item name="android:gravity">center</item>
         <!-- gravity 설정하니까 크기에 맞춰서 중간에 오더라 -->
@@ -37,6 +37,10 @@
         <item name="windowFixedWidthMinor">@dimen/align_dialog_width_minor</item>
         <!-- window ~~ Major : 최대크기, minor : 최소크기   -> %로 비율 지정-->
 <!--        근데 minor에 따라 달라지네...??-->
+    </style>
+
+    <style name="DeleteDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:textColorPrimary">@color/black</item>
     </style>
 
     <style name="TabLayoutTextAppearance" parent="TextAppearance.Design.Tab">

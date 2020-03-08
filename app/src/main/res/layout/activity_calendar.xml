@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/calendar_sunday"
-                android:textColor="@color/red"
+                android:textColor="@color/sunday"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/textView"
                 app:layout_constraintStart_toStartOf="parent"

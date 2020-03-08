@@ -40,8 +40,7 @@
             app:setCalendarBackground="@{dayInfo.infoCalendar}"
             app:srcCompat="@drawable/ic_check_complete_calendar" />
 
-        <kr.yangbob.memorization.view.OutlineTextView
-            xmlns:outline="http://schemas.android.com/apk/res/kr.yangbob.memorization"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -49,9 +48,6 @@
             app:autoSizeTextType="uniform"
             app:dayInfo="@{dayInfo}"
             app:isSunday="@{isSunday}"
-            outline:textStroke="true"
-            outline:textStrokeColor="@color/black"
-            outline:textStrokeWidth=".5dp"
             tools:text="11"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

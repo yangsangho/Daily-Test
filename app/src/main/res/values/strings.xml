@@ -42,7 +42,7 @@
     <string name="qst_appbar_title">Question Detail</string>
     <string name="calendar_detail_button">Detail</string>
     <string name="menu_qst_edit">Edit</string>
-    <string name="menu_qst_cancel">Cancel</string>
+    <string name="cancel">Cancel</string>
     <string name="qst_title_registration">Registration Date</string>
     <string name="qst_title_stage">Current Stage</string>
     <string name="qst_title_nextDate">Next Test Date</string>
@@ -57,7 +57,7 @@
     <string name="calendar_item_today">Today</string>
     <string name="menu_search">Search</string>
     <string name="entire_search_msg">Please input search word</string>
-    <string name="menu_align">Align</string>
+    <string name="menu_sort">Sort</string>
     <string name="menu_entire_align_stage">Stage</string>
     <string name="menu_entire_align_qst">Question</string>
     <string name="menu_entire_align_regi">Registration</string>
@@ -84,4 +84,6 @@
         <item>DEC</item>
     </string-array>
     <string name="calendar_start_day">Start Day</string>
+    <string name="delete">Delete</string>
+    <string name="qst_delete_msg">Delete the question?</string>
 </resources>

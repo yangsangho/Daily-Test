@@ -20,8 +20,8 @@ class QstViewModel(private val memRepo: MemRepository) : ViewModel() {
         }
     }
 
-    val qstData = MutableLiveData<String>().apply { value = "" }
-    val answerData = MutableLiveData<String>().apply { value = "" }
+    val qstData = MutableLiveData<String>("")
+    val answerData = MutableLiveData<String>("")
 
     private lateinit var recordList: List<QstRecord>
     private lateinit var qst: Qst
@@ -52,5 +52,9 @@ class QstViewModel(private val memRepo: MemRepository) : ViewModel() {
     fun cancel(){
         qstData.value = qst.title
         answerData.value = qst.answer
+    }
+
+    fun delete(){
+//yangbob
     }
 }

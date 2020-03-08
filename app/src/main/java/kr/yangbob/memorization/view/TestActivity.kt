@@ -73,6 +73,11 @@ class TestActivity : AppCompatActivity() {
         }
         else -> super.onOptionsItemSelected(item)
     }
+
+    override fun onResume() {
+        model.resetIsPossibleClick()
+        super.onResume()
+    }
 }
 
 class TestViewHolder(private val model: TestViewModel, private val binding: ItemTestViewpageBinding, private val adapter: TestPagerAdapter) : RecyclerView.ViewHolder(binding.root) {
@@ -133,6 +138,8 @@ class TestViewHolder(private val model: TestViewModel, private val binding: Item
     }
 
     fun clickChk(view: View) {
+        if(!model.checkIsPossibleClick()) return
+
         val isCorrect = view.id == R.id.btnSuccessLayout
         if (binding.correct == isCorrect) {
             binding.correct = null
@@ -144,6 +151,7 @@ class TestViewHolder(private val model: TestViewModel, private val binding: Item
         else model.update(qst, qstRecord, isCorrect)
 
         if(goMove) adapter.move(adapterPosition)
+        model.resetIsPossibleClick()
     }
 }
 

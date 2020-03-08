@@ -11,6 +11,19 @@ import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.todayTime
 
 class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
+    private var isPossibleClick = false
+    fun resetIsPossibleClick(){
+        isPossibleClick = false
+    }
+    fun checkIsPossibleClick(): Boolean{
+        return if(isPossibleClick){
+            false
+        } else {
+            isPossibleClick = true
+            true
+        }
+    }
+
     var isDormant: Boolean = false
 
     fun getTodayNullRecords() =

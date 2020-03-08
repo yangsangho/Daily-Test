@@ -11,7 +11,5 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="blue">#ff0000ff</color>
-    <color name="red">#ffff0000</color>
-    <color name="red_light">#FF8080</color>
-    <color name="green_light">#80FF80</color>
+    <color name="sunday">#B71C1C</color>
 </resources>

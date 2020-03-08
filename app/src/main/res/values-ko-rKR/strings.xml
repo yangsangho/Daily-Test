@@ -42,7 +42,7 @@
     <string name="qst_appbar_title">문제 상세</string>
     <string name="calendar_detail_button">상세</string>
     <string name="menu_qst_edit">수정</string>
-    <string name="menu_qst_cancel">취소</string>
+    <string name="cancel">취소</string>
     <string name="qst_title_nextDate">다음 시험 날짜</string>
     <string name="qst_title_registration">문제 등록 날짜</string>
     <string name="qst_title_stage">현재 단계</string>
@@ -57,7 +57,7 @@
     <string name="calendar_item_today">오늘</string>
     <string name="menu_search">찾기</string>
     <string name="entire_search_msg">검색어를 입력해주세요</string>
-    <string name="menu_align">정렬</string>
+    <string name="menu_sort">정렬</string>
     <string name="menu_entire_align_stage">단계</string>
     <string name="menu_entire_align_qst">문제</string>
     <string name="menu_entire_align_regi">등록일</string>
@@ -85,4 +85,6 @@
         <item>12월</item>
     </string-array>
     <string name="calendar_start_day">시작일</string>
+    <string name="delete">삭제</string>
+    <string name="qst_delete_msg">문제를 삭제할까요?</string>
 </resources>

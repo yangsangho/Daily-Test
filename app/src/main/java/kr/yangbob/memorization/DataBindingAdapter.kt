@@ -20,8 +20,8 @@ object DataBindingAdapter {
                 view.setColorFilter(ContextCompat.getColor(view.context, R.color.colorAccent), android.graphics.PorterDuff.Mode.SRC_IN)
             } else {
                 it.isCompleted?.also { isCompleted ->
-                    if (isCompleted) view.setColorFilter(ContextCompat.getColor(view.context, R.color.green_light), android.graphics.PorterDuff.Mode.SRC_IN)
-                    else view.setColorFilter(ContextCompat.getColor(view.context, R.color.red_light), android.graphics.PorterDuff.Mode.SRC_IN)
+                    if (isCompleted) view.setColorFilter(ContextCompat.getColor(view.context, android.R.color.holo_green_light), android.graphics.PorterDuff.Mode.SRC_IN)
+                    else view.setColorFilter(ContextCompat.getColor(view.context, android.R.color.holo_red_light), android.graphics.PorterDuff.Mode.SRC_IN)
                 }
             }
         }
@@ -33,7 +33,7 @@ object DataBindingAdapter {
         val alpha = if (dayInfo.isInOut) 80 else 255
         val color = when {
             isSunday == null -> Color.argb(alpha, 0, 0, 0)
-            isSunday -> Color.argb(alpha, 255, 0, 0)
+            isSunday -> Color.argb(alpha, 183, 28, 28)
             else -> Color.argb(alpha, 0, 0, 255)
         }
         view.text = dayInfo.day.toString()
