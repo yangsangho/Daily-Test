@@ -17,6 +17,7 @@ import java.util.*
 
 class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     private var isPossibleClick = false
+    var isPortrait = true
     fun resetIsPossibleClick() {
         isPossibleClick = false
     }
@@ -38,10 +39,10 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     private val infoCalendarList: List<InfoCalendar> = memRepo.getAllInfoCalendar()
     private lateinit var currentCalendarID: String
 
-    fun updateInfoCal(deleteSet: HashSet<String>?){
+    fun updateInfoCal(deleteSet: HashSet<String>?) {
         deleteSet?.also { set ->
             infoCalendarList.forEach { list ->
-                if(set.contains(list.id)){
+                if (set.contains(list.id)) {
                     val newValue = getCalTestComplete(list.id)
                     if (list.isCompleted != newValue) {
                         list.isCompleted = newValue
@@ -67,7 +68,7 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
         }
 
         return makeCalList(todayCal, minCal)
-                .map { String.format("%d%02d", it.get(Calendar.YEAR), it.get(Calendar.MONTH) + 1) }
+            .map { String.format("%d%02d", it.get(Calendar.YEAR), it.get(Calendar.MONTH) + 1) }
     }
 
     fun setCalendar(yearMonth: String) {
@@ -93,10 +94,10 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
             } else {
                 _record.value = if (cntQst <= 0) resources.getString(R.string.status_msg_no_test)
                 else String.format(
-                        resources.getString(R.string.result_info_format),
-                        cntQst,
-                        progressRate,
-                        correctRate
+                    resources.getString(if (isPortrait) R.string.result_info_format else R.string.result_info_format_land),
+                    cntQst,
+                    progressRate,
+                    correctRate
                 )
             }
         }
@@ -110,9 +111,9 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     }
 
     private tailrec fun makeCalList(
-            cal: Calendar,
-            minCal: Calendar,
-            acc: List<Calendar> = listOf()
+        cal: Calendar,
+        minCal: Calendar,
+        acc: List<Calendar> = listOf()
     ): List<Calendar> = when {
         cal.get(Calendar.YEAR) <= minCal.get(Calendar.YEAR)
                 && cal.get(Calendar.MONTH) < minCal.get(Calendar.MONTH) -> acc

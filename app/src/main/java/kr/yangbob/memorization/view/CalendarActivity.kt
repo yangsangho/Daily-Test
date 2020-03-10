@@ -39,6 +39,9 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
         super.onCreate(savedInstanceState)
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+            model.isPortrait = false
+        } else {
+            model.isPortrait = true
         }
         val binding: ActivityCalendarBinding =
                 DataBindingUtil.setContentView(this, R.layout.activity_calendar)

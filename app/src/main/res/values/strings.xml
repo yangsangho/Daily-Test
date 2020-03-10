@@ -36,6 +36,7 @@
     <string name="test_dormant_appbar_title">Dormant Question</string>
     <string name="result_appbar_title">Test Result</string>
     <string name="result_info_format">%d Questions / Completion %.1f%% / Correct %.1f%%</string>
+    <string name="result_info_format_land">%d Questions\n\n\nCompletion %.1f%%\n\n\nCorrect %.1f%%</string>
     <string name="entire_appbar_title">Entire Question List</string>
     <string name="main_toast_oneMore_back">Please click BACK again to exit</string>
     <string name="qst_record_title">Test Record</string>
