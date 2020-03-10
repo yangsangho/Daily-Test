@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.model.MemRepository
+import kr.yangbob.memorization.todayDateStr
 import kr.yangbob.memorization.workForNextTest
 
 class MainViewModel(private val memRepo: MemRepository, application: Application) :
@@ -26,7 +27,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
 
     private val qstListLD = memRepo.getAllQstLD()
     private val dormantQstListLD = memRepo.getAllDormantQstLD()
-    private val todayQstRecordLD = memRepo.getAllRecordLDFromDate(memRepo.getDateStr(System.currentTimeMillis()))
+    private val todayQstRecordLD = memRepo.getAllRecordLDFromDate(todayDateStr)
 
     val todayCard1 = MutableLiveData<String>()      // 오늘의 시험 문항수
     val todayCard2 = MutableLiveData<String>()      // 시험 진행 상태

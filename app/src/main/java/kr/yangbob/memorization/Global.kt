@@ -18,6 +18,7 @@ const val EXTRA_TO_QST_ID = "qstID"
 
 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 val todayDateStr: String = dateFormat.format(Date(System.currentTimeMillis()))
+val tomorrowDateStr: String = dateFormat.format(Date(System.currentTimeMillis() + MILLIS_A_DAY))
 val todayTime: Long = dateFormat.parse(todayDateStr)?.time ?: 0
 
 val STAGE_LIST = Stage.values()
@@ -30,7 +31,6 @@ enum class Stage(val nextTest: Int) {
 enum class IconSetting {
     NONE, UP, DOWN
 }
-
 
 // Receiver 관련
 fun cancelAlarm(context: Context) {

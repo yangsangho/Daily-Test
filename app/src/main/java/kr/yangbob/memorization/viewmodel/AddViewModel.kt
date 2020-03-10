@@ -2,9 +2,10 @@ package kr.yangbob.memorization.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kr.yangbob.memorization.MILLIS_A_DAY
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.model.MemRepository
+import kr.yangbob.memorization.todayDateStr
+import kr.yangbob.memorization.tomorrowDateStr
 
 class AddViewModel(private val memRepo: MemRepository) : ViewModel() {
     private val logTag = "AddViewModel"
@@ -26,10 +27,7 @@ class AddViewModel(private val memRepo: MemRepository) : ViewModel() {
 
     fun isPossibleInsert(): Boolean = !title.value.isNullOrEmpty() && !answer.value.isNullOrEmpty()
     fun insertQst() {
-        val curTime = System.currentTimeMillis()
-        val todayDate = memRepo.getDateStr(curTime)
-        val tomorrowDate = memRepo.getDateStr(curTime + MILLIS_A_DAY)
-        val qst = Qst(title.value!!, answer.value!!, todayDate, tomorrowDate)
+        val qst = Qst(title.value!!, answer.value!!, todayDateStr, tomorrowDateStr)
         memRepo.insertQst(qst)
     }
 }

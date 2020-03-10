@@ -2,13 +2,10 @@ package kr.yangbob.memorization.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import kr.yangbob.memorization.MILLIS_A_DAY
-import kr.yangbob.memorization.STAGE_LIST
-import kr.yangbob.memorization.Stage
+import kr.yangbob.memorization.*
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
-import kr.yangbob.memorization.todayTime
 
 class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
     private var isPossibleClick = false
@@ -27,7 +24,7 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
     var isDormant: Boolean = false
 
     fun getTodayNullRecords() =
-            memRepo.getNullRecordsFromDate(memRepo.getDateStr(System.currentTimeMillis()))
+            memRepo.getNullRecordsFromDate(todayDateStr)
 
     fun insertQst(qst: Qst) = memRepo.insertQst(qst)
 

@@ -14,7 +14,6 @@ import kr.yangbob.memorization.databinding.ActivityAddBinding
 import kr.yangbob.memorization.viewmodel.AddViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class AddActivity : AppCompatActivity() {
 
     private val model: AddViewModel by viewModel()

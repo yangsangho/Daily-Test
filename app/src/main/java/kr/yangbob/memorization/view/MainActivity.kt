@@ -23,7 +23,6 @@ import kr.yangbob.memorization.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-
 class MainActivity : AppCompatActivity() {
     private val logTag = "MainActivity"
     private val model: MainViewModel by viewModel()
