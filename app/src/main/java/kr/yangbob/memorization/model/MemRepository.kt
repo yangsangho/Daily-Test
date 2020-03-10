@@ -1,6 +1,8 @@
 package kr.yangbob.memorization.model
 
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kr.yangbob.memorization.MILLIS_A_DAY
 import kr.yangbob.memorization.dateFormat
@@ -29,9 +31,16 @@ class MemRepository(memDB: MemDatabase) {
 
     fun getAllDormantQst(): List<Qst> = runBlocking { daoQst.getAllDormant() }
 
+    fun deleteQst(qst: Qst) = GlobalScope.launch {
+        daoQst.delete(qst)
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// QstCalendar
-//    fun getAllCalendar(): List<QstCalendar> = runBlocking { daoQstCalendar.getAll() }
+    fun getCalTestComplete(calendarId: String): Boolean? = runBlocking { daoQstCalendar.getTestComplete(calendarId) }
+
+    fun getAllCalendarLD(): LiveData<List<QstCalendar>> = daoQstCalendar.getAllLD()
+
     fun getAllInfoCalendar(): List<InfoCalendar> = runBlocking {
         val list = daoQstCalendar.getAll()
         val infoCalList = list.map { qstCalendar ->
@@ -70,24 +79,36 @@ class MemRepository(memDB: MemDatabase) {
 
     fun getCalCnt(): Int = runBlocking { daoQstCalendar.getCnt() }
 
+    fun updateCal(id: String, isComplete: Boolean?) = GlobalScope.launch {
+        daoQstCalendar.update(id, isComplete)
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// QstRecord
-//    fun getAllRecord(): List<QstRecord> = runBlocking { daoQstRecord.getAll() }
-    fun getAllRecordFromDate(dateStr: String): List<QstRecord> = runBlocking { daoQstRecord.getAllFromDate(dateStr) }
+    fun getAllRecordLD(): LiveData<List<QstRecord>> = daoQstRecord.getAllLD()
 
-    fun getAllRecordFromId(id: Int): List<QstRecord> = runBlocking { daoQstRecord.getAllFromId(id) }
+    fun getAllRecordFromDate(calendarId: String): List<QstRecord> = runBlocking { daoQstRecord.getAllFromDate(calendarId) }
 
-    fun getAllRecordWithName(dateStr: String): LiveData<List<QstRecordWithName>> =
-            daoQstRecord.getAllWithName(dateStr)
+    fun getAllRecordFromId(qstId: Int): List<QstRecord> = runBlocking { daoQstRecord.getAllFromId(qstId) }
 
-    fun getAllRecordLDFromDate(dateStr: String): LiveData<List<QstRecord>> =
-            daoQstRecord.getAllLDFromDate(dateStr)
+    fun getAllRecordWithName(calendarId: String): LiveData<List<QstRecordWithName>> =
+            daoQstRecord.getAllWithName(calendarId)
 
-    fun getNullRecordsFromDate(dateStr: String): List<QstRecord> =
-            runBlocking { daoQstRecord.getNullListFromDate(dateStr) }
+    fun getAllRecordLDFromDate(calendarId: String): LiveData<List<QstRecord>> =
+            daoQstRecord.getAllLDFromDate(calendarId)
+
+    fun getNullRecordsFromDate(calendarId: String): List<QstRecord> =
+            runBlocking { daoQstRecord.getNullListFromDate(calendarId) }
 
     fun insertQstRecord(qstRecord: QstRecord) = runBlocking { daoQstRecord.insert(qstRecord) }
 
+    fun deleteQstRecord(qstRecord: QstRecord) = GlobalScope.launch {
+        daoQstRecord.delete(qstRecord)
+    }
+
+    fun getCntRecord(calendarId: String): Int = runBlocking { daoQstRecord.getCnt(calendarId) }
+
+    fun getCntNotSolved(calendarId: String): Int = runBlocking { daoQstRecord.getCntNotSolved(calendarId) }
 //    fun deleteNoneSolvedRecord() = runBlocking { daoQstRecord.deleteNoneSolved() }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

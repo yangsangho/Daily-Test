@@ -9,7 +9,9 @@ import androidx.lifecycle.ViewModel
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.db.InfoCalendar
+import kr.yangbob.memorization.db.QstCalendar
 import kr.yangbob.memorization.model.MemRepository
+import kr.yangbob.memorization.view.CalendarActivity
 import kr.yangbob.memorization.view.ResultActivity
 import java.util.*
 
@@ -36,7 +38,9 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     private val infoCalendarList: List<InfoCalendar> = memRepo.getAllInfoCalendar()
     private lateinit var currentCalendarID: String
 
-    fun getQstCalendarList(yearMonth: Int) = infoCalendarList.filter {
+    fun getCalTestComplete(calendarId: String) = memRepo.getCalTestComplete(calendarId)
+
+    fun getInfoCalendarList(yearMonth: Int) = infoCalendarList.filter {
         it.yearMonth == yearMonth
     }
 
@@ -61,7 +65,6 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     fun setCurrentCalendar(infoCalendar: InfoCalendar?, resources: Resources) {
         infoCalendar?.also { infoCal ->
             currentCalendarID = infoCal.id
-
             val recordList = memRepo.getAllRecordFromDate(currentCalendarID)
             val cntQst = recordList.size
             val cntSolved = recordList.count { it.is_correct != null }
@@ -86,10 +89,11 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
         }
     }
 
-    fun detailBtnClick(view: View){
-        view.context.startActivity(Intent(view.context, ResultActivity::class.java).apply {
+    fun detailBtnClick(view: View) {
+        val calActivity = view.context as CalendarActivity
+        calActivity.startActivityForResult(Intent(view.context, ResultActivity::class.java).apply {
             putExtra(EXTRA_TO_RESULT_DATESTR, currentCalendarID)
-        })
+        }, 123)
     }
 
     private tailrec fun makeCalList(

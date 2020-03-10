@@ -1,10 +1,7 @@
 package kr.yangbob.memorization.db
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface DaoQst {
@@ -25,12 +22,21 @@ interface DaoQst {
 
     @Query("SELECT * FROM Qst WHERE is_dormant = 1")
     suspend fun getAllDormant(): List<Qst>
+
+    @Delete
+    suspend fun delete(qst: Qst)
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Dao
 interface DaoQstCalendar {
+
+    @Query("SELECT test_completion FROM QstCalendar WHERE id == :calendarId")
+    suspend fun getTestComplete(calendarId: String): Boolean?
+
+    @Query("SELECT * FROM QstCalendar")
+    fun getAllLD(): LiveData<List<QstCalendar>>
 
     @Query("SELECT * FROM QstCalendar")
     suspend fun getAll(): List<QstCalendar>
@@ -53,6 +59,9 @@ interface DaoQstCalendar {
     @Query("SELECT COUNT(*) FROM QstCalendar WHERE test_completion IS NOT NULL")
     suspend fun getCntHasTest(): Int
 
+    @Query("UPDATE QstCalendar SET test_completion = :isComplete WHERE id == :id")
+    suspend fun update(id: String, isComplete: Boolean?)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(qstCalendar: QstCalendar)
 }
@@ -61,30 +70,36 @@ interface DaoQstCalendar {
 
 @Dao
 interface DaoQstRecord {
-//    @Query("SELECT * FROM QstRecord")
-//    suspend fun getAll(): List<QstRecord>
+    @Query("SELECT * FROM QstRecord")
+    fun getAllLD(): LiveData<List<QstRecord>>
 
-    @Query("SELECT * FROM QstRecord WHERE qst_id = :id AND is_correct IS NOT NULL")
-    suspend fun getAllFromId(id: Int): List<QstRecord>
+    @Query("SELECT * FROM QstRecord WHERE qst_id = :qstId")
+    suspend fun getAllFromId(qstId: Int): List<QstRecord>
 
-    @Query("SELECT (SELECT title FROM Qst WHERE id = qst_id) AS qst_name, * FROM QstRecord WHERE calendar_id == :dateStr")
-    fun getAllWithName(dateStr: String): LiveData<List<QstRecordWithName>>
+    @Query("SELECT (SELECT title FROM Qst WHERE id = qst_id) AS qst_name, * FROM QstRecord WHERE calendar_id == :calendarId")
+    fun getAllWithName(calendarId: String): LiveData<List<QstRecordWithName>>
 
-    @Query("SELECT * FROM QstRecord WHERE calendar_id == :dateStr")
-    fun getAllLDFromDate(dateStr: String): LiveData<List<QstRecord>>
+    @Query("SELECT * FROM QstRecord WHERE calendar_id == :calendarId")
+    fun getAllLDFromDate(calendarId: String): LiveData<List<QstRecord>>
 
-    @Query("SELECT * FROM QstRecord WHERE calendar_id == :dateStr")
-    suspend fun getAllFromDate(dateStr: String): List<QstRecord>
+    @Query("SELECT * FROM QstRecord WHERE calendar_id == :calendarId")
+    suspend fun getAllFromDate(calendarId: String): List<QstRecord>
 
-    @Query("SELECT * FROM QstRecord WHERE calendar_id == :dateStr AND is_correct IS NULL")
-    suspend fun getNullListFromDate(dateStr: String): List<QstRecord>
+    @Query("SELECT * FROM QstRecord WHERE calendar_id == :calendarId AND is_correct IS NULL")
+    suspend fun getNullListFromDate(calendarId: String): List<QstRecord>
 
 //    @Query("DELETE FROM QstRecord WHERE is_correct IS NULL")
 //    suspend fun deleteNoneSolved()
 
+    @Query("SELECT COUNT(*) FROM QstRecord WHERE calendar_id == :calendarId")
+    suspend fun getCnt(calendarId: String): Int
+
+    @Query("SELECT COUNT(*) FROM QstRecord WHERE calendar_id == :calendarId AND is_correct IS NULL")
+    suspend fun getCntNotSolved(calendarId: String): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(qstRecord: QstRecord)
 
-//    @Delete
-//    fun delete(qstRecord: QstRecord)
+    @Delete
+    suspend fun delete(qstRecord: QstRecord)
 }

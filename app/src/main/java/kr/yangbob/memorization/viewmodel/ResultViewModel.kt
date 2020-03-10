@@ -21,8 +21,8 @@ class ResultViewModel(private val memRepo: MemRepository) : ViewModel() {
         }
     }
 
-    fun getRecordList(dateStr: String): LiveData<List<QstRecordWithName>> =
-        memRepo.getAllRecordWithName(dateStr)
+    fun getRecordList(calendarId: String): LiveData<List<QstRecordWithName>> =
+        memRepo.getAllRecordWithName(calendarId)
 
     fun getFormattedDate(dateStr: String): String =
         memRepo.getFormattedDate(dateStr, DateFormat.FULL)

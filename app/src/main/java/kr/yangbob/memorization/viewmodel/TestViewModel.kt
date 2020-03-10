@@ -67,7 +67,6 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
                 challengeStage <= Stage.BEGIN_TWO -> {
                     qstRecord.is_correct = isCorrect
                     memRepo.insertQstRecord(qstRecord)
-                    Log.i("TestViewModel", "$qstRecord")
                     return true
                 }
                 isCorrect -> {
@@ -83,9 +82,6 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
         if (goMove) qstRecord.is_correct = isCorrect
         val newNextDate = currentNextDate + MILLIS_A_DAY * cntAfterDay
         qst.next_test_date = memRepo.getDateStr(newNextDate)
-
-        Log.i("TestViewModel", "$qst")
-        Log.i("TestViewModel", "$qstRecord")
         memRepo.insertQst(qst)
         memRepo.insertQstRecord(qstRecord)      // qstRecord를 먼저 insert하니까 사라지네
         return goMove

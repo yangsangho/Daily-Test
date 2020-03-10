@@ -179,6 +179,8 @@ class MainPagerFragment : Fragment() {
                             map[Stage.AFTER_MONTH.ordinal] =
                                     (map[Stage.AFTER_MONTH.ordinal] ?: 0) + (reviewCnt ?: 0)
                             binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
+                        } else {
+                            binding.dashboardChart.setDataList(listOf())
                         }
                     }
                     if (model.setTodayCardData()) {
@@ -198,6 +200,8 @@ class MainPagerFragment : Fragment() {
                         STAGE_LIST.filter { it.ordinal < 8 }
                                 .forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
                         binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
+                    } else {
+                        binding.dashboardChart.setDataList(listOf())
                     }
                     model.setTestCompletionRate()
                 })

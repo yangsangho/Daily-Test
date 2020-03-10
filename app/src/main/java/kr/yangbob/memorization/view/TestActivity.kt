@@ -3,6 +3,7 @@ package kr.yangbob.memorization.view
 import android.app.Activity
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
 import android.text.method.ScrollingMovementMethod
 import android.view.*
 import android.widget.TextView
@@ -151,7 +152,9 @@ class TestViewHolder(private val model: TestViewModel, private val binding: Item
         else model.update(qst, qstRecord, isCorrect)
 
         if(goMove) adapter.move(adapterPosition)
-        model.resetIsPossibleClick()
+        Handler().postDelayed({
+            model.resetIsPossibleClick()
+        }, 600)
     }
 }
 

@@ -159,21 +159,20 @@ class BarChart : View {
     }
 
     fun setDataList(list: List<Int>) {
-        if (list.isEmpty()) throw IllegalArgumentException()
-        if (list.size != numberOfItems) throw IllegalArgumentException()
-
         dataList = list
+        if (list.isNotEmpty()){
+            if (list.size != numberOfItems) throw IllegalArgumentException()
 
-        val sumData = list.sum()
-        barCntDescTextList = list.map { if (it > 0) "$it" else null }
-        barRatioDescTextList = list.map {
-            if (it > 0) "(${String.format(
-                "%.1f",
-                (it / sumData.toFloat()) * 100
-            )}%)" else null
+            val sumData = list.sum()
+            barCntDescTextList = list.map { if (it > 0) "$it" else null }
+            barRatioDescTextList = list.map {
+                if (it > 0) "(${String.format(
+                    "%.1f",
+                    (it / sumData.toFloat()) * 100
+                )}%)" else null
+            }
+            barRectList = makeBarRect(list)
         }
-        barRectList = makeBarRect(list)
-
         invalidate()
     }
 

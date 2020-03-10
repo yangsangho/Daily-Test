@@ -19,7 +19,7 @@
 
         <variable
             name="holder"
-            type="kr.yangbob.memorization.view.TestViewHolder2" />
+            type="kr.yangbob.memorization.view.CalendarViewHolder" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

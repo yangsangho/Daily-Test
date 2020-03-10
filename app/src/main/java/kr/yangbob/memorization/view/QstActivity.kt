@@ -1,5 +1,6 @@
 package kr.yangbob.memorization.view
 
+import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
@@ -69,6 +70,7 @@ class QstActivity : AppCompatActivity() {
         deleteDialog = AlertDialog.Builder(this, R.style.DeleteDialog).setTitle(R.string.qst_delete_msg)
                 .setPositiveButton(R.string.delete) { _, _ ->
                     model.delete()
+                    setResult(RESULT_OK)
                     finish()
                 }.setNegativeButton(R.string.cancel) { _, _ -> }.create()
     }

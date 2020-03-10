@@ -1,5 +1,6 @@
 package kr.yangbob.memorization.view
 
+import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
@@ -77,6 +78,11 @@ class ResultActivity : AppCompatActivity() {
         model.resetIsPossibleClick()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(resultCode == RESULT_OK) setResult(RESULT_OK)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_result, menu)
 
@@ -141,12 +147,12 @@ class ResultViewHolder(private val binding: ItemResultCardBinding, private val m
         binding.recordWithName = record
         binding.card.setOnClickListener {
             if (model.checkIsPossibleClick()) {
-                val context = binding.root.context
-                context.startActivity(
-                        Intent(context, QstActivity::class.java).putExtra(
+                val resultActivity = binding.root.context as ResultActivity
+                resultActivity.startActivityForResult(
+                        Intent(resultActivity, QstActivity::class.java).putExtra(
                                 EXTRA_TO_QST_ID,
                                 record.qst_id
-                        )
+                        ), 123
                 )
             }
         }

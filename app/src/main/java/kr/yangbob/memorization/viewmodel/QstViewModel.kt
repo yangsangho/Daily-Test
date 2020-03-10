@@ -55,6 +55,18 @@ class QstViewModel(private val memRepo: MemRepository) : ViewModel() {
     }
 
     fun delete(){
-//yangbob
+        recordList.forEach {
+            if(memRepo.getCntRecord(it.calendar_id) == 1){
+                memRepo.updateCal(it.calendar_id, null)
+            } else {
+                if(it.is_correct == null){
+                    if(memRepo.getCntNotSolved(it.calendar_id) == 1){
+                        memRepo.updateCal(it.calendar_id, true)
+                    }
+                }
+            }
+            memRepo.deleteQstRecord(it)
+        }
+        memRepo.deleteQst(qst)
     }
 }

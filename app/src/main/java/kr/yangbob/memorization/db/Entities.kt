@@ -23,14 +23,14 @@ data class Qst(
 data class QstCalendar(
     @PrimaryKey
     val id: String,   // date
-    var test_completion: Boolean? = null
+    var test_completion: Boolean? = null        // true : 테스트 완료, false : 테스트 안 함, null : 테스트 없음
 )
 
 data class InfoCalendar(
     val id: String,
     val yearMonth: Int,
     val date: Int,
-    val isCompleted: Boolean?,
+    var isCompleted: Boolean?,
     var isStartDay: Boolean = false        // true : start day , false : remain all
 )
 
