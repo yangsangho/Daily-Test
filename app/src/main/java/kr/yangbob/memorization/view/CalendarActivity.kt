@@ -3,6 +3,7 @@ package kr.yangbob.memorization.view
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -56,23 +57,25 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
 
             val yearMonthList = model.yearMonthList()
             val maxIdx = yearMonthList.size
-            val recyclerDetachBindIdx = 4
+            val recyclerDetachBindIdx = 3
             viewHolderList = arrayOfNulls(maxIdx)
             calendarAdapter = CalendarAdapter(yearMonthList, model, viewHolderList)
             calendarViewPager.adapter = calendarAdapter
             calendarViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
-                    val direction = prevPosition - position
-
-                    if (direction > 0) { // 좌측으로
-                        val needSetNullIdx = position + recyclerDetachBindIdx
-                        if (needSetNullIdx < maxIdx) {
-                            viewHolderList[needSetNullIdx] = null
-                        }
-                    } else if (direction < 0) { // 우측으로
-                        val needSetNullIdx = position - recyclerDetachBindIdx
-                        if (needSetNullIdx >= 0) {
-                            viewHolderList[needSetNullIdx] = null
+                    Log.i("TEST", "onPageSelected : $position")
+                    if(maxIdx > 4){ // item이 4개 이하면, onbind를 반복 안하더라
+                        val direction = prevPosition - position
+                        if (direction > 0) { // 좌측으로
+                            val needSetNullIdx = position + recyclerDetachBindIdx
+                            if (needSetNullIdx < maxIdx) {
+                                viewHolderList[needSetNullIdx] = null
+                            }
+                        } else if (direction < 0) { // 우측으로
+                            val needSetNullIdx = position - recyclerDetachBindIdx
+                            if (needSetNullIdx >= 0) {
+                                viewHolderList[needSetNullIdx] = null
+                            }
                         }
                     }
 
@@ -134,6 +137,7 @@ class CalendarAdapter(private val yearMonthList: List<String>, private val model
     override fun getItemCount(): Int = yearMonthList.size
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
+        Log.i("TEST", "onBind : $position")
         viewHolderList[position] = holder
         var isLastMonth: Boolean? = null   // true : 마지막날을 click으로 , false : 첫날을 click으로, null : 1일을 click으로
         if (position == yearMonthList.size - 1) {

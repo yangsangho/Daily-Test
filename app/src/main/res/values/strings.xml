@@ -66,7 +66,7 @@
     <string name="entire_alert_sort2">Question</string>
     <string name="entire_alert_sort3">Registration Date</string>
     <string name="entire_alert_title">List Item Sort</string>
-    <string name="test_dormant_snackbar_msg">Please test to clear dormant.\nCorrect answer keeps stage, and wrong answer drops stage.</string>
+    <string name="test_dormant_snackbar_msg">Please test to clear dormant.\nCorrect keeps stage, and wrong drops stage.</string>
     <string name="confirmation">Confirmation</string>
     <string name="test_dormant_initialize_msg">All dormant question have been initialized.</string>
     <string name="calendar_year">%d</string>
