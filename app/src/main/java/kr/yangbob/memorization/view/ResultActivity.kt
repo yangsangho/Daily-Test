@@ -28,6 +28,7 @@ class ResultActivity : AppCompatActivity() {
     private lateinit var copyRecordList: List<QstRecordWithName>
     private lateinit var adapter: ResultRecyclerAdapter
     private lateinit var appBarTitle: String
+    private val deleteSet = HashSet<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +81,15 @@ class ResultActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == RESULT_OK) setResult(RESULT_OK)
+        if(resultCode == RESULT_OK){
+            val deleteList = data?.getStringArrayListExtra("deleteList")
+            deleteList?.also {
+                deleteSet.addAll(it)
+            }
+            setResult(RESULT_OK, Intent().apply {
+                putExtra("deleteSet", deleteSet)
+            })
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -38,6 +38,19 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     private val infoCalendarList: List<InfoCalendar> = memRepo.getAllInfoCalendar()
     private lateinit var currentCalendarID: String
 
+    fun updateInfoCal(deleteSet: HashSet<String>?){
+        deleteSet?.also { set ->
+            infoCalendarList.forEach { list ->
+                if(set.contains(list.id)){
+                    val newValue = getCalTestComplete(list.id)
+                    if (list.isCompleted != newValue) {
+                        list.isCompleted = newValue
+                    }
+                }
+            }
+        }
+    }
+
     fun getCalTestComplete(calendarId: String) = memRepo.getCalTestComplete(calendarId)
 
     fun getInfoCalendarList(yearMonth: Int) = infoCalendarList.filter {

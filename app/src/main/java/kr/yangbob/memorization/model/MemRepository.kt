@@ -1,6 +1,7 @@
 package kr.yangbob.memorization.model
 
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
@@ -31,7 +32,7 @@ class MemRepository(memDB: MemDatabase) {
 
     fun getAllDormantQst(): List<Qst> = runBlocking { daoQst.getAllDormant() }
 
-    fun deleteQst(qst: Qst) = GlobalScope.launch {
+    fun deleteQst(qst: Qst) = GlobalScope.launch(Dispatchers.IO) {
         daoQst.delete(qst)
     }
 
@@ -79,7 +80,7 @@ class MemRepository(memDB: MemDatabase) {
 
     fun getCalCnt(): Int = runBlocking { daoQstCalendar.getCnt() }
 
-    fun updateCal(id: String, isComplete: Boolean?) = GlobalScope.launch {
+    fun updateCal(id: String, isComplete: Boolean?) = GlobalScope.launch(Dispatchers.IO) {
         daoQstCalendar.update(id, isComplete)
     }
 
@@ -102,7 +103,7 @@ class MemRepository(memDB: MemDatabase) {
 
     fun insertQstRecord(qstRecord: QstRecord) = runBlocking { daoQstRecord.insert(qstRecord) }
 
-    fun deleteQstRecord(qstRecord: QstRecord) = GlobalScope.launch {
+    fun deleteQstRecord(qstRecord: QstRecord) = GlobalScope.launch(Dispatchers.IO) {
         daoQstRecord.delete(qstRecord)
     }
 

@@ -1,7 +1,7 @@
 package kr.yangbob.memorization.view
 
-import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
@@ -22,7 +22,6 @@ import kr.yangbob.memorization.databinding.ItemRecordCardBinding
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.viewmodel.QstViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class QstActivity : AppCompatActivity() {
 
@@ -69,8 +68,10 @@ class QstActivity : AppCompatActivity() {
         // dialog 생성
         deleteDialog = AlertDialog.Builder(this, R.style.DeleteDialog).setTitle(R.string.qst_delete_msg)
                 .setPositiveButton(R.string.delete) { _, _ ->
-                    model.delete()
-                    setResult(RESULT_OK)
+                    val deleteList = model.delete()
+                    setResult(RESULT_OK, Intent().apply {
+                        putStringArrayListExtra("deleteList", deleteList)
+                    })
                     finish()
                 }.setNegativeButton(R.string.cancel) { _, _ -> }.create()
     }

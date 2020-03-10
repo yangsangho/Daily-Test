@@ -54,7 +54,8 @@ class QstViewModel(private val memRepo: MemRepository) : ViewModel() {
         answerData.value = qst.answer
     }
 
-    fun delete(){
+    fun delete(): ArrayList<String> {
+        val deleteList = ArrayList<String>()
         recordList.forEach {
             if(memRepo.getCntRecord(it.calendar_id) == 1){
                 memRepo.updateCal(it.calendar_id, null)
@@ -65,8 +66,10 @@ class QstViewModel(private val memRepo: MemRepository) : ViewModel() {
                     }
                 }
             }
+            deleteList.add(it.calendar_id)
             memRepo.deleteQstRecord(it)
         }
         memRepo.deleteQst(qst)
+        return deleteList
     }
 }

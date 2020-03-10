@@ -135,20 +135,9 @@ class MainPagerFragmentAdapter(mainLifeCycle: Lifecycle, fm: FragmentManager) :
 class MainPagerFragment : Fragment() {
     private val model: MainViewModel by sharedViewModel()
     private lateinit var binding: DashboardModuleBinding
-    private var isInit = false
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-        isInit = false
-        binding = DataBindingUtil.inflate(
-                LayoutInflater.from(context),
-                R.layout.dashboard_module,
-                container,
-                false
-        )
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dashboard_module, container, false)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -164,25 +153,23 @@ class MainPagerFragment : Fragment() {
                 binding.dashboardChart.setCount(7)
                 val observeList = model.getQstRecordList()
                 observeList.observe(viewLifecycleOwner, Observer { rawList ->
-                    if (!isInit) {
-                        isInit = true
-                        model.setTodayTestCount()
-                        if (rawList.isNotEmpty()) {
-                            val map = rawList.groupBy { qstRecord -> qstRecord.challenge_stage }
-                                    .mapValues { it.value.size }.toMutableMap()
-                            STAGE_LIST.filter { it.ordinal > 0 }
-                                    .forEach {
-                                        if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0
-                                    }
-                            val reviewCnt = map[Stage.REVIEW.ordinal]
-                            map.remove(Stage.REVIEW.ordinal)
-                            map[Stage.AFTER_MONTH.ordinal] =
-                                    (map[Stage.AFTER_MONTH.ordinal] ?: 0) + (reviewCnt ?: 0)
-                            binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
-                        } else {
-                            binding.dashboardChart.setDataList(listOf())
-                        }
+                    model.setTodayTestCount()
+                    if (rawList.isNotEmpty()) {
+                        val map = rawList.groupBy { qstRecord -> qstRecord.challenge_stage }
+                                .mapValues { it.value.size }.toMutableMap()
+                        STAGE_LIST.filter { it.ordinal > 0 }
+                                .forEach {
+                                    if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0
+                                }
+                        val reviewCnt = map[Stage.REVIEW.ordinal]
+                        map.remove(Stage.REVIEW.ordinal)
+                        map[Stage.AFTER_MONTH.ordinal] =
+                                (map[Stage.AFTER_MONTH.ordinal] ?: 0) + (reviewCnt ?: 0)
+                        binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
+                    } else {
+                        binding.dashboardChart.setDataList(listOf())
                     }
+
                     if (model.setTodayCardData()) {
                         binding.dashboardBtn1.isEnabled = false
                         binding.dashboardBtn1.setBackgroundColor(Color.DKGRAY)

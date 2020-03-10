@@ -50,11 +50,8 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
         } else "0"
     }
 
-    // 재실행 필요 X - 1회만
     fun setTodayTestCount() {
-        if (todayCard1.value == null) {
-            todayCard1.value = "${todayQstRecordLD.value!!.size}"
-        }
+        todayCard1.value = "${todayQstRecordLD.value!!.size}"
     }
 
     // 시험 보기 intent result 받고 재 실행 필요 - 시험 진행상태, 정답률
@@ -111,7 +108,6 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
             String.format("%.1f%%", completedCnt / cntHasTest.toFloat() * 100)
         } else "-"
     }
-
 
 
     init {
