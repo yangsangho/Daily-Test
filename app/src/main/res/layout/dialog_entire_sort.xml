@@ -2,9 +2,20 @@
 <layout>
 
     <data>
+
+        <import type="java.util.List"/>
+
         <variable
-            name="model"
-            type="kr.yangbob.memorization.viewmodel.EntireViewModel" />
+            name="sortItemName"
+            type="List&lt;String>" />
+
+        <variable
+            name="sortInfo"
+            type="kr.yangbob.memorization.SortInfo" />
+
+        <variable
+            name="sortDialog"
+            type="kr.yangbob.memorization.view.SortDialog" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -34,26 +45,29 @@
             app:layout_constraintTop_toBottomOf="@id/dialogTitle">
 
             <RadioButton
-                android:id="@+id/radioButton"
+                android:id="@+id/sortItem1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RadioButton"
+                android:checked="@{sortInfo.sortedItemIdx == 0 ? true : false}"
+                android:text="@{sortItemName[0]}"
                 android:theme="@style/RadioButtonStyle" />
 
             <RadioButton
-                android:id="@+id/radioButton2"
+                android:id="@+id/sortItem2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:text="RadioButton"
+                android:checked="@{sortInfo.sortedItemIdx == 1 ? true : false}"
+                android:text="@{sortItemName[1]}"
                 android:theme="@style/RadioButtonStyle" />
 
             <RadioButton
-                android:id="@+id/radioButton3"
+                android:id="@+id/sortItem3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="RadioButton"
+                android:checked="@{sortInfo.sortedItemIdx == 2 ? true : false}"
+                android:text="@{sortItemName[2]}"
                 android:theme="@style/RadioButtonStyle" />
         </RadioGroup>
 
@@ -89,17 +103,19 @@
             app:layout_constraintTop_toBottomOf="@id/dialogSubTitle">
 
             <RadioButton
-                android:id="@+id/radioButton4"
+                android:id="@+id/sortAscending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:checked="@{sortInfo.isAscending ? true : false}"
                 android:text="@string/ascending"
                 android:theme="@style/RadioButtonStyle" />
 
             <RadioButton
-                android:id="@+id/radioButton5"
+                android:id="@+id/sortDescending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:checked="@{sortInfo.isAscending ? false : true}"
                 android:text="@string/descending"
                 android:theme="@style/RadioButtonStyle" />
         </RadioGroup>
@@ -112,6 +128,7 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
+            android:onClick="@{() -> sortDialog.cancelDialog()}"
             android:text="@string/cancel"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"
@@ -128,6 +145,7 @@
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
+            android:onClick="@{() -> sortDialog.doneDialog()}"
             android:text="@string/done"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"

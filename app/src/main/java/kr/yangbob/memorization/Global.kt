@@ -4,7 +4,6 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import kr.yangbob.memorization.db.Qst
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -16,6 +15,9 @@ const val TEST_CHK_RECV_ID = 10
 
 const val EXTRA_TO_RESULT_DATESTR = "dateStr"
 const val EXTRA_TO_QST_ID = "qstID"
+
+const val SETTING_ENTIRE_SORT_ITEM = "entireSortItem"
+const val SETTING_ENTIRE_SORT_ORDER = "entireSortOrder"
 
 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 val todayDateStr: String = dateFormat.format(Date(System.currentTimeMillis()))
@@ -32,6 +34,10 @@ enum class Stage(val nextTest: Int) {
 enum class IconSetting {
     NONE, UP, DOWN
 }
+data class SortInfo(
+        var sortedItemIdx: Int,
+        var isAscending: Boolean
+)
 
 // Receiver 관련
 fun cancelAlarm(context: Context) {

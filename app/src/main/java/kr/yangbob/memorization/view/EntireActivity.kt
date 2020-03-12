@@ -2,12 +2,11 @@ package kr.yangbob.memorization.view
 
 import android.content.Intent
 import android.content.res.Configuration
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.util.TypedValue
 import android.view.*
-import androidx.appcompat.app.AlertDialog
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
@@ -18,20 +17,19 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_entire.*
 import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.databinding.DialogEntireSortBinding
 import kr.yangbob.memorization.databinding.ItemEntireCardBinding
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.viewmodel.EntireViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
 
 class EntireActivity : AppCompatActivity() {
     private val model: EntireViewModel by viewModel()
     private lateinit var qstList: LiveData<List<Qst>>
     private lateinit var adapter: EntireRecyclerAdapter
     private lateinit var appBarTitle: String
-    private lateinit var sortedQstList: List<Qst>
-    private lateinit var sortDialog: AlertDialog
+
+    private var sortedQstList: List<Qst> = listOf()
+    private lateinit var sortDialog: SortDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,16 +44,10 @@ class EntireActivity : AppCompatActivity() {
 
         qstList = model.getAllQst()
         qstList.observe(this, Observer {
-            sortedQstList = model.getSortedList(it)
+            val isEmpty = it.isEmpty()
+            sortedQstList = if (isEmpty) listOf() else model.getSortedList(it)
             adapter.setData(sortedQstList)
-            setNoItemMsgVisible(sortedQstList.isEmpty())
-        })
-
-        model.getObserverForSort().observe(this, Observer {
-            if (::sortedQstList.isInitialized) {
-                sortedQstList = model.getSortedList(sortedQstList)
-                adapter.setData(sortedQstList)
-            }
+            setNoItemMsgVisible(isEmpty)
         })
 
         appBarTitle = getString(R.string.entire_appbar_title)
@@ -63,14 +55,12 @@ class EntireActivity : AppCompatActivity() {
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val dialogBinding = DataBindingUtil.inflate<DialogEntireSortBinding>(layoutInflater, R.layout.dialog_entire_sort, null, false)
-        dialogBinding.lifecycleOwner = this
-        dialogBinding.model = model
-        sortDialog = AlertDialog.Builder(this).apply {
-            setView(dialogBinding.root)
-        }.create().apply {
-            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        }
+        sortDialog = SortDialog(this, model.getSortInfo(), listOf(getString(R.string.entire_alert_sort1), getString(R.string.entire_alert_sort2), getString(R.string.entire_alert_sort3)))
+        sortDialog.getChangeObserver().observe(this, Observer {
+            model.saveSortInfo(it)
+            sortedQstList = model.getSortedList(sortedQstList)
+            adapter.setData(sortedQstList)
+        })
     }
 
     override fun onResume() {
@@ -131,7 +121,16 @@ class EntireActivity : AppCompatActivity() {
             true
         }
         R.id.action_entire_sort -> {
-            if (model.checkIsPossibleClick()) sortDialog.show()
+            if (sortedQstList.size <= 1) {
+                Toast.makeText(this, R.string.nothing_sort_msg, Toast.LENGTH_SHORT).show()
+            } else {
+                if (model.checkIsPossibleClick()) {
+                    sortDialog.show()
+                    Handler().postDelayed({
+                        model.resetIsPossibleClick()
+                    }, 1000)
+                }
+            }
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -143,10 +142,7 @@ class EntireActivity : AppCompatActivity() {
     }
 }
 
-class EntireViewHolder(
-        private val binding: ItemEntireCardBinding,
-        private val model: EntireViewModel
-) : RecyclerView.ViewHolder(binding.root) {
+class EntireViewHolder(private val binding: ItemEntireCardBinding, private val model: EntireViewModel) : RecyclerView.ViewHolder(binding.root) {
     fun bind(qst: Qst) {
         binding.qst = qst
         binding.holder = this
@@ -154,26 +150,15 @@ class EntireViewHolder(
         binding.card.setOnClickListener {
             if (model.checkIsPossibleClick()) {
                 val context = binding.root.context
-                context.startActivity(
-                        Intent(context, QstActivity::class.java).putExtra(
-                                EXTRA_TO_QST_ID,
-                                qst.id
-                        )
-                )
+                context.startActivity(Intent(context, QstActivity::class.java).putExtra(EXTRA_TO_QST_ID, qst.id))
             }
         }
     }
 }
 
-class EntireRecyclerAdapter(private var recordList: List<Qst>, private val model: EntireViewModel) :
-        RecyclerView.Adapter<EntireViewHolder>() {
+class EntireRecyclerAdapter(private var recordList: List<Qst>, private val model: EntireViewModel) : RecyclerView.Adapter<EntireViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntireViewHolder {
-        val binding: ItemEntireCardBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.item_entire_card,
-                parent,
-                false
-        )
+        val binding: ItemEntireCardBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_entire_card, parent, false)
         return EntireViewHolder(binding, model)
     }
 

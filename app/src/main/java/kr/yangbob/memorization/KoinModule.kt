@@ -1,10 +1,10 @@
 package kr.yangbob.memorization
 
+import android.content.Context
 import androidx.room.Room
 import kr.yangbob.memorization.db.MemDatabase
 import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.viewmodel.*
-import org.koin.android.ext.koin.androidApplication
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -23,7 +23,7 @@ val viewModelModule = module {
         ResultViewModel(get())
     }
     viewModel {
-        EntireViewModel(androidApplication(), get())
+        EntireViewModel(get(), get())
     }
     viewModel {
         QstViewModel(get())
@@ -36,5 +36,8 @@ val viewModelModule = module {
         Room.databaseBuilder(androidContext(),
             MemDatabase::class.java, "BeomS_Memo"
         ).fallbackToDestructiveMigration().build()
+    }
+    single {
+        androidContext().getSharedPreferences("SETTING", Context.MODE_PRIVATE)
     }
 }

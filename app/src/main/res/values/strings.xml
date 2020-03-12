@@ -92,4 +92,5 @@
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
     <string name="qst_delete_msg">Delete the question?</string>
+    <string name="nothing_sort_msg">There\'s nothing to sort.</string>
 </resources>

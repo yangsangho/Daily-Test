@@ -93,4 +93,5 @@
     <string name="ascending">오름차 순</string>
     <string name="descending">내림차 순</string>
     <string name="qst_delete_msg">문제를 삭제할까요?</string>
+    <string name="nothing_sort_msg">정렬할 게 없어요.</string>
 </resources>
