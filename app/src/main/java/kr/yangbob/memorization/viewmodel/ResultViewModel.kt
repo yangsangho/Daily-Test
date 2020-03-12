@@ -1,13 +1,16 @@
 package kr.yangbob.memorization.viewmodel
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import kr.yangbob.memorization.SETTING_RESULT_SORT_ITEM
+import kr.yangbob.memorization.SETTING_RESULT_SORT_ORDER
+import kr.yangbob.memorization.SortInfo
 import kr.yangbob.memorization.db.QstRecordWithName
 import kr.yangbob.memorization.model.MemRepository
 import java.text.DateFormat
 
-class ResultViewModel(private val memRepo: MemRepository) : ViewModel() {
-
+class ResultViewModel(private val memRepo: MemRepository, private val settings: SharedPreferences) : ViewModel() {
     private var isPossibleClick = false
     fun resetIsPossibleClick(){
         isPossibleClick = false
@@ -20,10 +23,39 @@ class ResultViewModel(private val memRepo: MemRepository) : ViewModel() {
             true
         }
     }
+    private var sortInfo: SortInfo
 
-    fun getRecordList(calendarId: String): LiveData<List<QstRecordWithName>> =
-        memRepo.getAllRecordWithName(calendarId)
+    init {
+        val sortItem = settings.getInt(SETTING_RESULT_SORT_ITEM, 0)
+        val sortOrder = settings.getBoolean(SETTING_RESULT_SORT_ORDER, true)
+        sortInfo = SortInfo(sortItem, sortOrder)
+    }
 
-    fun getFormattedDate(dateStr: String): String =
-        memRepo.getFormattedDate(dateStr, DateFormat.FULL)
+    fun getSortInfo() = sortInfo
+    fun getRecordList(calendarId: String): LiveData<List<QstRecordWithName>> = memRepo.getAllRecordWithName(calendarId)
+    fun getFormattedDate(dateStr: String): String = memRepo.getFormattedDate(dateStr, DateFormat.FULL)
+
+    fun getSortedList(recordList: List<QstRecordWithName>): List<QstRecordWithName> = when (sortInfo.sortedItemIdx) {
+        0 -> {
+            if (sortInfo.isAscending) recordList.sortedBy { it.challenge_stage }
+            else recordList.sortedByDescending { it.challenge_stage }
+        }
+        1 -> {
+            if (sortInfo.isAscending) recordList.sortedBy { it.qst_name }
+            else recordList.sortedByDescending { it.qst_name }
+        }
+        2 -> {
+            if (sortInfo.isAscending) recordList.sortedBy { it.is_correct }
+            else recordList.sortedByDescending { it.is_correct }
+        }
+        else -> { recordList }
+    }
+
+    fun saveSortInfo(sortInfo: SortInfo){
+        this.sortInfo = sortInfo
+        val editor = settings.edit()
+        editor.putInt(SETTING_RESULT_SORT_ITEM, sortInfo.sortedItemIdx)
+        editor.putBoolean(SETTING_RESULT_SORT_ORDER, sortInfo.isAscending)
+        editor.apply()
+    }
 }

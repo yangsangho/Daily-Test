@@ -18,7 +18,8 @@
     <string name="add_appbar_title">Add\nQuestion</string>
     <string name="add_input_question">Input the question name</string>
     <string name="add_input_answer">Input the answer</string>
-    <string name="toast_need_input_qst">Please input question and answer</string>
+    <string name="toast_need_input_qst">Please input question and answer.</string>
+    <string name="toast_duplication_qst">The same question exists.</string>
     <string name="status_msg_no_start">No Start</string>
     <string name="status_msg_ongoing">Ongoing</string>
     <string name="status_msg_complete">Completion</string>
@@ -93,4 +94,7 @@
     <string name="descending">Descending</string>
     <string name="qst_delete_msg">Delete the question?</string>
     <string name="nothing_sort_msg">There\'s nothing to sort.</string>
+    <string name="result_alert_sort1">Challenge Stage</string>
+    <string name="result_alert_sort2">Question</string>
+    <string name="result_alert_sort3">Test Result</string>
 </resources>

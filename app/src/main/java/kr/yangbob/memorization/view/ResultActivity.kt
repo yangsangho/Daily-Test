@@ -1,13 +1,14 @@
 package kr.yangbob.memorization.view
 
-import android.app.Activity
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.os.Handler
+import android.util.TypedValue
 import android.view.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -25,9 +26,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class ResultActivity : AppCompatActivity() {
     private val model: ResultViewModel by viewModel()
     private lateinit var recordList: LiveData<List<QstRecordWithName>>
-    private lateinit var copyRecordList: List<QstRecordWithName>
+    private lateinit var sortedRecordList: List<QstRecordWithName>
     private lateinit var adapter: ResultRecyclerAdapter
     private lateinit var appBarTitle: String
+    private lateinit var sortDialog: SortDialog
     private val deleteSet = HashSet<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,8 +61,8 @@ class ResultActivity : AppCompatActivity() {
                     progressRate,
                     correctRate
             )
-            copyRecordList = rawList
-            adapter.setData(rawList)
+            sortedRecordList = model.getSortedList(rawList)
+            adapter.setData(sortedRecordList)
             setNoItemMsgVisible(cntQst == 0)
         })
 
@@ -72,6 +74,13 @@ class ResultActivity : AppCompatActivity() {
         toolBar.title = appBarTitle
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        sortDialog = SortDialog(this, model.getSortInfo(), listOf(getString(R.string.result_alert_sort1), getString(R.string.result_alert_sort2), getString(R.string.result_alert_sort3)))
+        sortDialog.getChangeObserver().observe(this, Observer {
+            model.saveSortInfo(it)
+            sortedRecordList = model.getSortedList(sortedRecordList)
+            adapter.setData(sortedRecordList)
+        })
     }
 
     override fun onResume() {
@@ -93,9 +102,9 @@ class ResultActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_result, menu)
+        menuInflater.inflate(R.menu.menu_entire, menu)
 
-        val searchItem = menu?.findItem(R.id.action_result_search)
+        val searchItem = menu?.findItem(R.id.action_entire_search)
         searchItem?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
                 supportActionBar?.title = ""
@@ -104,14 +113,12 @@ class ResultActivity : AppCompatActivity() {
 
             override fun onMenuItemActionCollapse(item: MenuItem?): Boolean {
                 supportActionBar?.title = appBarTitle
-                adapter.setData(copyRecordList)
+                adapter.setData(sortedRecordList)
                 return true
             }
         })
 
         val searchView = searchItem?.actionView as SearchView
-        val searchAutoComplete = searchView.findViewById<SearchView.SearchAutoComplete>(androidx.appcompat.R.id.search_src_text)
-        searchAutoComplete.setHintTextColor(ContextCompat.getColor(this, R.color.white))
         searchView.queryHint = getString(R.string.entire_search_msg)
         searchView.maxWidth = Integer.MAX_VALUE
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -121,16 +128,18 @@ class ResultActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
-                    val newList = copyRecordList.filter { it.qst_name.contains(newText, true) }
+                    val newList = sortedRecordList.filter { it.qst_name.contains(newText, true) }
                     adapter.setData(newList)
                     setNoItemMsgVisible(newList.isEmpty())
                 } else {
-                    adapter.setData(copyRecordList)
-                    setNoItemMsgVisible(copyRecordList.isEmpty())
+                    adapter.setData(sortedRecordList)
+                    setNoItemMsgVisible(sortedRecordList.isEmpty())
                 }
                 return false
             }
         })
+        val searchAutoComplete = searchView.findViewById<SearchView.SearchAutoComplete>(androidx.appcompat.R.id.search_src_text)
+        searchAutoComplete.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
         return true
     }
 
@@ -138,6 +147,19 @@ class ResultActivity : AppCompatActivity() {
         android.R.id.home -> {
             if (model.checkIsPossibleClick()) {
                 finish()
+            }
+            true
+        }
+        R.id.action_entire_sort -> {
+            if (sortedRecordList.size <= 1) {
+                Toast.makeText(this, R.string.nothing_sort_msg, Toast.LENGTH_SHORT).show()
+            } else {
+                if (model.checkIsPossibleClick()) {
+                    sortDialog.show()
+                    Handler().postDelayed({
+                        model.resetIsPossibleClick()
+                    }, 1000)
+                }
             }
             true
         }

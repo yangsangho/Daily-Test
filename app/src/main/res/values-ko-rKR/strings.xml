@@ -19,7 +19,8 @@
     <string name="add_appbar_title">문제\n추가하기</string>
     <string name="add_input_question">문제를 입력해주세요.</string>
     <string name="add_input_answer">정답을 입력해주세요.</string>
-    <string name="toast_need_input_qst">문제와 정답을 입력해주세요.</string>
+    <string name="toast_need_input_qst">문제와 정답을 입력하세요.</string>
+    <string name="toast_duplication_qst">동일한 문제가 존재합니다.</string>
     <string name="status_msg_complete">완료</string>
     <string name="status_msg_no_start">미진행</string>
     <string name="status_msg_ongoing">진행중</string>
@@ -94,4 +95,7 @@
     <string name="descending">내림차 순</string>
     <string name="qst_delete_msg">문제를 삭제할까요?</string>
     <string name="nothing_sort_msg">정렬할 게 없어요.</string>
+    <string name="result_alert_sort3">시험 결과</string>
+    <string name="result_alert_sort2">문제</string>
+    <string name="result_alert_sort1">도전 단계</string>
 </resources>

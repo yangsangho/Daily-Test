@@ -20,7 +20,7 @@ val viewModelModule = module {
         TestViewModel(get())
     }
     viewModel {
-        ResultViewModel(get())
+        ResultViewModel(get(), get())
     }
     viewModel {
         EntireViewModel(get(), get())

@@ -21,11 +21,11 @@ class AddActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
         val binding: ActivityAddBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_add)
+                DataBindingUtil.setContentView(this, R.layout.activity_add)
         binding.lifecycleOwner = this
         binding.model = model
 
@@ -47,19 +47,18 @@ class AddActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean = when(item.itemId){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         android.R.id.home -> {
             finish()
             true
         }
         R.id.action_add_save -> {
-            if(model.checkIsPossibleClick()){
-                if(model.isPossibleInsert()){
-                    model.insertQst()
-                    finish()
-                } else {
-                    Toast.makeText(this, R.string.toast_need_input_qst, Toast.LENGTH_LONG).show()
-                }
+            if (model.checkIsPossibleClick()) {
+                if (model.isPossibleInsert()) {
+                    if (model.insertQst()) finish()
+                    else Toast.makeText(this, R.string.toast_duplication_qst, Toast.LENGTH_SHORT).show()
+                } else Toast.makeText(this, R.string.toast_need_input_qst, Toast.LENGTH_SHORT).show()
+                model.resetIsPossibleClick()
             }
             true
         }

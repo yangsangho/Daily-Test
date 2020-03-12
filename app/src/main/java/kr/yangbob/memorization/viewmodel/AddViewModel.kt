@@ -26,8 +26,12 @@ class AddViewModel(private val memRepo: MemRepository) : ViewModel() {
     val answer = MutableLiveData<String>()      // 문제 add 및 update의 정답
 
     fun isPossibleInsert(): Boolean = !title.value.isNullOrEmpty() && !answer.value.isNullOrEmpty()
-    fun insertQst() {
-        val qst = Qst(title.value!!, answer.value!!, todayDateStr, tomorrowDateStr)
-        memRepo.insertQst(qst)
+    fun insertQst(): Boolean {
+        return if (memRepo.chkDuplication(title.value!!)) false
+        else {
+            val qst = Qst(title.value!!, answer.value!!, todayDateStr, tomorrowDateStr)
+            memRepo.insertQst(qst)
+            true
+        }
     }
 }

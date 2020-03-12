@@ -5,6 +5,9 @@ import androidx.room.*
 
 @Dao
 interface DaoQst {
+    @Query("SELECT * FROM Qst WHERE title == :title")
+    suspend fun getFromTitle(title: String): Qst?
+
     @Query("SELECT * FROM qst")
     fun getAllLD(): LiveData<List<Qst>>
 

@@ -18,6 +18,8 @@ const val EXTRA_TO_QST_ID = "qstID"
 
 const val SETTING_ENTIRE_SORT_ITEM = "entireSortItem"
 const val SETTING_ENTIRE_SORT_ORDER = "entireSortOrder"
+const val SETTING_RESULT_SORT_ITEM = "resultSortItem"
+const val SETTING_RESULT_SORT_ORDER = "resultSortOrder"
 
 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 val todayDateStr: String = dateFormat.format(Date(System.currentTimeMillis()))

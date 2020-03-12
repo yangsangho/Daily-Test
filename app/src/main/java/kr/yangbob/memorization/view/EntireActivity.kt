@@ -44,10 +44,9 @@ class EntireActivity : AppCompatActivity() {
 
         qstList = model.getAllQst()
         qstList.observe(this, Observer {
-            val isEmpty = it.isEmpty()
-            sortedQstList = if (isEmpty) listOf() else model.getSortedList(it)
+            sortedQstList = model.getSortedList(it)
             adapter.setData(sortedQstList)
-            setNoItemMsgVisible(isEmpty)
+            setNoItemMsgVisible(it.isEmpty())
         })
 
         appBarTitle = getString(R.string.entire_appbar_title)
@@ -107,8 +106,7 @@ class EntireActivity : AppCompatActivity() {
             }
         })
 
-        val searchAutoComplete =
-                searchView.findViewById<SearchView.SearchAutoComplete>(androidx.appcompat.R.id.search_src_text)
+        val searchAutoComplete = searchView.findViewById<SearchView.SearchAutoComplete>(androidx.appcompat.R.id.search_src_text)
         searchAutoComplete.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
         ///////// search Option /////////
         return true

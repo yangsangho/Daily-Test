@@ -19,6 +19,10 @@ class MemRepository(memDB: MemDatabase) {
     private val daoQstCalendar: DaoQstCalendar = memDB.getDaoQstCalendar()
 
     ////// Qst
+    fun chkDuplication(title: String): Boolean = runBlocking{
+        daoQst.getFromTitle(title) != null
+    }
+
     fun getAllQstLD(): LiveData<List<Qst>> = daoQst.getAllLD()
 
     fun getQstFromId(id: Int): Qst = runBlocking { daoQst.getFromId(id) }
