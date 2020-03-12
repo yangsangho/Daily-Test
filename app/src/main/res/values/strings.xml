@@ -86,5 +86,10 @@
     </string-array>
     <string name="calendar_start_day">Start Day</string>
     <string name="delete">Delete</string>
+    <string name="done">Done</string>
+    <string name="sort_by">Sort By</string>
+    <string name="order">Order</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
     <string name="qst_delete_msg">Delete the question?</string>
 </resources>

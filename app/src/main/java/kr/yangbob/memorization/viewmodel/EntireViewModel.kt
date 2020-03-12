@@ -87,4 +87,6 @@ class EntireViewModel(application: Application, private val memRepo: MemReposito
         }
         else -> { qstList }
     }
+
+
 }

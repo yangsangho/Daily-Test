@@ -2,10 +2,11 @@ package kr.yangbob.memorization.view
 
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.*
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
@@ -17,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_entire.*
 import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.R
+import kr.yangbob.memorization.databinding.DialogEntireSortBinding
 import kr.yangbob.memorization.databinding.ItemEntireCardBinding
-import kr.yangbob.memorization.databinding.MenuAlignLayoutBinding
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.viewmodel.EntireViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,10 +31,11 @@ class EntireActivity : AppCompatActivity() {
     private lateinit var adapter: EntireRecyclerAdapter
     private lateinit var appBarTitle: String
     private lateinit var sortedQstList: List<Qst>
+    private lateinit var sortDialog: AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
         setContentView(R.layout.activity_entire)
@@ -50,7 +52,7 @@ class EntireActivity : AppCompatActivity() {
         })
 
         model.getObserverForSort().observe(this, Observer {
-            if(::sortedQstList.isInitialized) {
+            if (::sortedQstList.isInitialized) {
                 sortedQstList = model.getSortedList(sortedQstList)
                 adapter.setData(sortedQstList)
             }
@@ -60,6 +62,15 @@ class EntireActivity : AppCompatActivity() {
         toolBar.title = appBarTitle
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val dialogBinding = DataBindingUtil.inflate<DialogEntireSortBinding>(layoutInflater, R.layout.dialog_entire_sort, null, false)
+        dialogBinding.lifecycleOwner = this
+        dialogBinding.model = model
+        sortDialog = AlertDialog.Builder(this).apply {
+            setView(dialogBinding.root)
+        }.create().apply {
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
     }
 
     override fun onResume() {
@@ -107,7 +118,7 @@ class EntireActivity : AppCompatActivity() {
         })
 
         val searchAutoComplete =
-            searchView.findViewById<SearchView.SearchAutoComplete>(androidx.appcompat.R.id.search_src_text)
+                searchView.findViewById<SearchView.SearchAutoComplete>(androidx.appcompat.R.id.search_src_text)
         searchAutoComplete.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
         ///////// search Option /////////
         return true
@@ -120,7 +131,7 @@ class EntireActivity : AppCompatActivity() {
             true
         }
         R.id.action_entire_sort -> {
-            if(model.checkIsPossibleClick()) showSortDialog()
+            if (model.checkIsPossibleClick()) sortDialog.show()
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -130,40 +141,24 @@ class EntireActivity : AppCompatActivity() {
         if (isEmpty) entireNoItemMsg.visibility = View.VISIBLE
         else entireNoItemMsg.visibility = View.GONE
     }
-
-    private fun showSortDialog() {
-        val binding = DataBindingUtil.inflate<MenuAlignLayoutBinding>(layoutInflater, R.layout.menu_align_layout, null, false)
-        binding.lifecycleOwner = this
-        binding.model = model
-
-        val title = layoutInflater.inflate(R.layout.menu_align_title, null) as TextView
-        title.text = getString(R.string.entire_alert_title)
-
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this, R.style.SortAlertDialog).apply {
-            setCustomTitle(title)
-            setView(binding.root)
-        }
-        val dialog: AlertDialog = builder.create()
-        dialog.show()
-    }
 }
 
 class EntireViewHolder(
-    private val binding: ItemEntireCardBinding,
-    private val model: EntireViewModel
+        private val binding: ItemEntireCardBinding,
+        private val model: EntireViewModel
 ) : RecyclerView.ViewHolder(binding.root) {
     fun bind(qst: Qst) {
         binding.qst = qst
         binding.holder = this
         binding.tvEntireRegistration.text = model.getFormattedDate(qst.registration_date)
         binding.card.setOnClickListener {
-            if(model.checkIsPossibleClick()){
+            if (model.checkIsPossibleClick()) {
                 val context = binding.root.context
                 context.startActivity(
-                    Intent(context, QstActivity::class.java).putExtra(
-                        EXTRA_TO_QST_ID,
-                        qst.id
-                    )
+                        Intent(context, QstActivity::class.java).putExtra(
+                                EXTRA_TO_QST_ID,
+                                qst.id
+                        )
                 )
             }
         }
@@ -171,13 +166,13 @@ class EntireViewHolder(
 }
 
 class EntireRecyclerAdapter(private var recordList: List<Qst>, private val model: EntireViewModel) :
-    RecyclerView.Adapter<EntireViewHolder>() {
+        RecyclerView.Adapter<EntireViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntireViewHolder {
         val binding: ItemEntireCardBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.item_entire_card,
-            parent,
-            false
+                LayoutInflater.from(parent.context),
+                R.layout.item_entire_card,
+                parent,
+                false
         )
         return EntireViewHolder(binding, model)
     }

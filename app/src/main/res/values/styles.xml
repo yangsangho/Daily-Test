@@ -29,14 +29,8 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
-    <style name="SortAlertDialog" parent="Theme.AppCompat.Light.Dialog">
+    <style name="SortAlertDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:textColor">@color/white</item>
-        <item name="android:gravity">center</item>
-        <!-- gravity 설정하니까 크기에 맞춰서 중간에 오더라 -->
-        <item name="windowFixedWidthMajor">@dimen/align_dialog_width_major</item>
-        <item name="windowFixedWidthMinor">@dimen/align_dialog_width_minor</item>
-        <!-- window ~~ Major : 최대크기, minor : 최소크기   -> %로 비율 지정-->
-<!--        근데 minor에 따라 달라지네...??-->
     </style>
 
     <style name="DeleteDialog" parent="ThemeOverlay.AppCompat.Dialog.Alert">
@@ -49,5 +43,10 @@
 
     <style name="ButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="RadioButtonStyle" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/colorAccent</item>
     </style>
 </resources>
