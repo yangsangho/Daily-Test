@@ -98,4 +98,7 @@
     <string name="result_alert_sort3">시험 결과</string>
     <string name="result_alert_sort2">문제</string>
     <string name="result_alert_sort1">도전 단계</string>
+    <plurals name="notification_text">
+        <item quantity="other">아직 %d 문제를 풀지 않았어요.</item>
+    </plurals>
 </resources>

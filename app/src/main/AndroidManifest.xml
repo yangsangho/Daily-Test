@@ -3,6 +3,7 @@
     package="kr.yangbob.memorization">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:name=".MyApplication"
@@ -37,5 +38,6 @@
             </intent-filter>
         </receiver>
         <receiver android:name=".CreateCalendarReceiver" />
+        <receiver android:name=".PushAlarmReceiver" />
     </application>
 </manifest>

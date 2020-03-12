@@ -97,4 +97,8 @@
     <string name="result_alert_sort1">Challenge Stage</string>
     <string name="result_alert_sort2">Question</string>
     <string name="result_alert_sort3">Test Result</string>
+    <plurals name="notification_text">
+        <item quantity="one">There is a question that hasn\'t been solved yet.</item>
+        <item quantity="other">There is %d questions that haven\'t been solved yet.</item>
+    </plurals>
 </resources>

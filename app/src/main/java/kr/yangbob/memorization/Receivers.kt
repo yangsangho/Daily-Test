@@ -1,12 +1,16 @@
 package kr.yangbob.memorization
 
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstCalendar
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
+import kr.yangbob.memorization.view.MainActivity
 import org.koin.core.context.GlobalContext
 import kotlin.system.exitProcess
 
@@ -54,6 +58,36 @@ fun workForNextTest(memRepo: MemRepository): Boolean {
     } else return false
 }
 
+class PushAlarmReceiver : BroadcastReceiver(){
+    private val notificationId = 22
+    override fun onReceive(context: Context?, intent: Intent?) {
+        if(context != null){
+            val memRepo = GlobalContext.get().koin.get<MemRepository>()
+            val notSolvedQstCnt = memRepo.getCntNotSolved(memRepo.getDateStr(System.currentTimeMillis()))
+            if(notSolvedQstCnt > 0){
+                val mainIntent = Intent(context, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                }
+                val pendIntent = PendingIntent.getActivity(context, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+                val notiBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_note_icon)
+                    .setContentTitle(context.getString(R.string.today_test))
+                    .setContentText(context.resources.getQuantityString(R.plurals.notification_text, notSolvedQstCnt, notSolvedQstCnt))
+                    .setWhen(System.currentTimeMillis())
+                    .setNumber(notSolvedQstCnt)
+//                    .setDefaults(NotificationCompat.DEFAULT_SOUND or NotificationCompat.DEFAULT_VIBRATE)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendIntent)
+
+                val notiMgr = NotificationManagerCompat.from(context)
+                notiMgr.notify(notificationId, notiBuilder.build())
+            }
+        }
+    }
+}
+
 class CreateCalendarReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         // 명시적 인텐트로 실행해서 action 체크 없이
@@ -68,7 +102,7 @@ class CreateCalendarReceiver : BroadcastReceiver() {
 class AfterBootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         if (intent.action == Intent.ACTION_BOOT_COMPLETED) {
-            setTestChkAlarm(context)
+            setTimer(context)
         }
     }
 }
