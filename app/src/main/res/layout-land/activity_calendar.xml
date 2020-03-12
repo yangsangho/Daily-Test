@@ -184,6 +184,8 @@
                 android:layout_margin="8dp"
                 android:onClick="@{model::detailBtnClick}"
                 android:text="@string/calendar_detail_button"
+                android:textAllCaps="false"
+                android:foreground="?attr/selectableItemBackground"
                 app:layout_constraintEnd_toEndOf="@id/recordText"
                 app:layout_constraintStart_toStartOf="@id/recordText"
                 app:layout_constraintTop_toTopOf="parent" />

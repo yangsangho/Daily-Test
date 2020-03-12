@@ -26,8 +26,8 @@
             android:id="@+id/dashboardChart"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintHeight_percent=".7"
             app:layout_constraintBottom_toTopOf="@id/dashboardCard1"
+            app:layout_constraintHeight_percent=".7"
             app:layout_constraintTop_toTopOf="parent" />
 
         <include
@@ -72,15 +72,14 @@
             android:id="@+id/dashboardBtnLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/dashboardBtn1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/colorPrimary"
+                android:layout_height="30dp"
+                android:foreground="?attr/selectableItemBackground"
                 android:onClick="@{isToday ? fragment::clickTestBtn : fragment::clickEntireList}"
                 android:text="@{isToday ? @string/dashboard_today_btn1 : @string/dashboard_entire_btn1}"
                 android:textAllCaps="false"
@@ -96,10 +95,8 @@
             <Button
                 android:id="@+id/dashboardBtn2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@color/colorPrimary"
+                android:layout_height="30dp"
+                android:foreground="?attr/selectableItemBackground"
                 android:onClick="@{isToday ? fragment::clickTodayRecord : fragment::clickEntireRecord}"
                 android:text="@{isToday ? @string/dashboard_today_btn2 : @string/dashboard_entire_btn2}"
                 android:textAllCaps="false"
