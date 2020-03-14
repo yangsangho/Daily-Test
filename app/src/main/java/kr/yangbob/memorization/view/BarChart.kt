@@ -63,7 +63,7 @@ class BarChart : View {
     private lateinit var barRatioDescTextList: List<String?>
     private lateinit var iconRectList: List<Rect>
     private val iconVectorList: List<VectorDrawableCompat?> = listOf(
-        VectorDrawableCompat.create(context.resources, R.drawable.ic_add_black_24dp, null),
+        VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_new, null),
         VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_1_1, null),
         VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_1_2, null),
         VectorDrawableCompat.create(context.resources, R.drawable.ic_stage_1_3, null),
@@ -83,12 +83,12 @@ class BarChart : View {
         descHeight = h * 0.08f
         descWidth = w * 0.7f
         baseLineY = h * 0.85f
-        itemIconHeight = h * 0.075f
+        itemIconHeight = h * 0.0725f
         itemCenterX = w / (numberOfItems * 2).toFloat()
         itemWidth = w * 0.05f
         itemBarMaxHeight = h * 0.6f
 
-        itemIconCenterY = baseLineY + itemIconHeight
+        itemIconCenterY = baseLineY + itemIconHeight + (h*0.005f)
         if (itemWidth > itemIconHeight) itemWidth = itemIconHeight
         else itemIconHeight = itemWidth
 
@@ -122,8 +122,8 @@ class BarChart : View {
 
                 // Bar 그리기
                 barRectList[idx]?.let { rectF ->
-                    canvas?.drawRect(rectF, barColorList[idx + additionalIconIdx])     // 채워진 박스 그리기
-                    canvas?.drawRect(rectF, blackBorderPaint)      // border 박스 그리기
+                    canvas?.drawRect(rectF, barColorList)     // 채워진 박스 그리기
+//                    canvas?.drawRect(rectF, blackBorderPaint)      // border 박스 그리기
 
                     // Bar Description 그리기
                     var descY = rectF.top - barDescRatioHeight
@@ -257,21 +257,12 @@ class BarChart : View {
         private const val baseTextRatioDescription = "(100.0%)"
 //        private const val logTag = "BarChart"
 
-        private val barColorList = listOf(
-            Paint().apply { color = Color.rgb(230, 230, 230) },
-            Paint().apply { color = Color.rgb(0, 0, 0) },
-            Paint().apply { color = Color.rgb(85, 0, 0) },
-            Paint().apply { color = Color.rgb(170, 0, 0) },
-            Paint().apply { color = Color.rgb(255, 0, 0) },
-            Paint().apply { color = Color.rgb(255, 85, 0) },
-            Paint().apply { color = Color.rgb(255, 170, 0) },
-            Paint().apply { color = Color.rgb(255, 255, 0) }
-        )
+        private val barColorList = Paint().apply { color = Color.rgb(254, 199, 121) }
 
-        private val blackBorderPaint = Paint().apply {
-            style = Paint.Style.STROKE
-            color = Color.BLACK
-        }
+//        private val blackBorderPaint = Paint().apply {
+//            style = Paint.Style.STROKE
+//            color = Color.BLACK
+//        }
         private val blackPaint = Paint().apply { color = Color.BLACK }
 //        private val grayPaint = Paint().apply { color = Color.LTGRAY }
     }

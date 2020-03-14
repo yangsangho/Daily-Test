@@ -137,7 +137,7 @@ object DataBindingAdapter {
     fun setStage(view: ImageView, stage: Int) {
         view.setImageResource(
             when (stage) {
-                0 -> R.drawable.ic_add_black_24dp
+                0 -> R.drawable.ic_stage_new
                 1 -> R.drawable.ic_stage_1_1
                 2 -> R.drawable.ic_stage_1_2
                 3 -> R.drawable.ic_stage_1_3

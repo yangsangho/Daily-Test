@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
         // ToolBar 설정
         toolBar.title = getString(R.string.app_name)
         setSupportActionBar(toolBar)
-        supportActionBar?.setIcon(R.drawable.ic_appbar_icon)
 
         model.getDormantQstList().observe(this, Observer {
             if(it.isEmpty()){
@@ -170,6 +169,7 @@ class MainPagerFragment : Fragment() {
                             map[Stage.AFTER_MONTH.ordinal] =
                                     (map[Stage.AFTER_MONTH.ordinal] ?: 0) + (reviewCnt ?: 0)
                             binding.isNoItemViewActivate = false
+                            binding.isBtn2Activate = true  // 이건 없어도 될 것 같은데 말야
                             binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
                         } else {
                             binding.isNoItemViewActivate = true
@@ -194,6 +194,7 @@ class MainPagerFragment : Fragment() {
                                 .forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
                         binding.isNoItemViewActivate = false
                         binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
+                        binding.isBtn1Activate = true
                     } else {
                         binding.isNoItemViewActivate = true
                         binding.dashboardChart.setDataList(listOf())
