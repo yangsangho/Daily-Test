@@ -4,6 +4,10 @@
     <string name="today_test">Today\'s Test</string>
     <string name="no_item_msg">Has No Item</string>
     <string name="test_go">Go Test</string>
+    <string name="no_item_layout_today1">There are no test today.</string>
+    <string name="no_item_layout_today2">If you create a question, it will be added to the test list starting tomorrow.\nAlso, there are days when there are no tests depending on the cycle of test iteration.</string>
+    <string name="no_item_layout_entire1">Please create a question.</string>
+    <string name="no_item_layout_entire2">Please click on the question creation icon.</string>
     <string name="test_result">Test Result</string>
     <string name="dashboard_today_card1">Questions</string>
     <string name="dashboard_today_card2">Status</string>

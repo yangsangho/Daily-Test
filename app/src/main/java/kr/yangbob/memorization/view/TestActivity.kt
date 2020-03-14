@@ -42,7 +42,7 @@ class TestActivity : AppCompatActivity() {
         if (model.isDormant) {
             toolBar.title = getString(R.string.test_dormant_appbar_title)
             val partitionList =
-                model.getAllDormantQst().partition { it.cur_stage <= Stage.BEGIN_TWO.ordinal }
+                model.getAllDormantQst().partition { it.cur_stage <= Stage.BEGIN_THREE.ordinal }
             // BEGIN_TWO 이하는 초기화
             partitionList.first.forEach {
                 it.is_dormant = false

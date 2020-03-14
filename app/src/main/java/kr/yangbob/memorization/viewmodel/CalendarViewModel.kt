@@ -9,7 +9,6 @@ import androidx.lifecycle.ViewModel
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.db.InfoCalendar
-import kr.yangbob.memorization.db.QstCalendar
 import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.view.CalendarActivity
 import kr.yangbob.memorization.view.ResultActivity
@@ -33,9 +32,11 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     private val _month = MutableLiveData<Int>()
     private val _year = MutableLiveData<Int>()
     private val _record = MutableLiveData<String>()
+    private val _isDetailBtnActivate = MutableLiveData<Boolean>()
     val month: LiveData<Int> = _month
     val year: LiveData<Int> = _year
     val record: LiveData<String> = _record
+    val isDetailBtnActivate: LiveData<Boolean> = _isDetailBtnActivate
     private val infoCalendarList: List<InfoCalendar> = memRepo.getAllInfoCalendar()
     private lateinit var currentCalendarID: String
 
@@ -91,14 +92,20 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
 
             if (infoCal.isStartDay) {
                 _record.value = resources.getString(R.string.calendar_start_day)
+                _isDetailBtnActivate.value = false
             } else {
-                _record.value = if (cntQst <= 0) resources.getString(R.string.status_msg_no_test)
-                else String.format(
-                    resources.getString(if (isPortrait) R.string.result_info_format else R.string.result_info_format_land),
-                    cntQst,
-                    progressRate,
-                    correctRate
-                )
+                _record.value = if (cntQst <= 0) {
+                    _isDetailBtnActivate.value = false
+                    resources.getString(R.string.status_msg_no_test)
+                } else {
+                    _isDetailBtnActivate.value = true
+                    String.format(
+                        resources.getString(if (isPortrait) R.string.result_info_format else R.string.result_info_format_land),
+                        cntQst,
+                        progressRate,
+                        correctRate
+                    )
+                }
             }
         }
     }

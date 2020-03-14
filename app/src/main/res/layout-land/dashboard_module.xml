@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="model"
             type="kr.yangbob.memorization.viewmodel.MainViewModel" />
@@ -16,6 +18,18 @@
         <variable
             name="fragment"
             type="kr.yangbob.memorization.view.MainPagerFragment" />
+
+        <variable
+            name="isNoItemViewActivate"
+            type="Boolean" />
+
+        <variable
+            name="isBtn1Activate"
+            type="Boolean" />
+
+        <variable
+            name="isBtn2Activate"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,6 +40,19 @@
             android:id="@+id/dashboardChart"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/dashboardBtnLayout"
+            app:layout_constraintEnd_toStartOf="@id/dashboardCard1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent=".8" />
+
+        <include
+            android:id="@+id/noItemView"
+            layout="@layout/no_item_layout"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="@{isNoItemViewActivate ? View.VISIBLE : View.GONE}"
+            app:isToday="@{isToday}"
             app:layout_constraintBottom_toTopOf="@id/dashboardBtnLayout"
             app:layout_constraintEnd_toStartOf="@id/dashboardCard1"
             app:layout_constraintStart_toStartOf="parent"
@@ -75,6 +102,7 @@
             android:id="@+id/dashboardBtnLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:clipToPadding="false"
             android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/dashboardCard1"
@@ -84,6 +112,9 @@
                 android:id="@+id/dashboardBtn1"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:background="@{isBtn1Activate ? @color/colorPrimary : @color/boldDarkGray}"
+                android:clickable="@{isBtn1Activate ? true : false}"
+                android:elevation="8dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:onClick="@{isToday ? fragment::clickTestBtn : fragment::clickEntireList}"
                 android:text="@{isToday ? @string/dashboard_today_btn1 : @string/dashboard_entire_btn1}"
@@ -99,6 +130,9 @@
                 android:id="@+id/dashboardBtn2"
                 android:layout_width="wrap_content"
                 android:layout_height="30dp"
+                android:background="@{isBtn2Activate ? @color/colorPrimary : @color/boldDarkGray}"
+                android:clickable="@{isBtn2Activate ? true : false}"
+                android:elevation="8dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:onClick="@{isToday ? fragment::clickTodayRecord : fragment::clickEntireRecord}"
                 android:text="@{isToday ? @string/dashboard_today_btn2 : @string/dashboard_entire_btn2}"

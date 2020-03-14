@@ -1,6 +1,5 @@
 package kr.yangbob.memorization.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import kr.yangbob.memorization.*
 import kr.yangbob.memorization.db.Qst
@@ -42,7 +41,7 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
         var goMove = true
 
         if (qstRecord.is_correct == null) {
-            if (isCorrect || challengeStage <= Stage.BEGIN_TWO) {
+            if (isCorrect || challengeStage <= Stage.BEGIN_THREE) {
                 cntAfterDay = challengeStage.nextTest
                 if (challengeStage != Stage.REVIEW) qst.cur_stage++
             } else {
@@ -55,13 +54,13 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
                         if (challengeStage != Stage.REVIEW) qst.cur_stage--
                         -challengeStage.nextTest
                     } else {
-                        if (challengeStage <= Stage.BEGIN_TWO) qst.cur_stage--
+                        if (challengeStage <= Stage.BEGIN_THREE) qst.cur_stage--
                         -curStage.nextTest
                     }
                     qstRecord.is_correct = null
                     goMove = false
                 }
-                challengeStage <= Stage.BEGIN_TWO -> {
+                challengeStage <= Stage.BEGIN_THREE -> {
                     qstRecord.is_correct = isCorrect
                     memRepo.insertQstRecord(qstRecord)
                     return true

@@ -11,18 +11,40 @@ import kr.yangbob.memorization.db.InfoCalendar
 import java.text.DateFormat
 
 object DataBindingAdapter {
+    @BindingAdapter("app:noItemIcon")
+    @JvmStatic
+    fun setNoItemIcon(view: ImageView, isTest: Boolean?) {
+        isTest?.also {
+            if (it) view.setImageResource(R.drawable.ic_rest)
+            else view.setImageResource(R.drawable.ic_write)
+        }
+    }
+
     @BindingAdapter("app:setCalendarBackground")
     @JvmStatic
     fun setCalendarBackground(view: ImageView, infoCalendar: InfoCalendar?) {
         infoCalendar?.also {
             view.visibility = View.VISIBLE
             if (it.isStartDay) {
-                view.setColorFilter(ContextCompat.getColor(view.context, R.color.colorAccent), android.graphics.PorterDuff.Mode.SRC_IN)
+                view.setColorFilter(
+                    ContextCompat.getColor(view.context, R.color.colorAccent),
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
             } else {
-                if(it.isCompleted == null) view.clearColorFilter()
+                if (it.isCompleted == null) view.clearColorFilter()
                 else {
-                    if (it.isCompleted!!) view.setColorFilter(ContextCompat.getColor(view.context, android.R.color.holo_green_light), android.graphics.PorterDuff.Mode.SRC_IN)
-                    else view.setColorFilter(ContextCompat.getColor(view.context, android.R.color.holo_red_light), android.graphics.PorterDuff.Mode.SRC_IN)
+                    if (it.isCompleted!!) view.setColorFilter(
+                        ContextCompat.getColor(
+                            view.context,
+                            android.R.color.holo_green_light
+                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                    )
+                    else view.setColorFilter(
+                        ContextCompat.getColor(
+                            view.context,
+                            android.R.color.holo_red_light
+                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                    )
                 }
             }
         }
@@ -61,18 +83,18 @@ object DataBindingAdapter {
             if (complete) {
                 view.setImageResource(R.drawable.ic_check_circle_black_24dp)
                 view.setColorFilter(
-                        ContextCompat.getColor(
-                                view.context,
-                                android.R.color.holo_green_light
-                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                    ContextCompat.getColor(
+                        view.context,
+                        android.R.color.holo_green_light
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
                 )
             } else {
                 view.setImageResource(R.drawable.ic_x_circle_black_24dp)
                 view.setColorFilter(
-                        ContextCompat.getColor(
-                                view.context,
-                                android.R.color.holo_red_light
-                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                    ContextCompat.getColor(
+                        view.context,
+                        android.R.color.holo_red_light
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
                 )
             }
         }
@@ -85,27 +107,27 @@ object DataBindingAdapter {
             if (correct) {
                 view.setImageResource(R.drawable.ic_check_circle_black_24dp)
                 view.setColorFilter(
-                        ContextCompat.getColor(
-                                view.context,
-                                android.R.color.holo_green_light
-                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                    ContextCompat.getColor(
+                        view.context,
+                        android.R.color.holo_green_light
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
                 )
             } else {
                 view.setImageResource(R.drawable.ic_x_circle_black_24dp)
                 view.setColorFilter(
-                        ContextCompat.getColor(
-                                view.context,
-                                android.R.color.holo_red_light
-                        ), android.graphics.PorterDuff.Mode.SRC_IN
+                    ContextCompat.getColor(
+                        view.context,
+                        android.R.color.holo_red_light
+                    ), android.graphics.PorterDuff.Mode.SRC_IN
                 )
             }
         } else {
             view.setImageResource(R.drawable.ic_no_circle_black_24dp)
             view.setColorFilter(
-                    ContextCompat.getColor(
-                            view.context,
-                            android.R.color.darker_gray
-                    ), android.graphics.PorterDuff.Mode.SRC_IN
+                ContextCompat.getColor(
+                    view.context,
+                    android.R.color.darker_gray
+                ), android.graphics.PorterDuff.Mode.SRC_IN
             )
         }
     }
@@ -114,17 +136,17 @@ object DataBindingAdapter {
     @JvmStatic
     fun setStage(view: ImageView, stage: Int) {
         view.setImageResource(
-                when (stage) {
-                    0 -> R.drawable.ic_add_black_24dp
-                    1 -> R.drawable.ic_stage_1_1
-                    2 -> R.drawable.ic_stage_1_2
-                    3 -> R.drawable.ic_stage_1_3
-                    4 -> R.drawable.ic_stage_3
-                    5 -> R.drawable.ic_stage_7
-                    6 -> R.drawable.ic_stage_15
-                    7 -> R.drawable.ic_stage_30
-                    else -> R.drawable.ic_stage_30
-                }
+            when (stage) {
+                0 -> R.drawable.ic_add_black_24dp
+                1 -> R.drawable.ic_stage_1_1
+                2 -> R.drawable.ic_stage_1_2
+                3 -> R.drawable.ic_stage_1_3
+                4 -> R.drawable.ic_stage_3
+                5 -> R.drawable.ic_stage_7
+                6 -> R.drawable.ic_stage_15
+                7 -> R.drawable.ic_stage_30
+                else -> R.drawable.ic_stage_30
+            }
         )
     }
 

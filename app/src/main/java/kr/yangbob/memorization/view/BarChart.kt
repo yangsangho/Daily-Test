@@ -5,7 +5,6 @@ import android.graphics.*
 import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
-import androidx.core.content.res.ResourcesCompat
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat
 import kr.yangbob.memorization.R
 
@@ -107,14 +106,7 @@ class BarChart : View {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        if (dataList.isNullOrEmpty()) {
-            canvas?.drawText(
-                resources.getText(R.string.no_item_msg).toString(),
-                centerX,
-                centerY,
-                noItemMsgPaint
-            )
-        } else {
+        if (dataList.isNotEmpty()) {
             // 가로줄 그리기
             canvas?.drawLine(0f, baseLineY, width.toFloat(), baseLineY, blackPaint)
 
