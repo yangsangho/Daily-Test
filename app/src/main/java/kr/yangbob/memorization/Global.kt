@@ -23,6 +23,7 @@ const val SETTING_ENTIRE_SORT_ITEM = "entireSortItem"
 const val SETTING_ENTIRE_SORT_ORDER = "entireSortOrder"
 const val SETTING_RESULT_SORT_ITEM = "resultSortItem"
 const val SETTING_RESULT_SORT_ORDER = "resultSortOrder"
+const val SETTING_IS_FIRST_MAIN = "firstMain"
 
 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 val todayDateStr: String = dateFormat.format(Date(System.currentTimeMillis()))
@@ -35,10 +36,6 @@ enum class Stage(val nextTest: Int) {
     INIT(1),
     BEGIN_ONE(1), BEGIN_TWO(1), BEGIN_THREE(3), AFTER_THREE(7),
     AFTER_WEEK(15), AFTER_HALF(30), AFTER_MONTH(30), REVIEW(30)
-}
-
-enum class IconSetting {
-    NONE, UP, DOWN
 }
 
 data class SortInfo(

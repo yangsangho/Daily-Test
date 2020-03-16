@@ -3,7 +3,7 @@
     package="kr.yangbob.memorization">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
         android:name=".MyApplication"
@@ -14,6 +14,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.StartActivity"
+            android:launchMode="singleTop"/>
+        <activity
+            android:name=".view.TutorialActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/TutorialTheme" />
         <activity android:name=".view.CalendarActivity" />
         <activity android:name=".view.QstActivity" />
         <activity android:name=".view.EntireActivity" />
@@ -22,7 +28,6 @@
         <activity
             android:name=".view.AddActivity"
             android:windowSoftInputMode="adjustResize" />
-
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,4 +45,5 @@
         <receiver android:name=".CreateCalendarReceiver" />
         <receiver android:name=".PushAlarmReceiver" />
     </application>
+
 </manifest>

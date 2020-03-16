@@ -1,6 +1,7 @@
 package kr.yangbob.memorization.view
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
@@ -19,18 +20,28 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kr.yangbob.memorization.*
 import kr.yangbob.memorization.databinding.DashboardModuleBinding
 import kr.yangbob.memorization.viewmodel.MainViewModel
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private val logTag = "MainActivity"
     private val model: MainViewModel by viewModel()
+    private val setting: SharedPreferences by inject()
     private var doubleBackToExitPressedOnce = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (setting.getBoolean(SETTING_IS_FIRST_MAIN, true)) {
+            val editor = setting.edit()
+            editor.putBoolean(SETTING_IS_FIRST_MAIN, false)
+            editor.apply()
+            startActivity(Intent(this, StartActivity::class.java))
+        }
+
         setTimer(this)
-        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
         setContentView(R.layout.activity_main)
@@ -40,17 +51,17 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolBar)
 
         model.getDormantQstList().observe(this, Observer {
-            if(it.isEmpty()){
-                if(dormantBtn.visibility == View.VISIBLE){
+            if (it.isEmpty()) {
+                if (dormantBtn.visibility == View.VISIBLE) {
                     dormantBtn.visibility = View.GONE
                     dormantCnt.visibility = View.GONE
                 }
             } else {
-                if(dormantBtn.visibility == View.GONE){
+                if (dormantBtn.visibility == View.GONE) {
                     dormantBtn.visibility = View.VISIBLE
                     dormantCnt.visibility = View.VISIBLE
                 }
-                if(it.size > 99) dormantCnt.text = "99+"
+                if (it.size > 99) dormantCnt.text = "99+"
                 else dormantCnt.text = "${it.size}"
             }
         })
@@ -119,7 +130,6 @@ class MainActivity : AppCompatActivity() {
         tabLayout.getTabAt(1)?.select()
         mainViewPager.currentItem = 1
     }
-
 }
 
 class MainPagerFragmentAdapter(mainLifeCycle: Lifecycle, fm: FragmentManager) :
@@ -155,7 +165,7 @@ class MainPagerFragment : Fragment() {
                 val observeList = model.getQstRecordList()
                 observeList.observe(viewLifecycleOwner, Observer { rawList ->
                     model.setTodayTestCount()
-                    if(testRecordCnt != rawList.size){
+                    if (testRecordCnt != rawList.size) {
                         testRecordCnt = rawList.size
                         if (rawList.isNotEmpty()) {
                             val map = rawList.groupBy { qstRecord -> qstRecord.challenge_stage }
@@ -195,6 +205,7 @@ class MainPagerFragment : Fragment() {
                         binding.isNoItemViewActivate = false
                         binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
                         binding.isBtn1Activate = true
+//                        startActivity(Intent(context, TutorialActivity::class.java))
                     } else {
                         binding.isNoItemViewActivate = true
                         binding.dashboardChart.setDataList(listOf())

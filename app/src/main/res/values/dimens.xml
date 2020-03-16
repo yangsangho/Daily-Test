@@ -5,6 +5,7 @@
     <dimen name="size_page_title">20sp</dimen>
     <dimen name="size_basic">14sp</dimen>
     <dimen name="size_emphasis">18sp</dimen>
+    <dimen name="size_big_emphasis">24sp</dimen>
     <dimen name="alert_title_font">18sp</dimen>
     <dimen name="size_mini">12sp</dimen>
     <dimen name="size_list_title">16sp</dimen>

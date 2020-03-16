@@ -12,4 +12,5 @@
     <color name="white">#ffffff</color>
     <color name="saturday">#0000B7</color>
     <color name="sunday">#B71C1C</color>
+    <color name="transparent_black">#99000000</color>
 </resources>

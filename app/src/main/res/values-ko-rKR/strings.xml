@@ -105,4 +105,15 @@
     <plurals name="notification_text">
         <item quantity="other">아직 %d 문제를 풀지 않았어요.</item>
     </plurals>
+    <string name="skip">건너뛰기</string>
+    <string name="next">다음</string>
+    <string name="start">시작</string>
+    <string name="start_pager_main1">\"어렵게 외우면 그만큼 잊기 어렵다\"</string>
+    <string name="start_pager_main2">1. 메타인지 향상</string>
+    <string name="start_pager_main3">2. 인출효과 활용</string>
+    <string name="start_pager_main4">3. 장기 기억</string>
+    <string name="start_pager_sub1">어렵게 외우는 가장 좋은 방법은 \'시험\'을 보는 것이예요.\n다음을 눌러서 시험의 효과를 확인해보세요.</string>
+    <string name="start_pager_sub2">메타인지는 내가 무엇을 알고 무엇을 모르는지에 대해 아는 것이예요.\n자신이 알고 있다고 여기는 것들이 막상 떠오르지 않는 경우가 많아요.</string>
+    <string name="start_pager_sub3">뇌에 정보를 입력하는 방식은 쉬워서 금방 잊혀져요.\n(강의 듣기, 읽기 등)\n시험은 뇌로부터 정보를 끄집어 내는 방법이예요.</string>
+    <string name="start_pager_sub4">이 앱은 암기한 것에 대해 적당히 망각할 시간을 주면서 시험을 반복하도록 도와줘요.\n적당한 망각 주기에 맞춰 시험을 반복하는 것은 장기기억화에 큰 도움이 돼요.</string>
 </resources>
