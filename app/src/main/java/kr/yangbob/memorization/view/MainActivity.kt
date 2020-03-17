@@ -29,10 +29,12 @@ class MainActivity : AppCompatActivity() {
     private val model: MainViewModel by viewModel()
     private val setting: SharedPreferences by inject()
     private var doubleBackToExitPressedOnce = false
+    private var isFirstCreate = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        isFirstCreate = setting.getBoolean(SETTING_IS_FIRST_CREATE, true)
         if (setting.getBoolean(SETTING_IS_FIRST_MAIN, true)) {
             val editor = setting.edit()
             editor.putBoolean(SETTING_IS_FIRST_MAIN, false)
@@ -102,7 +104,15 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_main_write -> {
             if (model.checkIsPossibleClick()) {
-                startActivityForResult(Intent(this, AddActivity::class.java), 2)
+                startActivityForResult(Intent(this, CreateActivity::class.java).apply {
+                    putExtra(EXTRA_TO_CREATE_FIRST, isFirstCreate)
+                    if(isFirstCreate){
+                        val editor = setting.edit()
+                        editor.putBoolean(SETTING_IS_FIRST_CREATE, false)
+                        editor.apply()
+                        isFirstCreate = false
+                    }
+                }, 2)
             }
             true
         }
@@ -141,8 +151,20 @@ class MainPagerFragmentAdapter(mainLifeCycle: Lifecycle, fm: FragmentManager) :
 
 class MainPagerFragment : Fragment() {
     private val model: MainViewModel by sharedViewModel()
+    private val setting: SharedPreferences by inject()
     private lateinit var binding: DashboardModuleBinding
     private var testRecordCnt = -1
+    private var isFirstToday: Boolean
+    private var isFirstEntire: Boolean
+
+    private var isFirstTest: Boolean
+
+    init {
+        isFirstToday = setting.getBoolean(SETTING_IS_FIRST_TODAY, true)
+        isFirstEntire = setting.getBoolean(SETTING_IS_FIRST_ENTIRE, true)
+        isFirstTest = setting.getBoolean(SETTING_IS_FIRST_TEST, true)
+    }
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dashboard_module, container, false)
@@ -168,20 +190,20 @@ class MainPagerFragment : Fragment() {
                     if (testRecordCnt != rawList.size) {
                         testRecordCnt = rawList.size
                         if (rawList.isNotEmpty()) {
-                            val map = rawList.groupBy { qstRecord -> qstRecord.challenge_stage }
-                                    .mapValues { it.value.size }.toMutableMap()
-                            STAGE_LIST.filter { it.ordinal > 0 }
-                                    .forEach {
-                                        if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0
-                                    }
+                            if(isFirstToday) startTutorial(isToday = true)
+
+                            val map = rawList.groupBy { qstRecord -> qstRecord.challenge_stage }.mapValues { it.value.size }.toMutableMap()
+                            STAGE_LIST.filter { it.ordinal > 0 }.forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
                             val reviewCnt = map[Stage.REVIEW.ordinal]
                             map.remove(Stage.REVIEW.ordinal)
-                            map[Stage.AFTER_MONTH.ordinal] =
-                                    (map[Stage.AFTER_MONTH.ordinal] ?: 0) + (reviewCnt ?: 0)
+                            map[Stage.AFTER_MONTH.ordinal] = (map[Stage.AFTER_MONTH.ordinal]
+                                    ?: 0) + (reviewCnt ?: 0)
                             binding.isNoItemViewActivate = false
+                            binding.isHelpIconActivate = true
                             binding.isBtn2Activate = true  // 이건 없어도 될 것 같은데 말야
                             binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
                         } else {
+                            binding.isHelpIconActivate = false
                             binding.isNoItemViewActivate = true
                             binding.isBtn2Activate = false
                             binding.dashboardChart.setDataList(listOf())
@@ -197,16 +219,16 @@ class MainPagerFragment : Fragment() {
                 observeList.observe(viewLifecycleOwner, Observer { rawList ->
                     model.setEntireCardData()
                     if (rawList.isNotEmpty()) {
-                        val map =
-                                rawList.groupBy { qst -> qst.cur_stage }.mapValues { it.value.size }
-                                        .toMutableMap()
-                        STAGE_LIST.filter { it.ordinal < 8 }
-                                .forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
+                        if(isFirstEntire) startTutorial(isToday = false)
+
+                        val map = rawList.groupBy { qst -> qst.cur_stage }.mapValues { it.value.size }.toMutableMap()
+                        STAGE_LIST.filter { it.ordinal < 8 }.forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
                         binding.isNoItemViewActivate = false
                         binding.dashboardChart.setDataList(map.toSortedMap().values.toList())
                         binding.isBtn1Activate = true
-//                        startActivity(Intent(context, TutorialActivity::class.java))
+                        binding.isHelpIconActivate = true
                     } else {
+                        binding.isHelpIconActivate = false
                         binding.isNoItemViewActivate = true
                         binding.dashboardChart.setDataList(listOf())
                         binding.isBtn1Activate = false
@@ -225,14 +247,34 @@ class MainPagerFragment : Fragment() {
         }
     }
 
+    fun startTutorial(isToday: Boolean) {
+        startActivity(Intent(context, TutorialActivity::class.java).apply {
+            putExtra(EXTRA_TO_TUTORIAL, if (isToday) "today" else "entire")
+        })
+        setFirstValueFalse(if (isToday) SETTING_IS_FIRST_TODAY else SETTING_IS_FIRST_ENTIRE)
+    }
+
+    private fun setFirstValueFalse(what: String){
+        val editor = setting.edit()
+        editor.putBoolean(what, false)
+        editor.apply()
+        when(what){
+            SETTING_IS_FIRST_TODAY -> isFirstToday = false
+            SETTING_IS_FIRST_ENTIRE -> isFirstTest = false
+            SETTING_IS_FIRST_TEST -> isFirstTest = false
+        }
+    }
+
     fun clickTestBtn(view: View) {
         if (model.checkIsPossibleClick()) {
-            startActivity(Intent(context, TestActivity::class.java))
+            startActivity(Intent(context, TestActivity::class.java).apply {
+                putExtra(EXTRA_TO_TEST_FIRST, isFirstTest)
+                if(isFirstTest) setFirstValueFalse(SETTING_IS_FIRST_TEST)
+            })
         }
     }
 
     fun clickEntireList(view: View) {
-
         if (model.checkIsPossibleClick()) {
             startActivityForResult(
                     Intent(context, EntireActivity::class.java),

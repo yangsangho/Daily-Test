@@ -14,8 +14,6 @@
         <item name="buttonStyle">@style/ButtonStyle</item>
     </style>
     
-    <style name="CalendarTheme" parent="Theme.AppCompat.Light.NoActionBar" />
-
     <!--    EditText는 전체로 안 먹히네-->
     <style name="EditTextStyle" parent="@android:style/Widget.DeviceDefault.EditText">
         <item name="colorControlNormal">@color/black</item>
@@ -51,9 +49,10 @@
     </style>
     
     <style name="TutorialTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:textColor">@color/white</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:statusBarColor">@color/colorPrimary</item>
+        <item name="android:statusBarColor">@color/transparent_black</item>
     </style>
 </resources>

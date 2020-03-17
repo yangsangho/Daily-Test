@@ -11,7 +11,4 @@
     <dimen name="size_list_title">16sp</dimen>
     <dimen name="size_input_text">16sp</dimen>
     <dimen name="test_check_text_size">20sp</dimen>
-    <dimen name="calendar_month_text_size">26sp</dimen>
-    <dimen name="align_dialog_width_major">100%</dimen>
-    <dimen name="align_dialog_width_minor">60%</dimen>
 </resources>

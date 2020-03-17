@@ -33,12 +33,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/card"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:background="@color/white"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/qstProgress"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent=".8">
 
@@ -65,17 +67,7 @@
                 app:stage="@{stage}"
                 tools:srcCompat="@drawable/ic_stage_1_1" />
 
-            <TextView
-                android:id="@+id/tvQstCnt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:layout_marginEnd="8dp"
-                android:textColor="@color/black"
-                app:layout_constraintBottom_toBottomOf="@id/correctChkIcon"
-                app:layout_constraintEnd_toStartOf="@id/correctChkIcon"
-                app:layout_constraintTop_toTopOf="@id/correctChkIcon"
-                tools:text="10/13" />
+
 
             <ImageView
                 android:id="@+id/correctChkIcon"
@@ -97,13 +89,41 @@
                 android:padding="8dp"
                 android:scrollbars="vertical"
                 android:text="@{strData}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="@dimen/size_emphasis"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/qnaIcon"
                 tools:text="문제 와 답" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.core.widget.ContentLoadingProgressBar
+            android:id="@+id/qstProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:progressBackgroundTint="@android:color/holo_green_dark"
+            android:progressTint="@android:color/holo_green_light"
+            app:layout_constraintBottom_toBottomOf="@id/tvQstCnt"
+            app:layout_constraintEnd_toStartOf="@id/tvQstCnt"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvQstCnt" />
+
+        <TextView
+            android:id="@+id/tvQstCnt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/btnSuccessLayout"
+            android:layout_marginBottom="8dp"
+            tools:text="10/13" />
+
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btnFailLayout"
@@ -148,7 +168,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="@{holder::clickChk}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/tvQstCnt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/card"
             app:layout_constraintTop_toBottomOf="@id/btnFailLayout">

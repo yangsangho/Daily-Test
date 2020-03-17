@@ -26,7 +26,7 @@
         <activity android:name=".view.ResultActivity" />
         <activity android:name=".view.TestActivity" />
         <activity
-            android:name=".view.AddActivity"
+            android:name=".view.CreateActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".view.MainActivity">
             <intent-filter>

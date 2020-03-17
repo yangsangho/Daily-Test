@@ -16,6 +16,9 @@ const val PUSH_ALARM_RECV_ID = 11
 
 const val EXTRA_TO_RESULT_DATESTR = "dateStr"
 const val EXTRA_TO_QST_ID = "qstID"
+const val EXTRA_TO_TUTORIAL = "tutorial"
+const val EXTRA_TO_TEST_FIRST = "firstTestValue"
+const val EXTRA_TO_CREATE_FIRST = "firstCreateValue"
 const val NOTIFICATION_CHANNEL_ID = "noti_channel_id"
 const val NOTIFICATION_CHANNEL_NAME = "noti_channel_name"
 
@@ -24,6 +27,10 @@ const val SETTING_ENTIRE_SORT_ORDER = "entireSortOrder"
 const val SETTING_RESULT_SORT_ITEM = "resultSortItem"
 const val SETTING_RESULT_SORT_ORDER = "resultSortOrder"
 const val SETTING_IS_FIRST_MAIN = "firstMain"
+const val SETTING_IS_FIRST_ENTIRE = "firstEntire"
+const val SETTING_IS_FIRST_TODAY = "firstToday"
+const val SETTING_IS_FIRST_TEST = "firstTest"
+const val SETTING_IS_FIRST_CREATE = "firstCreate"
 
 val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 val todayDateStr: String = dateFormat.format(Date(System.currentTimeMillis()))

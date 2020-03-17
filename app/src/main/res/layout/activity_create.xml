@@ -13,7 +13,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.AddActivity">
+        tools:context=".view.CreateActivity">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolBar"
@@ -48,17 +48,17 @@
                 app:srcCompat="@drawable/ic_question_black_24dp" />
 
             <EditText
-                android:theme="@style/EditTextStyle"
                 android:id="@+id/qstData"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/add_input_question"
                 android:gravity="start|top"
+                android:hint="@string/add_input_question"
                 android:inputType="textMultiLine"
                 android:maxLines="3"
                 android:text="@={model.title}"
+                android:theme="@style/EditTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imageView2"
@@ -76,7 +76,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/qstLayout">
 
-
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
@@ -89,7 +88,6 @@
                 app:srcCompat="@drawable/ic_answer_black_24dp" />
 
             <EditText
-                android:theme="@style/EditTextStyle"
                 android:id="@+id/answerData"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -97,9 +95,10 @@
                 android:layout_marginEnd="8dp"
                 android:gravity="start|top"
                 android:hint="@string/add_input_answer"
-                android:maxLines="10"
                 android:inputType="textMultiLine"
+                android:maxLines="10"
                 android:text="@={model.answer}"
+                android:theme="@style/EditTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/imageView"

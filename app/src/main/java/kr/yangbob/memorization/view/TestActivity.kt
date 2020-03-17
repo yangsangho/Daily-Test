@@ -1,6 +1,7 @@
 package kr.yangbob.memorization.view
 
 import android.app.Activity
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
@@ -29,11 +30,15 @@ class TestActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (intent.getBooleanExtra(EXTRA_TO_TEST_FIRST, false)) {
+            startActivity(Intent(this, TutorialActivity::class.java).apply {
+                putExtra(EXTRA_TO_TUTORIAL, "test")
+            })
+        }
+
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            window.setFlags(
-                WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN
-            )
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
         setContentView(R.layout.activity_test)
 
@@ -42,7 +47,7 @@ class TestActivity : AppCompatActivity() {
         if (model.isDormant) {
             toolBar.title = getString(R.string.test_dormant_appbar_title)
             val partitionList =
-                model.getAllDormantQst().partition { it.cur_stage <= Stage.BEGIN_THREE.ordinal }
+                    model.getAllDormantQst().partition { it.cur_stage <= Stage.BEGIN_THREE.ordinal }
             // BEGIN_TWO 이하는 초기화
             partitionList.first.forEach {
                 it.is_dormant = false
@@ -57,15 +62,15 @@ class TestActivity : AppCompatActivity() {
                 finish()
             } else {
                 val snackBar = Snackbar.make(
-                    testLayout,
-                    R.string.test_dormant_snackbar_msg,
-                    Snackbar.LENGTH_INDEFINITE
+                        testLayout,
+                        R.string.test_dormant_snackbar_msg,
+                        Snackbar.LENGTH_INDEFINITE
                 )
                 snackBar.setAction(R.string.confirmation) {
                     snackBar.dismiss()
                 }
                 snackBar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).maxLines =
-                    3
+                        3
                 snackBar.show()
             }
         } else {
@@ -92,12 +97,7 @@ class TestActivity : AppCompatActivity() {
     }
 }
 
-class TestViewHolder(
-    private val model: TestViewModel,
-    private val binding: ItemTestViewpageBinding,
-    private val adapter: TestPagerAdapter,
-    private val qstSize: Int
-) : RecyclerView.ViewHolder(binding.root) {
+class TestViewHolder(private val model: TestViewModel, private val binding: ItemTestViewpageBinding, private val adapter: TestPagerAdapter, private val qstSize: Int) : RecyclerView.ViewHolder(binding.root) {
     private val card = binding.card
     private val tvQstAnswer = binding.tvQstAnswer.apply {
         movementMethod = ScrollingMovementMethod()
@@ -105,7 +105,6 @@ class TestViewHolder(
     private val correctChkIcon = binding.correctChkIcon
     private val qnaIcon = binding.qnaIcon
     private val stageIcon = binding.stageIcon
-    private val tvQstCnt = binding.tvQstCnt
 
     private lateinit var qstRecord: QstRecord
     private lateinit var qst: Qst
@@ -118,7 +117,10 @@ class TestViewHolder(
         Log.i("TEST", "onBind($position)")
         this.qstRecord = qstRecord
         this.qst = model.getQstFromId(qstRecord.qst_id)
-        tvQstCnt.text = "${position + 1}/$qstSize"
+        binding.tvQstCnt.text = "${position + 1}/$qstSize"
+        binding.qstProgress.max = qstSize
+        binding.qstProgress.progress = position + 1
+
         binding.strData = qst.title
         binding.isFront = true
         binding.stage = qstRecord.challenge_stage
@@ -126,7 +128,6 @@ class TestViewHolder(
         correctChkIcon.rotationY = 0f
         qnaIcon.rotationY = 0f
         stageIcon.rotationY = 0f
-        tvQstCnt.rotationY = 0f
         card.rotationY = 0f
         if (qstRecord.is_correct != null) {
             binding.correct = qstRecord.is_correct
@@ -140,27 +141,25 @@ class TestViewHolder(
         card.cameraDistance = (10 * card.width).toFloat()
         if (binding.isFront!!) {
             tvQstAnswer.animate().setDuration(ANIMATION_HALF_TIME).alpha(1.0f)
-                .withEndAction {
-                    binding.strData = qst.answer
-                    tvQstAnswer.rotationY = -180f
-                    correctChkIcon.rotationY = -180f
-                    qnaIcon.rotationY = -180f
-                    stageIcon.rotationY = -180f
-                    tvQstCnt.rotationY = -180f
-                    binding.isFront = false
-                }
+                    .withEndAction {
+                        binding.strData = qst.answer
+                        tvQstAnswer.rotationY = -180f
+                        correctChkIcon.rotationY = -180f
+                        qnaIcon.rotationY = -180f
+                        stageIcon.rotationY = -180f
+                        binding.isFront = false
+                    }
             card.animate().setDuration(ANIMATION_FULL_TIME).rotationY(-180f)
         } else {
             tvQstAnswer.animate().setDuration(ANIMATION_HALF_TIME).alpha(1.0f)
-                .withEndAction {
-                    binding.strData = qst.title
-                    tvQstAnswer.rotationY = 0f
-                    correctChkIcon.rotationY = 0f
-                    qnaIcon.rotationY = 0f
-                    stageIcon.rotationY = 0f
-                    tvQstCnt.rotationY = 0f
-                    binding.isFront = true
-                }
+                    .withEndAction {
+                        binding.strData = qst.title
+                        tvQstAnswer.rotationY = 0f
+                        correctChkIcon.rotationY = 0f
+                        qnaIcon.rotationY = 0f
+                        stageIcon.rotationY = 0f
+                        binding.isFront = true
+                    }
             card.animate().setDuration(ANIMATION_FULL_TIME).rotationY(0f)
         }
     }
@@ -185,20 +184,15 @@ class TestViewHolder(
     }
 }
 
-class TestPagerAdapter(
-    private val testList: List<QstRecord>,
-    private val model: TestViewModel,
-    private val pager: ViewPager2,
-    private val activity: Activity
-) : RecyclerView.Adapter<TestViewHolder>() {
+class TestPagerAdapter(private val testList: List<QstRecord>, private val model: TestViewModel, private val pager: ViewPager2, private val activity: Activity) : RecyclerView.Adapter<TestViewHolder>() {
     override fun getItemCount(): Int = testList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestViewHolder {
         val binding: ItemTestViewpageBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(parent.context),
-            R.layout.item_test_viewpage,
-            parent,
-            false
+                LayoutInflater.from(parent.context),
+                R.layout.item_test_viewpage,
+                parent,
+                false
         )
         return TestViewHolder(model, binding, this, testList.size)
     }
@@ -214,7 +208,7 @@ class TestPagerAdapter(
         }
 
         val newList = testList.mapIndexed { index, qstRecord -> index to qstRecord }
-            .filter { it.second.is_correct == null }
+                .filter { it.second.is_correct == null }
         if (newList.any { it.first > position }) {
             pager.currentItem = newList.first { it.first > position }.first
         } else {
