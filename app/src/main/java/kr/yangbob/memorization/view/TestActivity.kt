@@ -31,7 +31,7 @@ class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (intent.getBooleanExtra(EXTRA_TO_TEST_FIRST, false)) {
+        if (model.isFirst()) {
             startActivity(Intent(this, TutorialActivity::class.java).apply {
                 putExtra(EXTRA_TO_TUTORIAL, "test")
             })
@@ -42,7 +42,7 @@ class TestActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_test)
 
-        val testRecordList: List<QstRecord>
+        var testRecordList: List<QstRecord>
         model.isDormant = intent.getBooleanExtra("isDormant", false)
         if (model.isDormant) {
             toolBar.title = getString(R.string.test_dormant_appbar_title)
@@ -80,7 +80,17 @@ class TestActivity : AppCompatActivity() {
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        viewPager.adapter = TestPagerAdapter(testRecordList.shuffled(), model, viewPager, this)
+        testRecordList = testRecordList.shuffled()
+        viewPager.adapter = TestPagerAdapter(testRecordList, model, viewPager, this)
+
+        val listSize = testRecordList.size
+        viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                tvQstCnt.text = "${position + 1}/$listSize"
+                qstProgress.max = listSize
+                qstProgress.progress = position + 1
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
@@ -117,9 +127,6 @@ class TestViewHolder(private val model: TestViewModel, private val binding: Item
         Log.i("TEST", "onBind($position)")
         this.qstRecord = qstRecord
         this.qst = model.getQstFromId(qstRecord.qst_id)
-        binding.tvQstCnt.text = "${position + 1}/$qstSize"
-        binding.qstProgress.max = qstSize
-        binding.qstProgress.progress = position + 1
 
         binding.strData = qst.title
         binding.isFront = true

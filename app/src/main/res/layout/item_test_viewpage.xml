@@ -28,16 +28,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:padding="8dp"
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/card"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="0dp"
             android:background="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHeight_percent=".8"
@@ -96,31 +93,6 @@
                 tools:text="문제 와 답" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.core.widget.ContentLoadingProgressBar
-            android:id="@+id/qstProgress"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:progressBackgroundTint="@android:color/holo_green_dark"
-            android:progressTint="@android:color/holo_green_light"
-            app:layout_constraintBottom_toBottomOf="@id/tvQstCnt"
-            app:layout_constraintEnd_toStartOf="@id/tvQstCnt"
-            app:layout_constraintStart_toStartOf="@id/card"
-            app:layout_constraintTop_toTopOf="@id/tvQstCnt" />
-
-        <TextView
-            android:id="@+id/tvQstCnt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="@id/card"
-            app:layout_constraintStart_toEndOf="@id/qstProgress"
-            app:layout_constraintTop_toBottomOf="@id/card"
-            tools:text="10/13" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/btnFailLayout"
             android:layout_width="0dp"
@@ -129,7 +101,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/btnSuccessLayout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tvQstCnt"
+            app:layout_constraintTop_toBottomOf="@id/card"
             app:layout_constraintWidth_percent=".5">
 
             <ImageView
@@ -169,7 +141,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/btnFailLayout"
-            app:layout_constraintTop_toBottomOf="@id/tvQstCnt"
+            app:layout_constraintTop_toBottomOf="@id/card"
             app:layout_constraintWidth_percent=".5">
 
             <ImageView

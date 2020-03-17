@@ -110,4 +110,9 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
         insertQst(qst)
         return goMove
     }
+
+    fun isFirst(): Boolean = if(memRepo.getIsFirst(SETTING_IS_FIRST_TEST)){
+        memRepo.setFirstValueFalse(SETTING_IS_FIRST_TEST)
+        true
+    } else false
 }

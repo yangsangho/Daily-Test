@@ -2,12 +2,13 @@ package kr.yangbob.memorization.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kr.yangbob.memorization.SETTING_IS_FIRST_CREATE
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.todayDateStr
 import kr.yangbob.memorization.tomorrowDateStr
 
-class AddViewModel(private val memRepo: MemRepository) : ViewModel() {
+class CreateViewModel(private val memRepo: MemRepository) : ViewModel() {
     private val logTag = "AddViewModel"
     private var isPossibleClick = false
     fun resetIsPossibleClick() {
@@ -34,4 +35,9 @@ class AddViewModel(private val memRepo: MemRepository) : ViewModel() {
             true
         }
     }
+
+    fun isFirst(): Boolean = if(memRepo.getIsFirst(SETTING_IS_FIRST_CREATE)){
+        memRepo.setFirstValueFalse(SETTING_IS_FIRST_CREATE)
+        true
+    } else false
 }

@@ -1,5 +1,6 @@
 package kr.yangbob.memorization.model
 
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -13,7 +14,7 @@ import java.text.DateFormat
 import java.util.*
 
 
-class MemRepository(memDB: MemDatabase) {
+class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences) {
     private val daoQst: DaoQst = memDB.getDaoQst()
     private val daoQstRecord: DaoQstRecord = memDB.getDaoQstRecord()
     private val daoQstCalendar: DaoQstCalendar = memDB.getDaoQstCalendar()
@@ -136,5 +137,15 @@ class MemRepository(memDB: MemDatabase) {
         val formatter = DateFormat.getDateInstance(style)
         //        formatter.timeZone = 나중에 추가가 필요할 수도
         return formatter.format(time)
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////// settings
+
+    fun getIsFirst(what: String): Boolean = settings.getBoolean(what, true)
+    fun setFirstValueFalse(what: String){
+        val editor = settings.edit()
+        editor.putBoolean(what, false)
+        editor.apply()
     }
 }

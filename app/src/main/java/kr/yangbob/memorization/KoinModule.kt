@@ -14,7 +14,7 @@ val viewModelModule = module {
         MainViewModel(get(), get())
     }
     viewModel {
-        AddViewModel(get())
+        CreateViewModel(get())
     }
     viewModel {
         TestViewModel(get())
@@ -31,7 +31,7 @@ val viewModelModule = module {
     viewModel {
         CalendarViewModel(get())
     }
-    single { MemRepository( get() ) }
+    single { MemRepository( get(), get() ) }
     single {
         Room.databaseBuilder(androidContext(),
             MemDatabase::class.java, "BeomS_Memo"

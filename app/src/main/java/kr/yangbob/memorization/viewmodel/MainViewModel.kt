@@ -100,7 +100,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     }
 
     // 시험 보기 intent result 받고 재 실행 필요 - 시험 완료율
-// completedCnt과 entireDate에는 시작일이 포함되어 있음
+    // completedCnt과 entireDate에는 시작일이 포함되어 있음
     fun setTestCompletionRate() {
         val completedCnt = memRepo.getCompletedDateCnt()
         val cntHasTest = memRepo.getCalCntHasTest()
@@ -110,6 +110,11 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
         } else "-"
     }
 
+    // settings
+    fun isFirst(what: String): Boolean = if(memRepo.getIsFirst(what)){
+        memRepo.setFirstValueFalse(what)
+        true
+    } else false
 
     init {
         workForNextTest(memRepo)

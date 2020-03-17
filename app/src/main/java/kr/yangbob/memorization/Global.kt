@@ -17,8 +17,6 @@ const val PUSH_ALARM_RECV_ID = 11
 const val EXTRA_TO_RESULT_DATESTR = "dateStr"
 const val EXTRA_TO_QST_ID = "qstID"
 const val EXTRA_TO_TUTORIAL = "tutorial"
-const val EXTRA_TO_TEST_FIRST = "firstTestValue"
-const val EXTRA_TO_CREATE_FIRST = "firstCreateValue"
 const val NOTIFICATION_CHANNEL_ID = "noti_channel_id"
 const val NOTIFICATION_CHANNEL_NAME = "noti_channel_name"
 

@@ -10,22 +10,21 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import kotlinx.android.synthetic.main.activity_create.*
-import kr.yangbob.memorization.EXTRA_TO_CREATE_FIRST
 import kr.yangbob.memorization.EXTRA_TO_TUTORIAL
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.databinding.ActivityCreateBinding
-import kr.yangbob.memorization.viewmodel.AddViewModel
+import kr.yangbob.memorization.viewmodel.CreateViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CreateActivity : AppCompatActivity() {
 
-    private val model: AddViewModel by viewModel()
+    private val model: CreateViewModel by viewModel()
     private var menu: MenuItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (intent.getBooleanExtra(EXTRA_TO_CREATE_FIRST, false)) {
+        if (model.isFirst()) {
             startActivity(Intent(this, TutorialActivity::class.java).apply {
                 putExtra(EXTRA_TO_TUTORIAL, "create")
             })

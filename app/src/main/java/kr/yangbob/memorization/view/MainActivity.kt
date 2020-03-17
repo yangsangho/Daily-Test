@@ -1,7 +1,6 @@
 package kr.yangbob.memorization.view
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
@@ -20,27 +19,17 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kr.yangbob.memorization.*
 import kr.yangbob.memorization.databinding.DashboardModuleBinding
 import kr.yangbob.memorization.viewmodel.MainViewModel
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
-    private val logTag = "MainActivity"
     private val model: MainViewModel by viewModel()
-    private val setting: SharedPreferences by inject()
     private var doubleBackToExitPressedOnce = false
-    private var isFirstCreate = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        isFirstCreate = setting.getBoolean(SETTING_IS_FIRST_CREATE, true)
-        if (setting.getBoolean(SETTING_IS_FIRST_MAIN, true)) {
-            val editor = setting.edit()
-            editor.putBoolean(SETTING_IS_FIRST_MAIN, false)
-            editor.apply()
-            startActivity(Intent(this, StartActivity::class.java))
-        }
+        if (model.isFirst(SETTING_IS_FIRST_MAIN)) startActivity(Intent(this, StartActivity::class.java))
 
         setTimer(this)
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -104,15 +93,7 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_main_write -> {
             if (model.checkIsPossibleClick()) {
-                startActivityForResult(Intent(this, CreateActivity::class.java).apply {
-                    putExtra(EXTRA_TO_CREATE_FIRST, isFirstCreate)
-                    if(isFirstCreate){
-                        val editor = setting.edit()
-                        editor.putBoolean(SETTING_IS_FIRST_CREATE, false)
-                        editor.apply()
-                        isFirstCreate = false
-                    }
-                }, 2)
+                startActivityForResult(Intent(this, CreateActivity::class.java), 2)
             }
             true
         }
@@ -151,20 +132,8 @@ class MainPagerFragmentAdapter(mainLifeCycle: Lifecycle, fm: FragmentManager) :
 
 class MainPagerFragment : Fragment() {
     private val model: MainViewModel by sharedViewModel()
-    private val setting: SharedPreferences by inject()
     private lateinit var binding: DashboardModuleBinding
     private var testRecordCnt = -1
-    private var isFirstToday: Boolean
-    private var isFirstEntire: Boolean
-
-    private var isFirstTest: Boolean
-
-    init {
-        isFirstToday = setting.getBoolean(SETTING_IS_FIRST_TODAY, true)
-        isFirstEntire = setting.getBoolean(SETTING_IS_FIRST_ENTIRE, true)
-        isFirstTest = setting.getBoolean(SETTING_IS_FIRST_TEST, true)
-    }
-
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dashboard_module, container, false)
@@ -190,7 +159,7 @@ class MainPagerFragment : Fragment() {
                     if (testRecordCnt != rawList.size) {
                         testRecordCnt = rawList.size
                         if (rawList.isNotEmpty()) {
-                            if(isFirstToday) startTutorial(isToday = true)
+                            if(model.isFirst(SETTING_IS_FIRST_TODAY)) startTutorial(isToday = true)
 
                             val map = rawList.groupBy { qstRecord -> qstRecord.challenge_stage }.mapValues { it.value.size }.toMutableMap()
                             STAGE_LIST.filter { it.ordinal > 0 }.forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
@@ -219,7 +188,7 @@ class MainPagerFragment : Fragment() {
                 observeList.observe(viewLifecycleOwner, Observer { rawList ->
                     model.setEntireCardData()
                     if (rawList.isNotEmpty()) {
-                        if(isFirstEntire) startTutorial(isToday = false)
+                        if(model.isFirst(SETTING_IS_FIRST_ENTIRE)) startTutorial(isToday = false)
 
                         val map = rawList.groupBy { qst -> qst.cur_stage }.mapValues { it.value.size }.toMutableMap()
                         STAGE_LIST.filter { it.ordinal < 8 }.forEach { if (!map.containsKey(it.ordinal)) map[it.ordinal] = 0 }
@@ -251,26 +220,11 @@ class MainPagerFragment : Fragment() {
         startActivity(Intent(context, TutorialActivity::class.java).apply {
             putExtra(EXTRA_TO_TUTORIAL, if (isToday) "today" else "entire")
         })
-        setFirstValueFalse(if (isToday) SETTING_IS_FIRST_TODAY else SETTING_IS_FIRST_ENTIRE)
-    }
-
-    private fun setFirstValueFalse(what: String){
-        val editor = setting.edit()
-        editor.putBoolean(what, false)
-        editor.apply()
-        when(what){
-            SETTING_IS_FIRST_TODAY -> isFirstToday = false
-            SETTING_IS_FIRST_ENTIRE -> isFirstTest = false
-            SETTING_IS_FIRST_TEST -> isFirstTest = false
-        }
     }
 
     fun clickTestBtn(view: View) {
         if (model.checkIsPossibleClick()) {
-            startActivity(Intent(context, TestActivity::class.java).apply {
-                putExtra(EXTRA_TO_TEST_FIRST, isFirstTest)
-                if(isFirstTest) setFirstValueFalse(SETTING_IS_FIRST_TEST)
-            })
+            startActivity(Intent(context, TestActivity::class.java))
         }
     }
 

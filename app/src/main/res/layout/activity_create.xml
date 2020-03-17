@@ -7,7 +7,7 @@
 
         <variable
             name="model"
-            type="kr.yangbob.memorization.viewmodel.AddViewModel" />
+            type="kr.yangbob.memorization.viewmodel.CreateViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
