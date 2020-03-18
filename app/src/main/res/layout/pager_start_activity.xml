@@ -49,17 +49,35 @@
             tools:text='"어렵게 외우면 잊기 어렵다."' />
 
         <TextView
+            android:id="@+id/initText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="@string/start_pager_init"
+            android:visibility="@{index == 0 ? View.VISIBLE : View.GONE}"
+            app:autoSizeMaxTextSize="@dimen/size_emphasis"
+            app:layout_constraintBottom_toTopOf="@id/startPagerSubText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/startPagerMainText" />
+
+        <TextView
             android:id="@+id/startPagerSubText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="25dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/startPagerMainText"
+            app:layout_constraintTop_toBottomOf="@id/initText"
             app:startPagerSubText="@{index}"
             tools:text="다음을 눌러서 시험의 효과를 확인해보세요. sdfsdsdfsdffdsfsdfsdf" />
 

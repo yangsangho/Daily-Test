@@ -126,7 +126,7 @@
             <Button
                 android:id="@+id/dashboardBtn1"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:background="@{isBtn1Activate ? @color/colorPrimary : @color/boldDarkGray}"
                 android:clickable="@{isBtn1Activate ? true : false}"
                 android:elevation="8dp"
@@ -145,7 +145,7 @@
             <Button
                 android:id="@+id/dashboardBtn2"
                 android:layout_width="0dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:background="@{isBtn2Activate ? @color/colorPrimary : @color/boldDarkGray}"
                 android:clickable="@{isBtn2Activate ? true : false}"
                 android:elevation="8dp"
