@@ -12,9 +12,9 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
-        app:popupTheme="@style/PopupMenu"
         android:theme="@style/AppTheme"
-        app:layout_constraintTop_toTopOf="parent"        />
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/PopupMenu" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
@@ -36,17 +36,17 @@
 
     <TextView
         android:id="@+id/entireNoItemMsg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:gravity="center"
         android:text="@string/no_item_msg"
         android:textColor="@color/black"
         android:textSize="@dimen/noItemFontSize"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolBar"/>
+        app:layout_constraintTop_toBottomOf="@id/toolBar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

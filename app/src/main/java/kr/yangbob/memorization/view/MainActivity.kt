@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (model.isFirst(SETTING_IS_FIRST_MAIN)) startActivity(Intent(this, StartActivity::class.java))
+        val isMainFirst = model.isFirst(SETTING_IS_FIRST_MAIN)
+        if (isMainFirst) startActivity(Intent(this, StartActivity::class.java))
 
         setTimer(this)
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -78,6 +79,7 @@ class MainActivity : AppCompatActivity() {
                 mainViewPager.currentItem = tab?.position ?: 0
             }
         })
+        if(isMainFirst) mainViewPager.currentItem = 1
     }
 
     override fun onResume() {

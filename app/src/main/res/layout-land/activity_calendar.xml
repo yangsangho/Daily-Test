@@ -180,7 +180,7 @@
             <Button
                 android:id="@+id/moveToDetailBtn"
                 android:layout_width="80dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_margin="8dp"
                 android:background="@{model.isDetailBtnActivate ? @color/colorPrimary : @color/boldDarkGray}"
                 android:clickable="@{model.isDetailBtnActivate ? true : false}"

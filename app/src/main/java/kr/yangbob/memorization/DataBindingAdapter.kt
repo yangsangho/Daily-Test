@@ -216,6 +216,6 @@ object DataBindingAdapter {
     fun setFormatDate(view: TextView, dateStr: String) {
         val time = dateFormat.parse(dateStr)?.time ?: 0
         val formatter = DateFormat.getDateInstance(DateFormat.DEFAULT)
-        view.text = formatter.format(time)
+        view.text = formatter.format(if(time < todayTime) todayTime else time)
     }
 }

@@ -25,7 +25,7 @@ class TutorialActivity : AppCompatActivity() {
             else -> throw IllegalArgumentException()
         })
 
-        tutorialClose.setOnClickListener {
+        tutorialLayout.setOnClickListener {
             finish()
         }
     }
