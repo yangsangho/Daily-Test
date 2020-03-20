@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_entire.*
 import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.R
@@ -60,6 +61,8 @@ class EntireActivity : AppCompatActivity() {
             sortedQstList = model.getSortedList(sortedQstList)
             adapter.setData(sortedQstList)
         })
+
+        adView.loadAd(AdRequest.Builder().build())
     }
 
     override fun onResume() {

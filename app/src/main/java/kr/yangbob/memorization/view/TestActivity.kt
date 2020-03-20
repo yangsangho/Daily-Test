@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_test.*
 import kr.yangbob.memorization.*
@@ -30,13 +31,6 @@ class TestActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (model.isFirst()) {
-            startActivity(Intent(this, TutorialActivity::class.java).apply {
-                putExtra(EXTRA_TO_TUTORIAL, "test")
-            })
-        }
-
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
@@ -91,6 +85,14 @@ class TestActivity : AppCompatActivity() {
                 qstProgress.progress = position + 1
             }
         })
+
+        if (model.isFirst()) {
+            startActivity(Intent(this, TutorialActivity::class.java).apply {
+                putExtra(EXTRA_TO_TUTORIAL, "test")
+            })
+        }
+
+        adView.loadAd(AdRequest.Builder().build())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {

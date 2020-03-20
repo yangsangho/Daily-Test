@@ -14,6 +14,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_result.*
 import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
@@ -81,6 +82,8 @@ class ResultActivity : AppCompatActivity() {
             sortedRecordList = model.getSortedList(sortedRecordList)
             adapter.setData(sortedRecordList)
         })
+
+        adView.loadAd(AdRequest.Builder().build())
     }
 
     override fun onResume() {

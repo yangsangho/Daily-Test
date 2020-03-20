@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_create.*
 import kr.yangbob.memorization.EXTRA_TO_TUTORIAL
 import kr.yangbob.memorization.R
@@ -23,17 +24,9 @@ class CreateActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if (model.isFirst()) {
-            startActivity(Intent(this, TutorialActivity::class.java).apply {
-                putExtra(EXTRA_TO_TUTORIAL, "create")
-            })
-        }
-
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         }
-
         val binding: ActivityCreateBinding = DataBindingUtil.setContentView(this, R.layout.activity_create)
         binding.lifecycleOwner = this
         binding.model = model
@@ -43,6 +36,14 @@ class CreateActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         binding.qstData.requestFocus()
+
+        if (model.isFirst()) {
+            startActivity(Intent(this, TutorialActivity::class.java).apply {
+                putExtra(EXTRA_TO_TUTORIAL, "create")
+            })
+        }
+
+        adView.loadAd(AdRequest.Builder().build())
     }
 
     override fun onResume() {

@@ -5,6 +5,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import com.google.android.gms.ads.MobileAds
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -18,6 +19,8 @@ class MyApplication : Application() {
             androidLogger(Level.INFO)
             modules( listOf(viewModelModule) )
         }
+
+        MobileAds.initialize(this) {}
 
         // O 버전부터 NotificationChannel이 필요하다네
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
