@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MyApplication"
@@ -15,8 +15,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.StartActivity"
-            android:launchMode="singleTop"/>
+        <activity android:name=".view.SplashActivity"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".view.StartActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".view.TutorialActivity"
             android:launchMode="singleTop"
@@ -29,14 +38,7 @@
         <activity
             android:name=".view.CreateActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".view.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".view.MainActivity"/>
 
         <receiver android:name=".AfterBootReceiver">
             <intent-filter>
@@ -45,9 +47,10 @@
         </receiver>
         <receiver android:name=".CreateCalendarReceiver" />
         <receiver android:name=".PushAlarmReceiver" />
+
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/ad_mob_app_id"/>
+            android:value="@string/ad_mob_app_id" />
     </application>
 
 </manifest>

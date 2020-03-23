@@ -2,7 +2,7 @@
     <string name="add_appbar_title">Add\nQuestion</string>
     <string name="add_input_answer">Input the answer</string>
     <string name="add_input_question">Input the question name</string>
-    <string name="app_name">Memorization Test</string>
+    <string name="app_name">Daily Test</string>
     <string name="ascending">Ascending</string>
     <string name="calendar_appbar_title">Test Record</string>
     <string name="calendar_detail_button">Detail</string>

@@ -10,7 +10,7 @@ import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstCalendar
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
-import kr.yangbob.memorization.view.MainActivity
+import kr.yangbob.memorization.view.SplashActivity
 import org.koin.core.context.GlobalContext
 import kotlin.system.exitProcess
 
@@ -65,10 +65,10 @@ class PushAlarmReceiver : BroadcastReceiver(){
             val memRepo = GlobalContext.get().koin.get<MemRepository>()
             val notSolvedQstCnt = memRepo.getCntNotSolved(memRepo.getDateStr(System.currentTimeMillis()))
             if(notSolvedQstCnt > 0){
-                val mainIntent = Intent(context, MainActivity::class.java).apply {
+                val splashIntent = Intent(context, SplashActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                 }
-                val pendIntent = PendingIntent.getActivity(context, 0, mainIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                val pendIntent = PendingIntent.getActivity(context, 0, splashIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 val notiBuilder = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_note_icon)

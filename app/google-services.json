@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "784386254655",
+    "firebase_url": "https://daily-test-6d6b3.firebaseio.com",
+    "project_id": "daily-test-6d6b3",
+    "storage_bucket": "daily-test-6d6b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784386254655:android:6c346e630c75e33a5c558a",
+        "android_client_info": {
+          "package_name": "kr.yangbob.memorization"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784386254655-qr39272o78tqot81j6n6v7uj6js15ot8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKMt9AWE0Ae_lBwtPUlr7Gsq6VLTqj1u0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784386254655-qr39272o78tqot81j6n6v7uj6js15ot8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
