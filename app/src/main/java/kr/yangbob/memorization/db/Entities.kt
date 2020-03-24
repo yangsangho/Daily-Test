@@ -9,10 +9,11 @@ import androidx.room.PrimaryKey
 data class Qst(
     var title: String,   // 길이제한 확인
     var answer: String,     // 길이제한 확인
-    val registration_date: String,                     //date
-    var next_test_date: String,                         //date
+    val registration_date: MyDate,                     //date
+    var next_test_date: MyDate,                         //date
     var cur_stage: Int = 0,
     var is_dormant: Boolean = false,
+    var dormant_cnt: Int = 0,
     @PrimaryKey(autoGenerate = true)
     val id: Int? = null
 )
@@ -22,12 +23,12 @@ data class Qst(
 @Entity
 data class QstCalendar(
     @PrimaryKey
-    val id: String,   // date
+    val id: MyDate,   // date
     var test_completion: Boolean? = null        // true : 테스트 완료, false : 테스트 안 함, null : 테스트 없음
 )
 
 data class InfoCalendar(
-    val id: String,
+    val id: MyDate,
     val yearMonth: Int,
     val date: Int,
     var isCompleted: Boolean?,
@@ -47,7 +48,7 @@ data class InfoCalendar(
 )
 data class QstRecord(
     val qst_id: Int,
-    val calendar_id: String,              // date
+    val calendar_id: MyDate,              // date
     val challenge_stage: Int,
     var is_correct: Boolean? = null,           // null : 안 푼걸로 간주
     @PrimaryKey(autoGenerate = true)
@@ -57,7 +58,7 @@ data class QstRecord(
 data class QstRecordWithName(
     val qst_name: String,
     val qst_id: Int,
-    val calendar_id: String,
+    val calendar_id: MyDate,
     val challenge_stage: Int,
     var is_correct: Boolean? = null,
     val id: Long? = null

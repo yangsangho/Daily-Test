@@ -37,11 +37,24 @@ fun workForNextTest(memRepo: MemRepository): Boolean {
             val needDormantChkList = pair.second
 
             for(qst in needDormantChkList){
-                if(memRepo.chkDormant(dateStr, qst.next_test_date)){
+                val curStage = STAGE_LIST[qst.cur_stage]
+                val chkDormantCnt = when{
+                    curStage <= Stage.BEGIN_TWO -> 1
+                    curStage == Stage.BEGIN_THREE -> 2
+                    curStage == Stage.AFTER_THREE -> 3
+                    curStage == Stage.AFTER_WEEK -> 6
+                    else -> 14
+                }
+
+                if(qst.dormant_cnt >= chkDormantCnt){
                     qst.is_dormant = true
+                    qst.dormant_cnt = 0
                     memRepo.insertQst(qst)
                     continue
                 }
+
+                qst.dormant_cnt++
+                memRepo.insertQst(qst)
                 noChkList.add(qst)
             }
 

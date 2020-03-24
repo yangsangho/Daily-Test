@@ -180,14 +180,15 @@ class MainPagerFragment : Fragment() {
                             binding.dashboardChart.setDataList(listOf())
                         }
                     }
-                    if (model.setTodayCardData()) {
-                        binding.isBtn1Activate = false
-                    }
+                    binding.isBtn1Activate = !model.setTodayCardData()
                 })
             } else {
                 binding.dashboardChart.setCount(8)
                 val observeList = model.getQstList()
                 observeList.observe(viewLifecycleOwner, Observer { rawList ->
+//                    rawList.forEach{
+//                        Log.i("TEST", "$it")
+//                    }
                     model.setEntireCardData()
                     if (rawList.isNotEmpty()) {
                         if(model.isFirst(SETTING_IS_FIRST_ENTIRE)) startTutorial(isToday = false)

@@ -13,7 +13,6 @@ import kr.yangbob.memorization.todayDateStr
 import java.text.DateFormat
 import java.util.*
 
-
 class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences) {
     private val daoQst: DaoQst = memDB.getDaoQst()
     private val daoQstRecord: DaoQstRecord = memDB.getDaoQstRecord()

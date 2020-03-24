@@ -211,11 +211,12 @@ object DataBindingAdapter {
         view.setImageResource(if (isFront) R.drawable.ic_question_black_24dp else R.drawable.ic_answer_black_24dp)
     }
 
-    @BindingAdapter("app:defaultFormatDate")
+    @BindingAdapter("app:defaultFormatDate", "app:isTodayCheck")
     @JvmStatic
-    fun setFormatDate(view: TextView, dateStr: String) {
+    fun setFormatDate(view: TextView, dateStr: String, isTodayCheck: Boolean) {
         val time = dateFormat.parse(dateStr)?.time ?: 0
         val formatter = DateFormat.getDateInstance(DateFormat.DEFAULT)
-        view.text = formatter.format(if(time < todayTime) todayTime else time)
+        view.text = if(isTodayCheck) formatter.format(if(time < todayTime) todayTime else time)
+        else formatter.format(time)
     }
 }

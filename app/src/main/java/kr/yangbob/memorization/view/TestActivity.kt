@@ -40,21 +40,21 @@ class TestActivity : AppCompatActivity() {
         model.isDormant = intent.getBooleanExtra("isDormant", false)
         if (model.isDormant) {
             toolBar.title = getString(R.string.test_dormant_appbar_title)
-            val partitionList =
-                    model.getAllDormantQst().partition { it.cur_stage <= Stage.BEGIN_THREE.ordinal }
+            val partitionList = model.getAllDormantQst().partition { it.cur_stage <= Stage.BEGIN_TWO.ordinal }
             // BEGIN_TWO 이하는 초기화
             partitionList.first.forEach {
                 it.is_dormant = false
                 it.cur_stage = 0
-                it.next_test_date = model.getDateStr(todayTime + MILLIS_A_DAY)
+                it.next_test_date = todayDateStr
                 model.insertQst(it)
+                val newQstRecord = QstRecord(it.id!!, todayDateStr, 1)
+                model.insertQstRecord( newQstRecord )
             }
             testRecordList = partitionList.second.map { QstRecord(it.id!!, "", it.cur_stage) }
 
-            if (testRecordList.isEmpty()) {
-                Toast.makeText(this, R.string.test_dormant_initialize_msg, Toast.LENGTH_LONG).show()
-                finish()
-            } else {
+            Toast.makeText(this, R.string.test_dormant_initialize_msg, Toast.LENGTH_LONG).show()
+            if (testRecordList.isEmpty()) finish()
+            else {
                 val snackBar = Snackbar.make(
                         testLayout,
                         R.string.test_dormant_snackbar_msg,
