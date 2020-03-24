@@ -6,7 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.model.MemRepository
-import kr.yangbob.memorization.todayDateStr
+import kr.yangbob.memorization.todayDate
 import kr.yangbob.memorization.workForNextTest
 
 class MainViewModel(private val memRepo: MemRepository, application: Application) :
@@ -27,7 +27,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
 
     private val qstListLD = memRepo.getAllQstLD()
     private val dormantQstListLD = memRepo.getAllDormantQstLD()
-    private val todayQstRecordLD = memRepo.getAllRecordLDFromDate(todayDateStr)
+    private val todayQstRecordLD = memRepo.getAllRecordLDFromDate(todayDate)
 
     val todayCard1 = MutableLiveData<String>()      // 오늘의 시험 문항수
     val todayCard2 = MutableLiveData<String>()      // 시험 진행 상태
@@ -65,23 +65,25 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
         val cntSolved = qstRecordList.filter { it.is_correct != null }.count()
         val cntCorrect = qstRecordList.filter { it.is_correct == true }.count()
 
-        Log.i(logTag, "listSize = $cntList, cntSolved = $cntSolved, cntCorrect = $cntCorrect")
-
         val todayCard2Text = getApplication<Application>().resources.getString(
                 when {
                     cntList == 0 -> {
                         needTestBtnDisable = true
+                        memRepo.updateCalComplete(null)
                         R.string.status_msg_no_test
                     }
                     cntSolved == 0 -> {
+                        memRepo.updateCalComplete(false)
                         R.string.status_msg_no_start
                     }
                     cntList != cntSolved -> {
                         needAddPostfix = true
+                        memRepo.updateCalComplete(false)
                         R.string.status_msg_ongoing
                     }
                     else -> {
                         needTestBtnDisable = true
+                        memRepo.updateCalComplete(true)
                         R.string.status_msg_complete
                     }
                 }
@@ -92,10 +94,6 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
             String.format("%.1f%%", cntCorrect / cntSolved.toFloat() * 100)
         } else "-"
 
-        if (needTestBtnDisable) {
-            memRepo.updateCalComplete()
-        }
-
         return needTestBtnDisable
     }
 
@@ -104,6 +102,11 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     fun setTestCompletionRate() {
         val completedCnt = memRepo.getCompletedDateCnt()
         val cntHasTest = memRepo.getCalCntHasTest()
+
+        val cal = memRepo.getAllCalendar()
+        cal.forEach {
+            Log.i("TEST", "$it")
+        }
 
         entireCard2.value = if (cntHasTest > 0) {
             String.format("%.1f%%", completedCnt / cntHasTest.toFloat() * 100)

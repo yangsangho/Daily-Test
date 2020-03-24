@@ -1,48 +1,64 @@
 package kr.yangbob.memorization.db
 
+import java.text.DateFormat
 import java.util.*
 
-class MyDate : Comparable<MyDate>{
-    private val cal: Calendar
-    val dateInt: Int
+class MyDate : Comparable<MyDate> {
+    private lateinit var cal: Calendar
+    var year: Int = 0
+    var month: Int = 0
+    var day: Int = 0
+    var dateInt: Int = 0
 
-    constructor(calendar: Calendar){
+    constructor(calendar: Calendar) {
         cal = calendar.clone() as Calendar
-        dateInt = toDateInt(calendar)
+        makeDateInt()
     }
-    constructor(dateInt: Int){
+
+    constructor(dateInt: Int) {
         this.dateInt = dateInt
-        cal = toCalendar(dateInt)
+        makeCalendar()
     }
 
-    companion object{
-        fun toDateInt(cal: Calendar): Int{
-            val yearStr = cal.get(Calendar.YEAR).toString()
-            val month = cal.get(Calendar.MONTH) + 1
-            val day = cal.get(Calendar.DAY_OF_MONTH)
+    fun getTime(): Long = cal.timeInMillis
 
-            val monthStr = if(month < 10) "0$month"
-            else month.toString()
-            val dayStr = if(day < 10) "0$day"
-            else day.toString()
+    fun getString(style: Int = DateFormat.DEFAULT): String {
+        val formatter = DateFormat.getDateInstance(style)
+        return formatter.format(cal.time)
+    }
 
-            return (yearStr + monthStr + dayStr).toInt()
-        }
-        fun toCalendar(dateInt: Int): Calendar{
-            val dateStr = dateInt.toString()
-            if(dateStr.length != 8) throw IllegalArgumentException()
+    fun addDate(type: Int, value: Int) {
+        cal.add(type, value)
+        makeDateInt()
+    }
 
-            val year = dateStr.substring(0,4).toInt()
-            val month = dateStr.substring(4,6).toInt()
-            val day = dateStr.substring(6,8).toInt()
+    fun clone(): MyDate = MyDate(cal)
 
-            val cal = Calendar.getInstance()
-            cal.set(Calendar.YEAR, year)
-            cal.set(Calendar.MONTH, month - 1)
-            cal.set(Calendar.DAY_OF_MONTH, day)
+    private fun makeDateInt() {
+        year = cal.get(Calendar.YEAR)
+        month = cal.get(Calendar.MONTH) + 1
+        day = cal.get(Calendar.DAY_OF_MONTH)
 
-            return cal
-        }
+        val monthStr = if (month < 10) "0$month"
+        else month.toString()
+        val dayStr = if (day < 10) "0$day"
+        else day.toString()
+
+        dateInt = (year.toString() + monthStr + dayStr).toInt()
+    }
+
+    private fun makeCalendar() {
+        val dateStr = dateInt.toString()
+        if (dateStr.length != 8) throw IllegalArgumentException()
+
+        year = dateStr.substring(0, 4).toInt()
+        month = dateStr.substring(4, 6).toInt()
+        day = dateStr.substring(6, 8).toInt()
+
+        cal = Calendar.getInstance()
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.MONTH, month - 1)
+        cal.set(Calendar.DAY_OF_MONTH, day)
     }
 
     override fun compareTo(other: MyDate): Int = dateInt - other.dateInt

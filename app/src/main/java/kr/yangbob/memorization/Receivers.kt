@@ -6,33 +6,35 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import kr.yangbob.memorization.db.MyDate
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstCalendar
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.view.SplashActivity
 import org.koin.core.context.GlobalContext
+import java.util.*
 import kotlin.system.exitProcess
 
 //const val receiversLogTag = "Receivers"
 fun workForNextTest(memRepo: MemRepository): Boolean {
-    val todayDate = memRepo.getDateStr(System.currentTimeMillis())
-    val maxDateStr = memRepo.getCalendarMaxDate()
+    val todayDate = MyDate(Calendar.getInstance())
+    val calCnt = memRepo.getCalCnt()
 
-    if(maxDateStr == null){ // null이면 처음인 것
+    if(calCnt == 0){ // null이면 처음인 것
         val newQstCal = QstCalendar(todayDate)
         memRepo.insertQstCalendar(newQstCal)
         return true
     }
 
-    if (todayDate != maxDateStr) {
-        var dateStr: String = maxDateStr
-        while(todayDate != dateStr){
-            val time = memRepo.getDateLong(dateStr) + MILLIS_A_DAY
-            dateStr = memRepo.getDateStr(time)
+    val maxDate = memRepo.getCalendarMaxDate()!!
 
-            val testList: List<Qst> = memRepo.getNeedTestList(dateStr)
-            val pair = testList.partition { it.next_test_date == dateStr }
+    if (todayDate != maxDate) {
+        while(todayDate != maxDate){
+            maxDate.addDate(Calendar.DAY_OF_MONTH,1)
+
+            val testList: List<Qst> = memRepo.getNeedTestList(maxDate)
+            val pair = testList.partition { it.next_test_date == maxDate }
             val noChkList = pair.first.toMutableList()
             val needDormantChkList = pair.second
 
@@ -54,16 +56,17 @@ fun workForNextTest(memRepo: MemRepository): Boolean {
                 }
 
                 qst.dormant_cnt++
+                qst.next_test_date = maxDate
                 memRepo.insertQst(qst)
                 noChkList.add(qst)
             }
 
-            val newQstCal = QstCalendar(dateStr, if(noChkList.isEmpty()) null else false)
+            val newQstCal = QstCalendar(maxDate, if(noChkList.isEmpty()) null else false)
             memRepo.insertQstCalendar(newQstCal)
 
             for (qst in noChkList) {
                 val challengeStage = qst.cur_stage + 1
-                val newQstRecord = QstRecord(qst.id!!, dateStr, challengeStage)
+                val newQstRecord = QstRecord(qst.id!!, maxDate, challengeStage)
                 memRepo.insertQstRecord( newQstRecord )
             }
         }
@@ -76,7 +79,7 @@ class PushAlarmReceiver : BroadcastReceiver(){
     override fun onReceive(context: Context?, intent: Intent?) {
         if(context != null){
             val memRepo = GlobalContext.get().koin.get<MemRepository>()
-            val notSolvedQstCnt = memRepo.getCntNotSolved(memRepo.getDateStr(System.currentTimeMillis()))
+            val notSolvedQstCnt = memRepo.getCntNotSolved(MyDate(Calendar.getInstance()))
             if(notSolvedQstCnt > 0){
                 val splashIntent = Intent(context, SplashActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)

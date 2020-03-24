@@ -45,12 +45,12 @@ class TestActivity : AppCompatActivity() {
             partitionList.first.forEach {
                 it.is_dormant = false
                 it.cur_stage = 0
-                it.next_test_date = todayDateStr
+                it.next_test_date = todayDate
                 model.insertQst(it)
-                val newQstRecord = QstRecord(it.id!!, todayDateStr, 1)
+                val newQstRecord = QstRecord(it.id!!, todayDate, 1)
                 model.insertQstRecord( newQstRecord )
             }
-            testRecordList = partitionList.second.map { QstRecord(it.id!!, "", it.cur_stage) }
+            testRecordList = partitionList.second.map { QstRecord(it.id!!, todayDate, it.cur_stage) }
 
             Toast.makeText(this, R.string.test_dormant_initialize_msg, Toast.LENGTH_LONG).show()
             if (testRecordList.isEmpty()) finish()
@@ -63,8 +63,7 @@ class TestActivity : AppCompatActivity() {
                 snackBar.setAction(R.string.confirmation) {
                     snackBar.dismiss()
                 }
-                snackBar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).maxLines =
-                        3
+                snackBar.view.findViewById<TextView>(com.google.android.material.R.id.snackbar_text).maxLines = 3
                 snackBar.show()
             }
         } else {
@@ -80,7 +79,7 @@ class TestActivity : AppCompatActivity() {
         val listSize = testRecordList.size
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                tvQstCnt.text = "${position + 1}/$listSize"
+                tvQstCnt.text = String.format("%d/%d", position + 1, listSize)
                 qstProgress.max = listSize
                 qstProgress.progress = position + 1
             }
@@ -109,7 +108,7 @@ class TestActivity : AppCompatActivity() {
     }
 }
 
-class TestViewHolder(private val model: TestViewModel, private val binding: ItemTestViewpageBinding, private val adapter: TestPagerAdapter, private val qstSize: Int) : RecyclerView.ViewHolder(binding.root) {
+class TestViewHolder(private val model: TestViewModel, private val binding: ItemTestViewpageBinding, private val adapter: TestPagerAdapter) : RecyclerView.ViewHolder(binding.root) {
     private val card = binding.card
     private val tvQstAnswer = binding.tvQstAnswer.apply {
         movementMethod = ScrollingMovementMethod()
@@ -203,7 +202,7 @@ class TestPagerAdapter(private val testList: List<QstRecord>, private val model:
                 parent,
                 false
         )
-        return TestViewHolder(model, binding, this, testList.size)
+        return TestViewHolder(model, binding, this)
     }
 
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {

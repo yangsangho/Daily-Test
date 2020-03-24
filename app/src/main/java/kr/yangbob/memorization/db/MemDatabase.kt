@@ -16,8 +16,8 @@ abstract class MemDatabase : RoomDatabase()
 
 class Converters{
     @TypeConverter
-    fun DateToInt(date: MyDate): Int = date.dateInt
+    fun dateToInt(date: MyDate): Int = date.dateInt
 
     @TypeConverter
-    fun IntToDate(dateInt: Int): MyDate = MyDate(dateInt)
+    fun intToDate(dateInt: Int): MyDate = MyDate(dateInt)
 }

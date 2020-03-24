@@ -1,10 +1,14 @@
 package kr.yangbob.memorization.viewmodel
 
 import androidx.lifecycle.ViewModel
-import kr.yangbob.memorization.*
+import kr.yangbob.memorization.SETTING_IS_FIRST_TEST
+import kr.yangbob.memorization.STAGE_LIST
+import kr.yangbob.memorization.Stage
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
+import kr.yangbob.memorization.todayDate
+import java.util.*
 
 class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
     private var isPossibleClick = false
@@ -22,29 +26,24 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
 
     var isDormant: Boolean = false
 
-    fun getTodayNullRecords() =
-            memRepo.getNullRecordsFromDate(todayDateStr)
+    fun getTodayNullRecords() = memRepo.getNullRecordsFromDate(todayDate)
 
     fun insertQst(qst: Qst) = memRepo.insertQst(qst)
     fun insertQstRecord(qstRecord: QstRecord) = memRepo.insertQstRecord(qstRecord)
     fun getQstFromId(id: Int) = memRepo.getQstFromId(id)
     fun getAllDormantQst() = memRepo.getAllDormantQst()
 
-    fun getDateStr(time: Long): String = memRepo.getDateStr(time)
-
     fun update(qst: Qst, qstRecord: QstRecord, isCorrect: Boolean): Boolean {
         val challengeStage = STAGE_LIST[qstRecord.challenge_stage]
         val curStage = STAGE_LIST[qst.cur_stage]
-        val newNextDate: Long
-        var goMove = true
+        val date = todayDate.clone()
+        val addDay: Int
 
         if (qstRecord.is_correct == null) {
             if (isCorrect || challengeStage <= Stage.BEGIN_THREE) {
-                newNextDate = todayTime + (MILLIS_A_DAY * challengeStage.nextTest)
+                addDay = challengeStage.nextTest
                 if (challengeStage != Stage.REVIEW) qst.cur_stage++
-            } else {
-                newNextDate = todayTime + (MILLIS_A_DAY * curStage.nextTest)
-            }
+            } else addDay = curStage.nextTest
             qst.dormant_cnt = 0
         } else {
             when {
@@ -55,48 +54,42 @@ class TestViewModel(private val memRepo: MemRepository) : ViewModel() {
                     return true
                 }
                 isCorrect -> {
-                    newNextDate = todayTime + (MILLIS_A_DAY * challengeStage.nextTest)
+                    addDay = challengeStage.nextTest
                     if (challengeStage != Stage.REVIEW) qst.cur_stage++
                 }
                 else -> {
-                    newNextDate = todayTime + (MILLIS_A_DAY * curStage.nextTest)
+                    addDay = curStage.nextTest
                     if (challengeStage != Stage.REVIEW) qst.cur_stage--
                 }
             }
         }
-        if (goMove) qstRecord.is_correct = isCorrect
-        qst.next_test_date = memRepo.getDateStr(newNextDate)
+        qstRecord.is_correct = isCorrect
+        qst.next_test_date = date.apply {
+            addDate(Calendar.DAY_OF_MONTH, addDay)
+        }
         memRepo.insertQst(qst)
         memRepo.insertQstRecord(qstRecord)      // qstRecord를 먼저 insert하니까 사라지네
-        return goMove
+        return true
     }
 
     fun updateDormant(qst: Qst, qstRecord: QstRecord, isCorrect: Boolean): Boolean {
-        var goMove = true
+        val date = todayDate.clone()
         if (qstRecord.is_correct == null) {
-            qstRecord.is_correct = isCorrect
             qst.is_dormant = false
-            if (!isCorrect) {
-                qst.cur_stage--
-            }
-            qst.next_test_date = memRepo.getDateStr(todayTime + (STAGE_LIST[qst.cur_stage].nextTest * MILLIS_A_DAY))
+            if (!isCorrect) qst.cur_stage--
         } else {
-            if (qstRecord.is_correct == isCorrect) {
-                qstRecord.is_correct = null
-                qst.is_dormant = true
-                if (!isCorrect) {
-                    qst.cur_stage++
-                }
-                goMove = false
-            } else {
-                qstRecord.is_correct = isCorrect
+            if (qstRecord.is_correct == isCorrect) return false
+            else {
                 if (isCorrect) qst.cur_stage++
                 else qst.cur_stage--
-                qst.next_test_date = memRepo.getDateStr(todayTime + (STAGE_LIST[qst.cur_stage].nextTest * MILLIS_A_DAY))
             }
         }
+        qstRecord.is_correct = isCorrect
+        qst.next_test_date = date.apply {
+            addDate(Calendar.DAY_OF_MONTH, STAGE_LIST[qst.cur_stage].nextTest)
+        }
         insertQst(qst)
-        return goMove
+        return true
     }
 
     fun isFirst(): Boolean = if(memRepo.getIsFirst(SETTING_IS_FIRST_TEST)){

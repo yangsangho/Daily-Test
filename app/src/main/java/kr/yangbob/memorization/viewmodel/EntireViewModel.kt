@@ -8,7 +8,6 @@ import kr.yangbob.memorization.SETTING_ENTIRE_SORT_ORDER
 import kr.yangbob.memorization.SortInfo
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.model.MemRepository
-import java.text.DateFormat
 
 class EntireViewModel(private val memRepo: MemRepository, private val settings: SharedPreferences) : ViewModel() {
     private var isPossibleClick = false
@@ -35,8 +34,6 @@ class EntireViewModel(private val memRepo: MemRepository, private val settings: 
 
     fun getAllQst() = qstList
     fun getSortInfo() = sortInfo
-
-    fun getFormattedDate(dateStr: String): String = memRepo.getFormattedDate(dateStr, DateFormat.DEFAULT)
 
     fun getSortedList(qstList: List<Qst>): List<Qst> = when (sortInfo.sortedItemIdx) {
         0 -> {

@@ -1,6 +1,7 @@
 package kr.yangbob.memorization.calendar
 
 import kr.yangbob.memorization.db.InfoCalendar
+import kr.yangbob.memorization.db.MyDate
 import java.util.*
 
 /**
@@ -12,7 +13,7 @@ data class DayInfo(
     val infoCalendar: InfoCalendar? = null
 )
 
-class BaseCalendar(yearMonth: String, private val infoCalList: List<InfoCalendar>){
+class BaseCalendar(date: MyDate, private val infoCalList: List<InfoCalendar>){
 
     companion object {
         const val DAYS_OF_WEEK = 7
@@ -20,8 +21,8 @@ class BaseCalendar(yearMonth: String, private val infoCalList: List<InfoCalendar
     }
 
     private val calendar: Calendar = Calendar.getInstance().apply {
-        set(Calendar.YEAR, yearMonth.substring(0, 4).toInt())
-        set(Calendar.MONTH, yearMonth.substring(4).toInt() - 1)
+        set(Calendar.YEAR, date.year)
+        set(Calendar.MONTH, date.month - 1)
     }
 
     var cntPrevMonthDate = 0
@@ -73,7 +74,7 @@ class BaseCalendar(yearMonth: String, private val infoCalList: List<InfoCalendar
      */
     private fun makeCurrentMonth(calendar: Calendar) {
         for (i in 1..calendar.getActualMaximum(Calendar.DATE)) {
-            val infoCalendar = infoCalList.find { it.date == i }
+            val infoCalendar = infoCalList.find { it.date.day == i }
             dayList.add(DayInfo(i,false, infoCalendar))
         }
     }

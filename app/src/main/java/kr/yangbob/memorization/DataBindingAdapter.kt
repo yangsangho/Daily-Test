@@ -8,7 +8,8 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import kr.yangbob.memorization.calendar.DayInfo
 import kr.yangbob.memorization.db.InfoCalendar
-import java.text.DateFormat
+import kr.yangbob.memorization.db.MyDate
+import kr.yangbob.memorization.db.Qst
 
 object DataBindingAdapter {
 
@@ -211,12 +212,16 @@ object DataBindingAdapter {
         view.setImageResource(if (isFront) R.drawable.ic_question_black_24dp else R.drawable.ic_answer_black_24dp)
     }
 
-    @BindingAdapter("app:defaultFormatDate", "app:isTodayCheck")
+    @BindingAdapter("app:defaultFormatDate")
     @JvmStatic
-    fun setFormatDate(view: TextView, dateStr: String, isTodayCheck: Boolean) {
-        val time = dateFormat.parse(dateStr)?.time ?: 0
-        val formatter = DateFormat.getDateInstance(DateFormat.DEFAULT)
-        view.text = if(isTodayCheck) formatter.format(if(time < todayTime) todayTime else time)
-        else formatter.format(time)
+    fun setFormatDate(view: TextView, date: MyDate) {
+        view.text = date.getString()
+    }
+
+    @BindingAdapter("app:nextTestDate")
+    @JvmStatic
+    fun nextTestDate(view: TextView, qst: Qst) {
+        view.text = if(qst.is_dormant) view.context.getString(R.string.dormant)
+        else qst.next_test_date.getString()
     }
 }

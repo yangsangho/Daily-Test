@@ -22,6 +22,7 @@ import kr.yangbob.memorization.calendar.BaseCalendar
 import kr.yangbob.memorization.databinding.ActivityCalendarBinding
 import kr.yangbob.memorization.databinding.CalendarLayoutBinding
 import kr.yangbob.memorization.db.InfoCalendar
+import kr.yangbob.memorization.db.MyDate
 import kr.yangbob.memorization.viewmodel.CalendarViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.coroutines.CoroutineContext
@@ -44,8 +45,7 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
         } else {
             model.isPortrait = true
         }
-        val binding: ActivityCalendarBinding =
-                DataBindingUtil.setContentView(this, R.layout.activity_calendar)
+        val binding: ActivityCalendarBinding = DataBindingUtil.setContentView(this, R.layout.activity_calendar)
         binding.lifecycleOwner = this
         binding.model = model
 
@@ -55,16 +55,16 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
             setSupportActionBar(toolBar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-            val yearMonthList = model.yearMonthList()
-            val maxIdx = yearMonthList.size
+            val dateList = model.getDateList()
+            val maxIdx = dateList.size
             val recyclerDetachBindIdx = 3
             viewHolderList = arrayOfNulls(maxIdx)
-            calendarAdapter = CalendarAdapter(yearMonthList, model, viewHolderList)
+            calendarAdapter = CalendarAdapter(dateList, model, viewHolderList)
             calendarViewPager.adapter = calendarAdapter
             calendarViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     Log.i("TEST", "onPageSelected : $position")
-                    if(maxIdx > 4){ // item이 4개 이하면, onbind를 반복 안하더라
+                    if (maxIdx > 4) { // item이 4개 이하면, onbind를 반복 안하더라
                         val direction = prevPosition - position
                         if (direction > 0) { // 좌측으로
                             val needSetNullIdx = position + recyclerDetachBindIdx
@@ -82,7 +82,7 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
                     viewHolderList[prevPosition]?.also {
                         it.detached()
                     }
-                    model.setCalendar(yearMonthList[position])
+                    model.setCalendar(dateList[position])
                     viewHolderList[position]?.also {
                         it.attached()
                     }
@@ -95,7 +95,7 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
-            val deleteSet: HashSet<String>? = data?.getSerializableExtra("deleteSet") as HashSet<String>?
+            val deleteSet: HashSet<Int>? = data?.getSerializableExtra("deleteSet") as HashSet<Int>?
 
             viewHolderList[prevPosition]?.also {
                 it.checkForDelete(deleteSet)
@@ -128,24 +128,24 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
     }
 }
 
-class CalendarAdapter(private val yearMonthList: List<String>, private val model: CalendarViewModel, private val viewHolderList: Array<CalendarViewHolder?>) : RecyclerView.Adapter<CalendarViewHolder>() {
+class CalendarAdapter(private val dateList: List<MyDate>, private val model: CalendarViewModel, private val viewHolderList: Array<CalendarViewHolder?>) : RecyclerView.Adapter<CalendarViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
         val binding = CalendarLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CalendarViewHolder(binding, model)
     }
 
-    override fun getItemCount(): Int = yearMonthList.size
+    override fun getItemCount(): Int = dateList.size
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
         Log.i("TEST", "onBind : $position")
         viewHolderList[position] = holder
         var isLastMonth: Boolean? = null   // true : 마지막날을 click으로 , false : 첫날을 click으로, null : 1일을 click으로
-        if (position == yearMonthList.size - 1) {
+        if (position == dateList.size - 1) {
             isLastMonth = true
         } else if (position == 0) {
             isLastMonth = false
         }
-        holder.bind(yearMonthList[position], isLastMonth)
+        holder.bind(dateList[position], isLastMonth)
     }
 }
 
@@ -155,31 +155,31 @@ class CalendarViewHolder(private val binding: CalendarLayoutBinding, private val
     private var clickedDay = 0
     private var dayPrefix = 0
 
-    fun bind(yearMonth: String, isLastMonth: Boolean?) {
-        infoCalendarList = model.getInfoCalendarList(yearMonth.toInt())
-        baseCalendar = BaseCalendar(yearMonth, infoCalendarList)
+    fun bind(date: MyDate, isLastMonth: Boolean?) {
+        infoCalendarList = model.getInfoCalendarList(date)
+        baseCalendar = BaseCalendar(date, infoCalendarList)
         dayPrefix = baseCalendar.cntPrevMonthDate
         binding.dayList = baseCalendar.dayList
         binding.holder = this
         this.clickedDay = when (isLastMonth) {
-            true -> infoCalendarList.last().date
-            false -> infoCalendarList.first().date
+            true -> infoCalendarList.last().date.day
+            false -> infoCalendarList.first().date.day
             else -> 1
         }
         this.clickedDay += dayPrefix
     }
 
-    fun checkForDelete(deleteSet: HashSet<String>?) {
-        model.setCurrentCalendar(infoCalendarList.find { it.date == this.clickedDay - dayPrefix }, binding.root.resources)
+    fun checkForDelete(deleteSet: HashSet<Int>?) {
+        model.setCurrentCalendar(infoCalendarList.find { it.date.day == this.clickedDay - dayPrefix }, binding.root.resources)
         updateBaseCal(deleteSet)
     }
 
-    fun updateBaseCal(deleteSet: HashSet<String>?) {
+    fun updateBaseCal(deleteSet: HashSet<Int>?) {
         baseCalendar.dayList.forEach {
             it.infoCalendar?.apply {
                 deleteSet?.also { set ->
-                    if (set.contains(id)) {
-                        val newValue = model.getCalTestComplete(id)
+                    if (set.contains(date.dateInt)) {
+                        val newValue = model.getCalTestComplete(date)
                         if (isCompleted != newValue) {
                             isCompleted = newValue
                             binding.dayList = baseCalendar.dayList
@@ -192,7 +192,7 @@ class CalendarViewHolder(private val binding: CalendarLayoutBinding, private val
 
     fun attached() {
         binding.clickedDay = this.clickedDay
-        model.setCurrentCalendar(infoCalendarList.find { it.date == this.clickedDay - dayPrefix }, binding.root.resources)
+        model.setCurrentCalendar(infoCalendarList.find { it.date.day == this.clickedDay - dayPrefix }, binding.root.resources)
     }
 
     fun detached() {
@@ -201,7 +201,7 @@ class CalendarViewHolder(private val binding: CalendarLayoutBinding, private val
 
     fun click(infoCalendar: InfoCalendar?) {
         infoCalendar?.also { infoCal ->
-            this.clickedDay = dayPrefix + infoCal.date
+            this.clickedDay = dayPrefix + infoCal.date.day
             binding.clickedDay = this.clickedDay
             model.setCurrentCalendar(infoCal, binding.root.resources)
         }

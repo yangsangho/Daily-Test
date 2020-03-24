@@ -147,7 +147,7 @@ class EntireViewHolder(private val binding: ItemEntireCardBinding, private val m
     fun bind(qst: Qst) {
         binding.qst = qst
         binding.holder = this
-        binding.tvEntireRegistration.text = model.getFormattedDate(qst.registration_date)
+        binding.tvEntireRegistration.text = qst.registration_date.getString()
         binding.card.setOnClickListener {
             if (model.checkIsPossibleClick()) {
                 val context = binding.root.context

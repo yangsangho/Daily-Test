@@ -70,7 +70,7 @@ class QstActivity : AppCompatActivity() {
                 .setPositiveButton(R.string.delete) { _, _ ->
                     val deleteList = model.delete()
                     setResult(RESULT_OK, Intent().apply {
-                        putStringArrayListExtra("deleteList", deleteList)
+                        putIntegerArrayListExtra("deleteList", deleteList)
                     })
                     finish()
                 }.setNegativeButton(R.string.cancel) { _, _ -> }.create()

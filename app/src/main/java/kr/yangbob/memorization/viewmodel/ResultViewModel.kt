@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import kr.yangbob.memorization.SETTING_RESULT_SORT_ITEM
 import kr.yangbob.memorization.SETTING_RESULT_SORT_ORDER
 import kr.yangbob.memorization.SortInfo
+import kr.yangbob.memorization.db.MyDate
 import kr.yangbob.memorization.db.QstRecordWithName
 import kr.yangbob.memorization.model.MemRepository
-import java.text.DateFormat
 
 class ResultViewModel(private val memRepo: MemRepository, private val settings: SharedPreferences) : ViewModel() {
     private var isPossibleClick = false
@@ -32,8 +32,7 @@ class ResultViewModel(private val memRepo: MemRepository, private val settings: 
     }
 
     fun getSortInfo() = sortInfo
-    fun getRecordList(calendarId: String): LiveData<List<QstRecordWithName>> = memRepo.getAllRecordWithName(calendarId)
-    fun getFormattedDate(dateStr: String): String = memRepo.getFormattedDate(dateStr, DateFormat.FULL)
+    fun getRecordList(calendarId: MyDate): LiveData<List<QstRecordWithName>> = memRepo.getAllRecordWithName(calendarId)
 
     fun getSortedList(recordList: List<QstRecordWithName>): List<QstRecordWithName> = when (sortInfo.sortedItemIdx) {
         0 -> {

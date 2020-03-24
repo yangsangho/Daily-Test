@@ -20,9 +20,11 @@ import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.databinding.ItemResultCardBinding
+import kr.yangbob.memorization.db.MyDate
 import kr.yangbob.memorization.db.QstRecordWithName
 import kr.yangbob.memorization.viewmodel.ResultViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import java.text.DateFormat
 
 class ResultActivity : AppCompatActivity() {
     private val model: ResultViewModel by viewModel()
@@ -31,7 +33,7 @@ class ResultActivity : AppCompatActivity() {
     private lateinit var adapter: ResultRecyclerAdapter
     private lateinit var appBarTitle: String
     private lateinit var sortDialog: SortDialog
-    private val deleteSet = HashSet<String>()
+    private val deleteSet = HashSet<Int>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,9 +42,11 @@ class ResultActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_result)
 
-        intent.getStringExtra(EXTRA_TO_RESULT_DATESTR)?.let {
-            recordList = model.getRecordList(it)
-            tvDate.text = model.getFormattedDate(it)
+        intent.getIntExtra(EXTRA_TO_RESULT_DATESTR, 0).apply {
+            if(this == 0) throw IllegalArgumentException()
+            val date = MyDate(this)
+            recordList = model.getRecordList(date)
+            tvDate.text = date.getString(DateFormat.FULL)
         }
 
         recordList.observe(this, Observer { rawList ->
@@ -94,7 +98,7 @@ class ResultActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == RESULT_OK){
-            val deleteList = data?.getStringArrayListExtra("deleteList")
+            val deleteList = data?.getIntegerArrayListExtra("deleteList")
             deleteList?.also {
                 deleteSet.addAll(it)
             }

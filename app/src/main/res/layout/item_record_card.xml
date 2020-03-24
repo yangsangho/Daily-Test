@@ -32,7 +32,6 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/size_basic"
                 app:defaultFormatDate="@{record.calendar_id}"
-                app:isTodayCheck="@{false}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

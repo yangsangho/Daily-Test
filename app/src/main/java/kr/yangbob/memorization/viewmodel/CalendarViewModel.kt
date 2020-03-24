@@ -9,10 +9,13 @@ import androidx.lifecycle.ViewModel
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.db.InfoCalendar
+import kr.yangbob.memorization.db.MyDate
 import kr.yangbob.memorization.model.MemRepository
+import kr.yangbob.memorization.todayDate
 import kr.yangbob.memorization.view.CalendarActivity
 import kr.yangbob.memorization.view.ResultActivity
 import java.util.*
+import kotlin.collections.ArrayList
 
 class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     private var isPossibleClick = false
@@ -38,13 +41,13 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     val record: LiveData<String> = _record
     val isDetailBtnActivate: LiveData<Boolean> = _isDetailBtnActivate
     private val infoCalendarList: List<InfoCalendar> = memRepo.getAllInfoCalendar()
-    private lateinit var currentCalendarID: String
+    private lateinit var currentCalendarID: MyDate
 
-    fun updateInfoCal(deleteSet: HashSet<String>?) {
+    fun updateInfoCal(deleteSet: HashSet<Int>?) {
         deleteSet?.also { set ->
             infoCalendarList.forEach { list ->
-                if (set.contains(list.id)) {
-                    val newValue = getCalTestComplete(list.id)
+                if (set.contains(list.date.dateInt)) {
+                    val newValue = getCalTestComplete(list.date)
                     if (list.isCompleted != newValue) {
                         list.isCompleted = newValue
                     }
@@ -53,33 +56,33 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
         }
     }
 
-    fun getCalTestComplete(calendarId: String) = memRepo.getCalTestComplete(calendarId)
+    fun getCalTestComplete(calendarId: MyDate) = memRepo.getCalTestComplete(calendarId)
 
-    fun getInfoCalendarList(yearMonth: Int) = infoCalendarList.filter {
-        it.yearMonth == yearMonth
+    fun getInfoCalendarList(date: MyDate) = infoCalendarList.filter {
+        it.date.year == date.year && it.date.month == date.month
     }
 
-    fun yearMonthList(): List<String> {
-        val todayCal: Calendar = Calendar.getInstance()
-        val minTime = memRepo.getStartDateStr().let {
-            memRepo.getDateLong(it)
-        }
-        val minCal = (todayCal.clone() as Calendar).apply {
-            timeInMillis = minTime
-        }
+    fun getDateList(): List<MyDate> {
+        val dateList = ArrayList<MyDate>()
+        val startDate = memRepo.getStartDate()
+        val todayDate = todayDate.clone()
 
-        return makeCalList(todayCal, minCal)
-            .map { String.format("%d%02d", it.get(Calendar.YEAR), it.get(Calendar.MONTH) + 1) }
+        dateList.add(startDate.clone())
+        while(todayDate != startDate){
+            startDate.addDate(Calendar.MONTH, 1)
+            dateList.add(startDate.clone())
+        }
+        return dateList.toList()
     }
 
-    fun setCalendar(yearMonth: String) {
-        _month.value = yearMonth.substring(4).toInt() - 1
-        _year.value = yearMonth.substring(0, 4).toInt()
+    fun setCalendar(date: MyDate) {
+        _month.value = date.month - 1
+        _year.value = date.year
     }
 
     fun setCurrentCalendar(infoCalendar: InfoCalendar?, resources: Resources) {
         infoCalendar?.also { infoCal ->
-            currentCalendarID = infoCal.id
+            currentCalendarID = infoCal.date
             val recordList = memRepo.getAllRecordFromDate(currentCalendarID)
             val cntQst = recordList.size
             val cntSolved = recordList.count { it.is_correct != null }
@@ -113,29 +116,7 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     fun detailBtnClick(view: View) {
         val calActivity = view.context as CalendarActivity
         calActivity.startActivityForResult(Intent(view.context, ResultActivity::class.java).apply {
-            putExtra(EXTRA_TO_RESULT_DATESTR, currentCalendarID)
+            putExtra(EXTRA_TO_RESULT_DATESTR, currentCalendarID.dateInt)
         }, 123)
     }
-
-    private tailrec fun makeCalList(
-        cal: Calendar,
-        minCal: Calendar,
-        acc: List<Calendar> = listOf()
-    ): List<Calendar> = when {
-        cal.get(Calendar.YEAR) <= minCal.get(Calendar.YEAR)
-                && cal.get(Calendar.MONTH) < minCal.get(Calendar.MONTH) -> acc
-        else -> {
-            val cal2: Calendar = (cal.clone() as Calendar).apply {
-                if (get(Calendar.MONTH) == 0) {
-                    set(Calendar.YEAR, get(Calendar.YEAR) - 1)
-                    set(Calendar.MONTH, Calendar.DECEMBER)
-                } else {
-                    set(Calendar.MONTH, get(Calendar.MONTH) - 1)
-                }
-            }
-            makeCalList(cal2, minCal, listOf(cal) + acc)
-        }
-    }
-
-
 }

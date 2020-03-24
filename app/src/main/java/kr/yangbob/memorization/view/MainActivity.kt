@@ -186,9 +186,6 @@ class MainPagerFragment : Fragment() {
                 binding.dashboardChart.setCount(8)
                 val observeList = model.getQstList()
                 observeList.observe(viewLifecycleOwner, Observer { rawList ->
-//                    rawList.forEach{
-//                        Log.i("TEST", "$it")
-//                    }
                     model.setEntireCardData()
                     if (rawList.isNotEmpty()) {
                         if(model.isFirst(SETTING_IS_FIRST_ENTIRE)) startTutorial(isToday = false)
@@ -243,7 +240,7 @@ class MainPagerFragment : Fragment() {
     fun clickTodayRecord(view: View) {
         if (model.checkIsPossibleClick()) {
             startActivity(Intent(context, ResultActivity::class.java).apply {
-                putExtra(EXTRA_TO_RESULT_DATESTR, todayDateStr)
+                putExtra(EXTRA_TO_RESULT_DATESTR, todayDate.dateInt)
             })
         }
     }

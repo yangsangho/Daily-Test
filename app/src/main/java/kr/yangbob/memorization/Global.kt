@@ -4,11 +4,11 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import java.text.SimpleDateFormat
+import kr.yangbob.memorization.db.MyDate
 import java.util.*
 
 const val globalLogTag = "Global"
-const val MILLIS_A_DAY = 24 * 60 * 60 * 1000
+//const val MILLIS_A_DAY = 24 * 60 * 60 * 1000
 const val ANIMATION_HALF_TIME: Long = 400
 const val ANIMATION_FULL_TIME: Long = 800
 const val CREATE_CAL_RECV_ID = 10
@@ -30,10 +30,14 @@ const val SETTING_IS_FIRST_TODAY = "firstToday"
 const val SETTING_IS_FIRST_TEST = "firstTest"
 const val SETTING_IS_FIRST_CREATE = "firstCreate"
 
-val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-val todayDateStr: String = dateFormat.format(Date(System.currentTimeMillis()))
-val tomorrowDateStr: String = dateFormat.format(Date(System.currentTimeMillis() + MILLIS_A_DAY))
-val todayTime: Long = dateFormat.parse(todayDateStr)?.time ?: 0
+//val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+//val todayDateStr: String = dateFormat.format(Date(System.currentTimeMillis()))
+//val tomorrowDateStr: String = dateFormat.format(Date(System.currentTimeMillis() + MILLIS_A_DAY))
+//val todayTime: Long = dateFormat.parse(todayDateStr)?.time ?: 0
+val todayDate = MyDate(Calendar.getInstance())
+val tomorrowDate = todayDate.clone().apply {
+    addDate(Calendar.DAY_OF_MONTH, 1)
+}
 
 val STAGE_LIST = Stage.values()
 

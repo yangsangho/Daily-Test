@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import kr.yangbob.memorization.SETTING_IS_FIRST_CREATE
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.model.MemRepository
-import kr.yangbob.memorization.todayDateStr
-import kr.yangbob.memorization.tomorrowDateStr
+import kr.yangbob.memorization.todayDate
+import kr.yangbob.memorization.tomorrowDate
 
 class CreateViewModel(private val memRepo: MemRepository) : ViewModel() {
     private val logTag = "AddViewModel"
@@ -30,7 +30,7 @@ class CreateViewModel(private val memRepo: MemRepository) : ViewModel() {
     fun insertQst(): Boolean {
         return if (memRepo.chkDuplication(title.value!!)) false
         else {
-            val qst = Qst(title.value!!, answer.value!!, todayDateStr, tomorrowDateStr)
+            val qst = Qst(title.value!!, answer.value!!, todayDate, tomorrowDate)
             memRepo.insertQst(qst)
             true
         }

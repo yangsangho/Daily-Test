@@ -138,4 +138,5 @@
     <string name="ad_mob_unit_for_create">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ad_mob_unit_for_result">ca-app-pub-3940256099942544/6300978111</string>
     <string name="ad_mob_unit_for_entire">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="dormant">Dormant</string>
 </resources>
