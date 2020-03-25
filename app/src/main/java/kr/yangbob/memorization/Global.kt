@@ -7,8 +7,6 @@ import android.content.Intent
 import kr.yangbob.memorization.db.MyDate
 import java.util.*
 
-const val globalLogTag = "Global"
-//const val MILLIS_A_DAY = 24 * 60 * 60 * 1000
 const val ANIMATION_HALF_TIME: Long = 400
 const val ANIMATION_FULL_TIME: Long = 800
 const val CREATE_CAL_RECV_ID = 10
@@ -30,10 +28,6 @@ const val SETTING_IS_FIRST_TODAY = "firstToday"
 const val SETTING_IS_FIRST_TEST = "firstTest"
 const val SETTING_IS_FIRST_CREATE = "firstCreate"
 
-//val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-//val todayDateStr: String = dateFormat.format(Date(System.currentTimeMillis()))
-//val tomorrowDateStr: String = dateFormat.format(Date(System.currentTimeMillis() + MILLIS_A_DAY))
-//val todayTime: Long = dateFormat.parse(todayDateStr)?.time ?: 0
 val todayDate = MyDate(Calendar.getInstance())
 val tomorrowDate = todayDate.clone().apply {
     addDate(Calendar.DAY_OF_MONTH, 1)
@@ -44,7 +38,7 @@ val STAGE_LIST = Stage.values()
 enum class Stage(val nextTest: Int) {
     INIT(1),
     BEGIN_ONE(1), BEGIN_TWO(1), BEGIN_THREE(3), AFTER_THREE(7),
-    AFTER_WEEK(15), AFTER_HALF(30), AFTER_MONTH(30), REVIEW(30)
+    AFTER_WEEK(15), AFTER_HALF(30), AFTER_MONTH(30), REVIEW(45)
 }
 
 data class SortInfo(
@@ -52,16 +46,16 @@ data class SortInfo(
     var isAscending: Boolean
 )
 
-// Receiver 관련
-fun cancelAlarm(context: Context) {
-    val pendingIntent = Intent(context, CreateCalendarReceiver::class.java).let {
-        PendingIntent.getBroadcast(context, CREATE_CAL_RECV_ID, it, PendingIntent.FLAG_NO_CREATE)
-    }
-    if (pendingIntent != null) {
-        val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmMgr.cancel(pendingIntent)
-    }
-}
+//// Receiver 관련
+//fun cancelAlarm(context: Context) {
+//    val pendingIntent = Intent(context, CreateCalendarReceiver::class.java).let {
+//        PendingIntent.getBroadcast(context, CREATE_CAL_RECV_ID, it, PendingIntent.FLAG_NO_CREATE)
+//    }
+//    if (pendingIntent != null) {
+//        val alarmMgr = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+//        alarmMgr.cancel(pendingIntent)
+//    }
+//}
 
 fun setTimer(context: Context) {
     val createCalIntent = Intent(context, CreateCalendarReceiver::class.java)

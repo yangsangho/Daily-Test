@@ -66,6 +66,8 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
         val dateList = ArrayList<MyDate>()
         val startDate = memRepo.getStartDate()
         val todayDate = todayDate.clone()
+        startDate.setDate(Calendar.DAY_OF_MONTH, 1)
+        todayDate.setDate(Calendar.DAY_OF_MONTH, 1)
 
         dateList.add(startDate.clone())
         while(todayDate != startDate){

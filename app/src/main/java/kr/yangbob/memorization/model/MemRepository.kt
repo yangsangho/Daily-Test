@@ -40,10 +40,6 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
     ////// QstCalendar
     fun getCalTestComplete(calendarId: MyDate): Boolean? = runBlocking { daoQstCalendar.getTestComplete(calendarId) }
 
-    fun getAllCalendarLD(): LiveData<List<QstCalendar>> = daoQstCalendar.getAllLD()
-
-    fun getAllCalendar(): List<QstCalendar> = runBlocking { daoQstCalendar.getAll() }
-
     fun getAllInfoCalendar(): List<InfoCalendar> = runBlocking {
         val list = daoQstCalendar.getAll()
         val infoCalList = list.map { qstCalendar ->
@@ -78,8 +74,6 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// QstRecord
-    fun getAllRecordLD(): LiveData<List<QstRecord>> = daoQstRecord.getAllLD()
-
     fun getAllRecordFromDate(calendarId: MyDate): List<QstRecord> = runBlocking { daoQstRecord.getAllFromDate(calendarId) }
 
     fun getAllRecordFromId(qstId: Int): List<QstRecord> = runBlocking { daoQstRecord.getAllFromId(qstId) }
@@ -102,7 +96,6 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
     fun getCntRecord(calendarId: MyDate): Int = runBlocking { daoQstRecord.getCnt(calendarId) }
 
     fun getCntNotSolved(calendarId: MyDate): Int = runBlocking { daoQstRecord.getCntNotSolved(calendarId) }
-//    fun deleteNoneSolvedRecord() = runBlocking { daoQstRecord.deleteNoneSolved() }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// settings

@@ -125,7 +125,6 @@ class TestViewHolder(private val model: TestViewModel, private val binding: Item
     }
 
     fun onBind(qstRecord: QstRecord, position: Int) {
-        Log.i("TEST", "onBind($position)")
         this.qstRecord = qstRecord
         this.qst = model.getQstFromId(qstRecord.qst_id)
 

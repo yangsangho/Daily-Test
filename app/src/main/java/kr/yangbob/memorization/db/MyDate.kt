@@ -32,6 +32,11 @@ class MyDate : Comparable<MyDate> {
         makeDateInt()
     }
 
+    fun setDate(type: Int, value: Int){
+        cal.set(type, value)
+        makeDateInt()
+    }
+
     fun clone(): MyDate = MyDate(cal)
 
     private fun makeDateInt() {

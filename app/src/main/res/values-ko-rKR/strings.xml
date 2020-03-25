@@ -134,10 +134,6 @@
     <string name="tutorial_today_stage_icon">도전 단계 예시</string>
     <string name="tutorial_today_stage_desc">7일의 망각 시간이 주어진 시험에 도전하고 있는 것이고, 정답을 맞춘다면 4단계를 달성</string>
     <string name="tutorial_create_4">오후 11:58 ~ 오전 12:03에는 문제 생성을 하지 말아주세요.\n(일일 업데이트를 위해)</string>
-    <string name="ad_mob_app_id">ca-app-pub-9569532653801871~3125640760</string>
-    <string name="ad_mob_unit_for_test">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_mob_unit_for_create">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_mob_unit_for_result">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="ad_mob_unit_for_entire">ca-app-pub-3940256099942544/6300978111</string>
     <string name="dormant">휴면중</string>
+    <string name="update_cancel">업데이트가 취소됐어요.</string>
 </resources>

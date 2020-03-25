@@ -91,9 +91,6 @@ interface DaoQstRecord {
     @Query("SELECT * FROM QstRecord WHERE calendar_id == :calendarId AND is_correct IS NULL")
     suspend fun getNullListFromDate(calendarId: MyDate): List<QstRecord>
 
-//    @Query("DELETE FROM QstRecord WHERE is_correct IS NULL")
-//    suspend fun deleteNoneSolved()
-
     @Query("SELECT COUNT(*) FROM QstRecord WHERE calendar_id == :calendarId")
     suspend fun getCnt(calendarId: MyDate): Int
 

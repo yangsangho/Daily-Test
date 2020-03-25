@@ -63,7 +63,6 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
             calendarViewPager.adapter = calendarAdapter
             calendarViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
-                    Log.i("TEST", "onPageSelected : $position")
                     if (maxIdx > 4) { // item이 4개 이하면, onbind를 반복 안하더라
                         val direction = prevPosition - position
                         if (direction > 0) { // 좌측으로
@@ -89,6 +88,7 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
                     prevPosition = position
                 }
             })
+            calendarViewPager.currentItem = maxIdx - 1
         }
     }
 
@@ -137,7 +137,6 @@ class CalendarAdapter(private val dateList: List<MyDate>, private val model: Cal
     override fun getItemCount(): Int = dateList.size
 
     override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
-        Log.i("TEST", "onBind : $position")
         viewHolderList[position] = holder
         var isLastMonth: Boolean? = null   // true : 마지막날을 click으로 , false : 첫날을 click으로, null : 1일을 click으로
         if (position == dateList.size - 1) {

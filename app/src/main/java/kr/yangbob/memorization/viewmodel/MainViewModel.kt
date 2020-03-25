@@ -1,7 +1,6 @@
 package kr.yangbob.memorization.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import kr.yangbob.memorization.R
@@ -102,11 +101,6 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     fun setTestCompletionRate() {
         val completedCnt = memRepo.getCompletedDateCnt()
         val cntHasTest = memRepo.getCalCntHasTest()
-
-        val cal = memRepo.getAllCalendar()
-        cal.forEach {
-            Log.i("TEST", "$it")
-        }
 
         entireCard2.value = if (cntHasTest > 0) {
             String.format("%.1f%%", completedCnt / cntHasTest.toFloat() * 100)
