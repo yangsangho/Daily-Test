@@ -11,6 +11,7 @@ const val ANIMATION_HALF_TIME: Long = 400
 const val ANIMATION_FULL_TIME: Long = 800
 const val CREATE_CAL_RECV_ID = 10
 const val PUSH_ALARM_RECV_ID = 11
+const val IN_APP_UPDATE_RECV_ID = 13
 
 const val EXTRA_TO_RESULT_DATESTR = "dateStr"
 const val EXTRA_TO_QST_ID = "qstID"

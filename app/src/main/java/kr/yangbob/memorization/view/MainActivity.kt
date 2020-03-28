@@ -15,6 +15,10 @@ import androidx.lifecycle.Observer
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.UpdateAvailability
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.yangbob.memorization.*
 import kr.yangbob.memorization.databinding.DashboardModuleBinding
@@ -25,6 +29,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class MainActivity : AppCompatActivity() {
     private val model: MainViewModel by viewModel()
     private var doubleBackToExitPressedOnce = false
+    private val appUpdateManager: AppUpdateManager by lazy {
+        AppUpdateManagerFactory.create(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,11 +87,38 @@ class MainActivity : AppCompatActivity() {
             }
         })
         if(isMainFirst) mainViewPager.currentItem = 1
+
+        //    UNKNOWN = 0
+        //    UPDATE_NOT_AVAILABLE = 1
+        //    UPDATE_AVAILABLE = 2
+        //    DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS = 3
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+            if(appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE
+                    && appUpdateInfo.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)){
+                appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.IMMEDIATE,
+                        this,
+                        IN_APP_UPDATE_RECV_ID
+                )
+            }
+        }
     }
 
     override fun onResume() {
         super.onResume()
         model.resetIsPossibleClick()
+
+        appUpdateManager.appUpdateInfo.addOnSuccessListener { appUpdateInfo ->
+            if (appUpdateInfo.updateAvailability() == UpdateAvailability.DEVELOPER_TRIGGERED_UPDATE_IN_PROGRESS) {
+                appUpdateManager.startUpdateFlowForResult(
+                        appUpdateInfo,
+                        AppUpdateType.IMMEDIATE,
+                        this,
+                        IN_APP_UPDATE_RECV_ID
+                )
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -120,8 +154,17 @@ class MainActivity : AppCompatActivity() {
     // 전체 문제 쪽에서 버튼 눌러서 activity 갔다가 돌아왔을 때 전체문제 탭이 선택되도록
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        tabLayout.getTabAt(1)?.select()
-        mainViewPager.currentItem = 1
+        if(requestCode == IN_APP_UPDATE_RECV_ID){
+            if(resultCode != RESULT_OK){
+                Toast.makeText(this, R.string.update_cancel, Toast.LENGTH_SHORT).show()
+//                (-1)RESULT_OK: 사용자가 업데이트를 수락했습니다. 즉시 업데이트인 경우 앱에 업데이트 제어 권한이 주어졌을 때는 이미 Google Play가 업데이트를 완료한 상태여야 하기 때문에 개발자는 이 콜백을 수신하지 못할 수 있습니다.
+//                (0)RESULT_CANCELED: 사용자가 업데이트를 거부하거나 취소했습니다.
+//                (1)ActivityResult.RESULT_IN_APP_UPDATE_FAILED: 기타 오류로 인해 사용자가 동의하지 못했거나 업데이트가 진행되지 못했습니다.
+            }
+        } else {
+            tabLayout.getTabAt(1)?.select()
+            mainViewPager.currentItem = 1
+        }
     }
 }
 
