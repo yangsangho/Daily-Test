@@ -20,8 +20,8 @@ class BaseCalendar(date: SimpleDate, private val infoCalList: List<InfoCalendar>
     }
 
     private val calendar: Calendar = Calendar.getInstance().apply {
-        set(Calendar.YEAR, date.year)
-        set(Calendar.MONTH, date.month - 1)
+        set(Calendar.YEAR, date.getYear())
+        set(Calendar.MONTH, date.getMonth() - 1)
     }
 
     var cntPrevMonthDate = 0
@@ -73,7 +73,7 @@ class BaseCalendar(date: SimpleDate, private val infoCalList: List<InfoCalendar>
      */
     private fun makeCurrentMonth(calendar: Calendar) {
         for (i in 1..calendar.getActualMaximum(Calendar.DATE)) {
-            val infoCalendar = infoCalList.find { it.date.day == i }
+            val infoCalendar = infoCalList.find { it.date.getDay() == i }
             dayList.add(DayInfo(i, false, infoCalendar))
         }
     }

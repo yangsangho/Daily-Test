@@ -18,7 +18,8 @@ import kotlin.system.exitProcess
 
 //const val receiversLogTag = "Receivers"
 fun workForNextTest(memRepo: MemRepository): Boolean {
-    val todayDate = SimpleDate(Calendar.getInstance())
+//    val todayDate = SimpleDate(Calendar.getInstance())
+    val todayDate = SimpleDate.newInstanceToday()
     val calCnt = memRepo.getCalCnt()
 
     if(calCnt == 0){ // null이면 처음인 것
@@ -79,7 +80,8 @@ class PushAlarmReceiver : BroadcastReceiver(){
     override fun onReceive(context: Context?, intent: Intent?) {
         if(context != null){
             val memRepo = GlobalContext.get().koin.get<MemRepository>()
-            val notSolvedQstCnt = memRepo.getCntNotSolved(SimpleDate(Calendar.getInstance()))
+//            val notSolvedQstCnt = memRepo.getCntNotSolved(SimpleDate(Calendar.getInstance()))
+            val notSolvedQstCnt = memRepo.getCntNotSolved(SimpleDate.newInstanceToday())
             if(notSolvedQstCnt > 0){
                 val splashIntent = Intent(context, SplashActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)

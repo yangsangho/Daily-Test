@@ -3,9 +3,11 @@ package kr.yangbob.memorization.view
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.WindowManager
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -21,6 +23,7 @@ class CreateActivity : AppCompatActivity() {
 
     private val model: CreateViewModel by viewModel()
     private var menu: MenuItem? = null
+    private lateinit var qstData: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +33,11 @@ class CreateActivity : AppCompatActivity() {
         val binding: ActivityCreateBinding = DataBindingUtil.setContentView(this, R.layout.activity_create)
         binding.lifecycleOwner = this
         binding.model = model
+        qstData = binding.qstData
 
         toolBar.title = getString(R.string.add_appbar_title)
         setSupportActionBar(toolBar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        binding.qstData.requestFocus()
 
         if (model.isFirst()) {
             startActivity(Intent(this, TutorialActivity::class.java).apply {
@@ -47,8 +49,10 @@ class CreateActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        model.resetIsPossibleClick()
+        Log.i("TEST", "onResume()")
         super.onResume()
+        model.resetIsPossibleClick()
+        qstData.requestFocus()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

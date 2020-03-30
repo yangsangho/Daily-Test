@@ -29,7 +29,8 @@ const val SETTING_IS_FIRST_TODAY = "firstToday"
 const val SETTING_IS_FIRST_TEST = "firstTest"
 const val SETTING_IS_FIRST_CREATE = "firstCreate"
 
-val todayDate = SimpleDate(Calendar.getInstance())
+//val todayDate = SimpleDate(Calendar.getInstance())
+val todayDate = SimpleDate.newInstanceToday()
 val tomorrowDate = todayDate.clone().apply {
     addDate(Calendar.DAY_OF_MONTH, 1)
 }

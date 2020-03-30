@@ -8,8 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.db.InfoCalendar
 import kr.yangbob.memorization.data.SimpleDate
+import kr.yangbob.memorization.db.InfoCalendar
 import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.todayDate
 import kr.yangbob.memorization.view.CalendarActivity
@@ -46,7 +46,7 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     fun updateInfoCal(deleteSet: HashSet<Int>?) {
         deleteSet?.also { set ->
             infoCalendarList.forEach { list ->
-                if (set.contains(list.date.dateInt)) {
+                if (set.contains(list.date.getDateInt())) {
                     val newValue = getCalTestComplete(list.date)
                     if (list.isCompleted != newValue) {
                         list.isCompleted = newValue
@@ -59,7 +59,7 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     fun getCalTestComplete(calendarId: SimpleDate) = memRepo.getCalTestComplete(calendarId)
 
     fun getInfoCalendarList(date: SimpleDate) = infoCalendarList.filter {
-        it.date.year == date.year && it.date.month == date.month
+        it.date.getYear() == date.getYear() && it.date.getMonth() == date.getMonth()
     }
 
     fun getDateList(): List<SimpleDate> {
@@ -78,8 +78,8 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     }
 
     fun setCalendar(date: SimpleDate) {
-        _month.value = date.month - 1
-        _year.value = date.year
+        _month.value = date.getMonth() - 1
+        _year.value = date.getYear()
     }
 
     fun setCurrentCalendar(infoCalendar: InfoCalendar?, resources: Resources) {
@@ -118,7 +118,7 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     fun detailBtnClick(view: View) {
         val calActivity = view.context as CalendarActivity
         calActivity.startActivityForResult(Intent(view.context, ResultActivity::class.java).apply {
-            putExtra(EXTRA_TO_RESULT_DATESTR, currentCalendarID.dateInt)
+            putExtra(EXTRA_TO_RESULT_DATESTR, currentCalendarID.getDateInt())
         }, 123)
     }
 }

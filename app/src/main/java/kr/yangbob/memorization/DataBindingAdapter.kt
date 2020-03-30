@@ -215,13 +215,13 @@ object DataBindingAdapter {
     @BindingAdapter("app:defaultFormatDate")
     @JvmStatic
     fun setFormatDate(view: TextView, date: SimpleDate) {
-        view.text = date.getString()
+        view.text = date.getFormattedDate()
     }
 
     @BindingAdapter("app:nextTestDate")
     @JvmStatic
     fun nextTestDate(view: TextView, qst: Qst) {
         view.text = if(qst.is_dormant) view.context.getString(R.string.dormant)
-        else qst.next_test_date.getString()
+        else qst.next_test_date.getFormattedDate()
     }
 }

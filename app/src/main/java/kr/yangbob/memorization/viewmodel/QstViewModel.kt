@@ -66,7 +66,7 @@ class QstViewModel(private val memRepo: MemRepository) : ViewModel() {
                     }
                 }
             }
-            deleteList.add(it.calendar_id.dateInt)
+            deleteList.add(it.calendar_id.getDateInt())
             memRepo.deleteQstRecord(it)
         }
         memRepo.deleteQst(qst)

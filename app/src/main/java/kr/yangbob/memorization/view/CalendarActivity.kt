@@ -160,15 +160,15 @@ class CalendarViewHolder(private val binding: ActivityCalendarLayoutBinding, pri
         binding.dayList = baseCalendar.dayList
         binding.holder = this
         this.clickedDay = when (isLastMonth) {
-            true -> infoCalendarList.last().date.day
-            false -> infoCalendarList.first().date.day
+            true -> infoCalendarList.last().date.getDay()
+            false -> infoCalendarList.first().date.getDay()
             else -> 1
         }
         this.clickedDay += dayPrefix
     }
 
     fun checkForDelete(deleteSet: HashSet<Int>?) {
-        model.setCurrentCalendar(infoCalendarList.find { it.date.day == this.clickedDay - dayPrefix }, binding.root.resources)
+        model.setCurrentCalendar(infoCalendarList.find { it.date.getDay() == this.clickedDay - dayPrefix }, binding.root.resources)
         updateBaseCal(deleteSet)
     }
 
@@ -176,7 +176,7 @@ class CalendarViewHolder(private val binding: ActivityCalendarLayoutBinding, pri
         baseCalendar.dayList.forEach {
             it.infoCalendar?.apply {
                 deleteSet?.also { set ->
-                    if (set.contains(date.dateInt)) {
+                    if (set.contains(date.getDateInt())) {
                         val newValue = model.getCalTestComplete(date)
                         if (isCompleted != newValue) {
                             isCompleted = newValue
@@ -190,7 +190,7 @@ class CalendarViewHolder(private val binding: ActivityCalendarLayoutBinding, pri
 
     fun attached() {
         binding.clickedDay = this.clickedDay
-        model.setCurrentCalendar(infoCalendarList.find { it.date.day == this.clickedDay - dayPrefix }, binding.root.resources)
+        model.setCurrentCalendar(infoCalendarList.find { it.date.getDay() == this.clickedDay - dayPrefix }, binding.root.resources)
     }
 
     fun detached() {
@@ -199,7 +199,7 @@ class CalendarViewHolder(private val binding: ActivityCalendarLayoutBinding, pri
 
     fun click(infoCalendar: InfoCalendar?) {
         infoCalendar?.also { infoCal ->
-            this.clickedDay = dayPrefix + infoCal.date.day
+            this.clickedDay = dayPrefix + infoCal.date.getDay()
             binding.clickedDay = this.clickedDay
             model.setCurrentCalendar(infoCal, binding.root.resources)
         }

@@ -44,9 +44,10 @@ class ResultActivity : AppCompatActivity() {
 
         intent.getIntExtra(EXTRA_TO_RESULT_DATESTR, 0).apply {
             if(this == 0) throw IllegalArgumentException()
-            val date = SimpleDate(this)
+//            val date = SimpleDate(this)
+            val date = SimpleDate.newInstanceFromDateInt(this)
             recordList = model.getRecordList(date)
-            tvDate.text = date.getString(DateFormat.FULL)
+            tvDate.text = date.getFormattedDate(DateFormat.FULL)
         }
 
         recordList.observe(this, Observer { rawList ->
