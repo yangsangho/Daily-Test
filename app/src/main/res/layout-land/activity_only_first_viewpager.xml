@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="index"
             type="Integer" />
@@ -19,32 +21,37 @@
             android:id="@+id/startPagerImage"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:scaleType="fitXY"
-            android:layout_marginBottom="50dp"
-            app:layout_constraintBottom_toTopOf="@id/startPagerMainText"
-            app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/guideLine"
+            app:layout_constraintHeight_percent=".5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintWidth_percent=".5"
+            app:layout_constraintTop_toTopOf="parent"
             app:startPagerImage="@{index}"
             tools:src="@drawable/ic_start_test" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideLine"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".5" />
+
         <TextView
             android:id="@+id/startPagerMainText"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
-            android:maxLines="1"
             android:textColor="@color/white"
             android:textStyle="bold"
-            app:autoSizeMaxTextSize="@dimen/size_big_emphasis"
+            app:autoSizeMaxTextSize="@dimen/big_emphasis_text"
             app:autoSizeTextType="uniform"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/initText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLine"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread"
             app:startPagerMainText="@{index}"
             tools:text='"어렵게 외우면 잊기 어렵다."' />
 
@@ -53,33 +60,32 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="25dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
             android:textColor="@color/white"
             android:textStyle="bold"
             android:text="@string/start_pager_init"
             android:visibility="@{index == 0 ? View.VISIBLE : View.GONE}"
-            app:autoSizeMaxTextSize="@dimen/size_emphasis"
+            app:autoSizeMaxTextSize="@dimen/emphasis_text"
             app:layout_constraintBottom_toTopOf="@id/startPagerSubText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guideLine"
             app:layout_constraintTop_toBottomOf="@id/startPagerMainText" />
 
         <TextView
             android:id="@+id/startPagerSubText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
             android:gravity="center"
             android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/guideLine"
             app:layout_constraintTop_toBottomOf="@id/initText"
             app:startPagerSubText="@{index}"
-            tools:text="다음을 눌러서 시험의 효과를 확인해보세요. sdfsdsdfsdffdsfsdfsdf" />
+            tools:text="다음을 눌러서 시험의 효과를 확인해보세요." />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

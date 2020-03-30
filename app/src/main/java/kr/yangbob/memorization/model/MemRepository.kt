@@ -6,6 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kr.yangbob.memorization.data.SimpleDate
 import kr.yangbob.memorization.db.*
 import kr.yangbob.memorization.todayDate
 
@@ -23,7 +24,7 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
 
     fun getQstFromId(id: Int): Qst = runBlocking { daoQst.getFromId(id) }
 
-    fun getNeedTestList(date: MyDate): List<Qst> =
+    fun getNeedTestList(date: SimpleDate): List<Qst> =
             runBlocking { daoQst.getNeedTesList(date) }
 
     fun insertQst(qst: Qst) = runBlocking { daoQst.insert(qst) }
@@ -38,7 +39,7 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// QstCalendar
-    fun getCalTestComplete(calendarId: MyDate): Boolean? = runBlocking { daoQstCalendar.getTestComplete(calendarId) }
+    fun getCalTestComplete(calendarId: SimpleDate): Boolean? = runBlocking { daoQstCalendar.getTestComplete(calendarId) }
 
     fun getAllInfoCalendar(): List<InfoCalendar> = runBlocking {
         val list = daoQstCalendar.getAll()
@@ -49,9 +50,9 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
         infoCalList
     }
 
-    fun getStartDate(): MyDate = runBlocking { daoQstCalendar.getStartDate() }
+    fun getStartDate(): SimpleDate = runBlocking { daoQstCalendar.getStartDate() }
 
-    fun getCalendarMaxDate(): MyDate? = runBlocking { daoQstCalendar.getMaxDate() }
+    fun getCalendarMaxDate(): SimpleDate? = runBlocking { daoQstCalendar.getMaxDate() }
 
     fun getCompletedDateCnt(): Int = runBlocking { daoQstCalendar.getCompletedDateCnt() }
 
@@ -68,23 +69,23 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
 
     fun getCalCnt(): Int = runBlocking { daoQstCalendar.getCnt() }
 
-    fun updateCal(id: MyDate, isComplete: Boolean?) = GlobalScope.launch(Dispatchers.IO) {
+    fun updateCal(id: SimpleDate, isComplete: Boolean?) = GlobalScope.launch(Dispatchers.IO) {
         daoQstCalendar.update(id, isComplete)
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// QstRecord
-    fun getAllRecordFromDate(calendarId: MyDate): List<QstRecord> = runBlocking { daoQstRecord.getAllFromDate(calendarId) }
+    fun getAllRecordFromDate(calendarId: SimpleDate): List<QstRecord> = runBlocking { daoQstRecord.getAllFromDate(calendarId) }
 
     fun getAllRecordFromId(qstId: Int): List<QstRecord> = runBlocking { daoQstRecord.getAllFromId(qstId) }
 
-    fun getAllRecordWithName(calendarId: MyDate): LiveData<List<QstRecordWithName>> =
+    fun getAllRecordWithName(calendarId: SimpleDate): LiveData<List<QstRecordWithName>> =
             daoQstRecord.getAllWithName(calendarId)
 
-    fun getAllRecordLDFromDate(calendarId: MyDate): LiveData<List<QstRecord>> =
+    fun getAllRecordLDFromDate(calendarId: SimpleDate): LiveData<List<QstRecord>> =
             daoQstRecord.getAllLDFromDate(calendarId)
 
-    fun getNullRecordsFromDate(calendarId: MyDate): List<QstRecord> =
+    fun getNullRecordsFromDate(calendarId: SimpleDate): List<QstRecord> =
             runBlocking { daoQstRecord.getNullListFromDate(calendarId) }
 
     fun insertQstRecord(qstRecord: QstRecord) = runBlocking { daoQstRecord.insert(qstRecord) }
@@ -93,9 +94,9 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
         daoQstRecord.delete(qstRecord)
     }
 
-    fun getCntRecord(calendarId: MyDate): Int = runBlocking { daoQstRecord.getCnt(calendarId) }
+    fun getCntRecord(calendarId: SimpleDate): Int = runBlocking { daoQstRecord.getCnt(calendarId) }
 
-    fun getCntNotSolved(calendarId: MyDate): Int = runBlocking { daoQstRecord.getCntNotSolved(calendarId) }
+    fun getCntNotSolved(calendarId: SimpleDate): Int = runBlocking { daoQstRecord.getCntNotSolved(calendarId) }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// settings

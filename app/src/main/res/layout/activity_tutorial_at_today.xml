@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/tutorialLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:background="@color/transparent_black"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:background="@color/transparent_black">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLayout"
@@ -21,8 +21,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/tutorial_entire_1"
-            android:textSize="@dimen/size_emphasis"
+            android:text="@string/tutorial_today_1"
+            android:textSize="@dimen/emphasis_text"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/tv2"
             app:layout_constraintTop_toTopOf="parent"
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="center"
-            android:text="@string/tutorial_entire_2"
+            android:text="@string/tutorial_today_2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv1" />
 
@@ -63,8 +63,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@string/tutorial_entire_stage_icon"
-            android:textSize="@dimen/size_emphasis"
+            android:text="@string/tutorial_today_stage_icon"
+            android:textSize="@dimen/emphasis_text"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/stageIcon"
             app:layout_constraintEnd_toEndOf="parent"
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/tutorial_entire_stage_desc"
+            android:text="@string/tutorial_today_stage_desc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/stageIcon" />

@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout>
+
     <data>
+
         <variable
-            name="qst"
-            type="kr.yangbob.memorization.db.Qst" />
-        <variable
-            name="holder"
-            type="kr.yangbob.memorization.view.EntireViewHolder" />
+            name="recordWithName"
+            type="kr.yangbob.memorization.db.QstRecordWithName" />
     </data>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/card"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -22,8 +20,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:background="@color/white"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="8dp">
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -31,43 +29,42 @@
             android:padding="16dp">
 
             <ImageView
-                android:id="@+id/entireStageIcon"
+                android:id="@+id/resultStageIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvEntireQst"
+                app:layout_constraintEnd_toStartOf="@id/tvResultQst"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:stage="@{qst.cur_stage}"
-                tools:srcCompat="@drawable/ic_stage_1_1"/>
+                app:stage="@{recordWithName.challenge_stage}"
+                tools:srcCompat="@drawable/ic_stage_3" />
 
             <TextView
-                android:id="@+id/tvEntireQst"
+                android:id="@+id/tvResultQst"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:text="@{qst.title}"
-                android:textSize="@dimen/size_basic"
+                android:text="@{recordWithName.qst_name}"
+                android:textSize="@dimen/basic_text"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tvEntireRegistration"
-                app:layout_constraintStart_toEndOf="@id/entireStageIcon"
+                app:layout_constraintEnd_toStartOf="@id/resultIcon"
+                app:layout_constraintStart_toEndOf="@id/resultStageIcon"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="문제1문제1"/>
+                tools:text="문제 이름" />
 
-            <TextView
-                android:id="@+id/tvEntireRegistration"
+            <ImageView
+                android:id="@+id/resultIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/darkGray"
+                app:correct="@{recordWithName.is_correct}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tvEntireQst"
+                app:layout_constraintStart_toEndOf="@id/tvResultQst"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="2020-01-02"/>
-
+                tools:srcCompat="@drawable/ic_stage_7" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

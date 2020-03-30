@@ -34,7 +34,7 @@ class BarChart : View {
     private val noItemMsgPaint = TextPaint().apply {
         color = Color.BLACK
         textAlign = Paint.Align.CENTER
-        textSize = resources.getDimensionPixelSize(R.dimen.noItemFontSize).toFloat()
+        textSize = resources.getDimensionPixelSize(R.dimen.no_Item_text).toFloat()
         isAntiAlias = true
 //        typeface = ResourcesCompat.getFont(context, R.font.font_nanum)
     }
@@ -54,7 +54,7 @@ class BarChart : View {
     private var descHeight: Float = 0f
     private var descWidth: Float = 0f
     private var barDescRatioHeight: Int = 0 // 비율 Description 높이 값 (비율 text 위에 개수 text 들어가도록)
-    private val maximumTextSize: Float = resources.getDimensionPixelSize(R.dimen.size_list_title).toFloat()
+    private val maximumTextSize: Float = resources.getDimensionPixelSize(R.dimen.barchart_maximum_text).toFloat()
 
     // 데이터 세트들
     private var dataList: List<Int> = listOf()

@@ -4,7 +4,7 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import kr.yangbob.memorization.db.MyDate
+import kr.yangbob.memorization.data.SimpleDate
 import java.util.*
 
 const val ANIMATION_HALF_TIME: Long = 400
@@ -19,17 +19,17 @@ const val EXTRA_TO_TUTORIAL = "tutorial"
 const val NOTIFICATION_CHANNEL_ID = "noti_channel_id"
 const val NOTIFICATION_CHANNEL_NAME = "noti_channel_name"
 
-const val SETTING_ENTIRE_SORT_ITEM = "entireSortItem"
-const val SETTING_ENTIRE_SORT_ORDER = "entireSortOrder"
-const val SETTING_RESULT_SORT_ITEM = "resultSortItem"
-const val SETTING_RESULT_SORT_ORDER = "resultSortOrder"
+const val SETTING_ENTIRE_ACTIVITY_SORT_ITEM = "entireSortItem"
+const val SETTING_ENTIRE_ACTIVITY_SORT_ORDER = "entireSortOrder"
+const val SETTING_RESULT_ACTIVITY_SORT_ITEM = "resultSortItem"
+const val SETTING_RESULT_ACTIVITY_SORT_ORDER = "resultSortOrder"
 const val SETTING_IS_FIRST_MAIN = "firstMain"
 const val SETTING_IS_FIRST_ENTIRE = "firstEntire"
 const val SETTING_IS_FIRST_TODAY = "firstToday"
 const val SETTING_IS_FIRST_TEST = "firstTest"
 const val SETTING_IS_FIRST_CREATE = "firstCreate"
 
-val todayDate = MyDate(Calendar.getInstance())
+val todayDate = SimpleDate(Calendar.getInstance())
 val tomorrowDate = todayDate.clone().apply {
     addDate(Calendar.DAY_OF_MONTH, 1)
 }
@@ -37,7 +37,7 @@ val tomorrowDate = todayDate.clone().apply {
 val STAGE_LIST = Stage.values()
 
 enum class Stage(val nextTest: Int) {
-    INIT(1),
+    NEW(1),
     BEGIN_ONE(1), BEGIN_TWO(1), BEGIN_THREE(3), AFTER_THREE(7),
     AFTER_WEEK(15), AFTER_HALF(30), AFTER_MONTH(30), REVIEW(45)
 }

@@ -172,7 +172,7 @@
                 android:paddingTop="50dp"
                 android:paddingBottom="20dp"
                 android:text="@{model.record}"
-                app:autoSizeMaxTextSize="@dimen/size_basic"
+                app:autoSizeMaxTextSize="@dimen/basic_text"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="문항 수 50개\n\n\n완료율 100%\n\n\n정답률 100%" />

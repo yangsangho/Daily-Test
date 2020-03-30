@@ -36,10 +36,10 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent=".8"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent=".8">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/qnaIcon"
@@ -85,8 +85,8 @@
                 android:padding="8dp"
                 android:scrollbars="vertical"
                 android:text="@{strData}"
+                android:textSize="@dimen/emphasis_text"
                 android:textColor="@color/black"
-                android:textSize="@dimen/size_emphasis"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/qnaIcon"
@@ -98,20 +98,22 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="@{holder::clickChk}"
-            app:layout_constraintBottom_toTopOf="@id/btnSuccessLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/card"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnSuccessLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/card"
+            app:layout_constraintWidth_percent=".5">
 
             <ImageView
                 android:id="@+id/imageView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tint="@android:color/holo_red_light"
-                app:layout_constraintBottom_toTopOf="@id/btnChkFail"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/btnChkFail"
+                app:layout_constraintEnd_toStartOf="@id/btnChkFail"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btnChkFail"
                 app:srcCompat="@drawable/ic_x_circle_black_24dp" />
 
             <TextView
@@ -122,12 +124,12 @@
                 android:padding="8dp"
                 android:text="@string/test_incorrect"
                 android:textColor="@android:color/holo_red_light"
-                android:textSize="@dimen/test_check_text_size"
+                android:textSize="@dimen/test_viewpager_check_btn_text"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView4" />
+                app:layout_constraintStart_toEndOf="@id/imageView4"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -138,18 +140,20 @@
             android:onClick="@{holder::clickChk}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/card"
-            app:layout_constraintTop_toBottomOf="@id/btnFailLayout">
+            app:layout_constraintStart_toEndOf="@id/btnFailLayout"
+            app:layout_constraintTop_toBottomOf="@id/card"
+            app:layout_constraintWidth_percent=".5">
 
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:tint="@android:color/holo_green_light"
-                app:layout_constraintBottom_toTopOf="@id/btnChkSuccess"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/btnChkSuccess"
+                app:layout_constraintEnd_toStartOf="@id/btnChkSuccess"
+                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toTopOf="@id/btnChkSuccess"
                 app:srcCompat="@drawable/ic_check_circle_black_24dp" />
 
             <TextView
@@ -160,12 +164,12 @@
                 android:padding="8dp"
                 android:text="@string/test_correct"
                 android:textColor="@android:color/holo_green_light"
-                android:textSize="@dimen/test_check_text_size"
+                android:textSize="@dimen/test_viewpager_check_btn_text"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView3" />
+                app:layout_constraintStart_toEndOf="@id/imageView3"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

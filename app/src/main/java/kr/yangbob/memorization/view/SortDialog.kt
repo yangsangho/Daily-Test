@@ -10,10 +10,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.SortInfo
-import kr.yangbob.memorization.databinding.DialogEntireSortBinding
+import kr.yangbob.memorization.databinding.LayoutSortDialogBinding
 
 class SortDialog(context: Context, sortInfo: SortInfo, sortItemName: List<String>) {
-    private val dialogBinding: DialogEntireSortBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_entire_sort, null, false)
+    private val dialogBinding: LayoutSortDialogBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.layout_sort_dialog, null, false)
     private val sortDialog: AlertDialog
     private val sortInfo = SortInfo(sortInfo.sortedItemIdx, sortInfo.isAscending)
     private val changeObserver = MutableLiveData<SortInfo>()

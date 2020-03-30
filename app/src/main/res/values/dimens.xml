@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="noItemFontSize">20sp</dimen>
-    <dimen name="size_dashboard_card">20sp</dimen>
-    <dimen name="size_page_title">20sp</dimen>
-    <dimen name="size_basic">14sp</dimen>
-    <dimen name="size_emphasis">18sp</dimen>
-    <dimen name="size_big_emphasis">24sp</dimen>
+    <dimen name="no_Item_text">20sp</dimen>
+    <dimen name="main_dashboard_card_text">20sp</dimen>
+    <dimen name="basic_text">14sp</dimen>
+    <dimen name="emphasis_text">18sp</dimen>
+    <dimen name="big_emphasis_text">24sp</dimen>
     <dimen name="alert_title_font">18sp</dimen>
-    <dimen name="size_mini">12sp</dimen>
-    <dimen name="size_list_title">16sp</dimen>
-    <dimen name="size_input_text">16sp</dimen>
-    <dimen name="test_check_text_size">20sp</dimen>
+    <dimen name="barchart_maximum_text">16sp</dimen>
+    <dimen name="test_viewpager_check_btn_text">20sp</dimen>
 </resources>

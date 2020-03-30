@@ -1,9 +1,9 @@
-package kr.yangbob.memorization.db
+package kr.yangbob.memorization.data
 
 import java.text.DateFormat
 import java.util.*
 
-class MyDate : Comparable<MyDate> {
+class SimpleDate : Comparable<SimpleDate> {
     private lateinit var cal: Calendar
     var year: Int = 0
     var month: Int = 0
@@ -37,7 +37,7 @@ class MyDate : Comparable<MyDate> {
         makeDateInt()
     }
 
-    fun clone(): MyDate = MyDate(cal)
+    fun clone(): SimpleDate = SimpleDate(cal)
 
     private fun makeDateInt() {
         year = cal.get(Calendar.YEAR)
@@ -66,9 +66,9 @@ class MyDate : Comparable<MyDate> {
         cal.set(Calendar.DAY_OF_MONTH, day)
     }
 
-    override fun compareTo(other: MyDate): Int = dateInt - other.dateInt
+    override fun compareTo(other: SimpleDate): Int = dateInt - other.dateInt
     override fun equals(other: Any?): Boolean {
-        val otherDate = other as MyDate
+        val otherDate = other as SimpleDate
         return dateInt == otherDate.dateInt
     }
 }

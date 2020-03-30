@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.db.InfoCalendar
-import kr.yangbob.memorization.db.MyDate
+import kr.yangbob.memorization.data.SimpleDate
 import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.todayDate
 import kr.yangbob.memorization.view.CalendarActivity
@@ -41,7 +41,7 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
     val record: LiveData<String> = _record
     val isDetailBtnActivate: LiveData<Boolean> = _isDetailBtnActivate
     private val infoCalendarList: List<InfoCalendar> = memRepo.getAllInfoCalendar()
-    private lateinit var currentCalendarID: MyDate
+    private lateinit var currentCalendarID: SimpleDate
 
     fun updateInfoCal(deleteSet: HashSet<Int>?) {
         deleteSet?.also { set ->
@@ -56,14 +56,14 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
         }
     }
 
-    fun getCalTestComplete(calendarId: MyDate) = memRepo.getCalTestComplete(calendarId)
+    fun getCalTestComplete(calendarId: SimpleDate) = memRepo.getCalTestComplete(calendarId)
 
-    fun getInfoCalendarList(date: MyDate) = infoCalendarList.filter {
+    fun getInfoCalendarList(date: SimpleDate) = infoCalendarList.filter {
         it.date.year == date.year && it.date.month == date.month
     }
 
-    fun getDateList(): List<MyDate> {
-        val dateList = ArrayList<MyDate>()
+    fun getDateList(): List<SimpleDate> {
+        val dateList = ArrayList<SimpleDate>()
         val startDate = memRepo.getStartDate()
         val todayDate = todayDate.clone()
         startDate.setDate(Calendar.DAY_OF_MONTH, 1)
@@ -77,7 +77,7 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
         return dateList.toList()
     }
 
-    fun setCalendar(date: MyDate) {
+    fun setCalendar(date: SimpleDate) {
         _month.value = date.month - 1
         _year.value = date.year
     }

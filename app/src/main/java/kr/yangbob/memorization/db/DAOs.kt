@@ -2,6 +2,7 @@ package kr.yangbob.memorization.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kr.yangbob.memorization.data.SimpleDate
 
 @Dao
 interface DaoQst {
@@ -18,7 +19,7 @@ interface DaoQst {
     suspend fun insert(qst: Qst)
 
     @Query("SELECT * FROM qst WHERE is_dormant = 0 AND next_test_date <= :date")
-    suspend fun getNeedTesList(date: MyDate): List<Qst>
+    suspend fun getNeedTesList(date: SimpleDate): List<Qst>
 
     @Query("SELECT * FROM Qst WHERE is_dormant = 1")
     fun getAllDormantLD(): LiveData<List<Qst>>
@@ -36,7 +37,7 @@ interface DaoQst {
 interface DaoQstCalendar {
 
     @Query("SELECT test_completion FROM QstCalendar WHERE id == :calendarId")
-    suspend fun getTestComplete(calendarId: MyDate): Boolean?
+    suspend fun getTestComplete(calendarId: SimpleDate): Boolean?
 
     @Query("SELECT * FROM QstCalendar")
     fun getAllLD(): LiveData<List<QstCalendar>>
@@ -45,16 +46,16 @@ interface DaoQstCalendar {
     suspend fun getAll(): List<QstCalendar>
 
     @Query("SELECT * FROM QstCalendar WHERE id = :calendarId")
-    suspend fun getFromId(calendarId: MyDate): QstCalendar
+    suspend fun getFromId(calendarId: SimpleDate): QstCalendar
 
     @Query("SELECT COUNT(*) FROM QstCalendar")
     suspend fun getCnt(): Int
 
     @Query("SELECT MIN(id) FROM QstCalendar")
-    suspend fun getStartDate(): MyDate
+    suspend fun getStartDate(): SimpleDate
 
     @Query("SELECT MAX(id) FROM QstCalendar")
-    suspend fun getMaxDate(): MyDate?
+    suspend fun getMaxDate(): SimpleDate?
 
     @Query("SELECT COUNT(*) FROM QstCalendar WHERE test_completion == 1")
     suspend fun getCompletedDateCnt(): Int
@@ -63,7 +64,7 @@ interface DaoQstCalendar {
     suspend fun getCntHasTest(): Int
 
     @Query("UPDATE QstCalendar SET test_completion = :isComplete WHERE id == :id")
-    suspend fun update(id: MyDate, isComplete: Boolean?)
+    suspend fun update(id: SimpleDate, isComplete: Boolean?)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(qstCalendar: QstCalendar)
@@ -80,22 +81,22 @@ interface DaoQstRecord {
     suspend fun getAllFromId(qstId: Int): List<QstRecord>
 
     @Query("SELECT (SELECT title FROM Qst WHERE id = qst_id) AS qst_name, * FROM QstRecord WHERE calendar_id == :calendarId")
-    fun getAllWithName(calendarId: MyDate): LiveData<List<QstRecordWithName>>
+    fun getAllWithName(calendarId: SimpleDate): LiveData<List<QstRecordWithName>>
 
     @Query("SELECT * FROM QstRecord WHERE calendar_id == :calendarId")
-    fun getAllLDFromDate(calendarId: MyDate): LiveData<List<QstRecord>>
+    fun getAllLDFromDate(calendarId: SimpleDate): LiveData<List<QstRecord>>
 
     @Query("SELECT * FROM QstRecord WHERE calendar_id == :calendarId")
-    suspend fun getAllFromDate(calendarId: MyDate): List<QstRecord>
+    suspend fun getAllFromDate(calendarId: SimpleDate): List<QstRecord>
 
     @Query("SELECT * FROM QstRecord WHERE calendar_id == :calendarId AND is_correct IS NULL")
-    suspend fun getNullListFromDate(calendarId: MyDate): List<QstRecord>
+    suspend fun getNullListFromDate(calendarId: SimpleDate): List<QstRecord>
 
     @Query("SELECT COUNT(*) FROM QstRecord WHERE calendar_id == :calendarId")
-    suspend fun getCnt(calendarId: MyDate): Int
+    suspend fun getCnt(calendarId: SimpleDate): Int
 
     @Query("SELECT COUNT(*) FROM QstRecord WHERE calendar_id == :calendarId AND is_correct IS NULL")
-    suspend fun getCntNotSolved(calendarId: MyDate): Int
+    suspend fun getCntNotSolved(calendarId: SimpleDate): Int
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(qstRecord: QstRecord)

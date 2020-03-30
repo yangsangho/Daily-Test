@@ -164,7 +164,7 @@
                 android:paddingTop="50dp"
                 android:paddingBottom="20dp"
                 android:text="@{model.record}"
-                app:autoSizeMaxTextSize="@dimen/size_basic"
+                app:autoSizeMaxTextSize="@dimen/basic_text"
                 app:autoSizeTextType="uniform"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/calendarViewPager"

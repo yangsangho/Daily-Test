@@ -17,7 +17,7 @@
 
         <variable
             name="fragment"
-            type="kr.yangbob.memorization.view.MainPagerFragment" />
+            type="kr.yangbob.memorization.view.MainFragment" />
 
         <variable
             name="isNoItemViewActivate"
@@ -63,7 +63,7 @@
 
         <include
             android:id="@+id/noItemView"
-            layout="@layout/no_item_layout"
+            layout="@layout/activity_main_layout_no_item"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:visibility="@{isNoItemViewActivate ? View.VISIBLE : View.GONE}"
@@ -76,7 +76,7 @@
 
         <include
             android:id="@+id/dashboardCard1"
-            layout="@layout/dashboard_card"
+            layout="@layout/activity_main_layout_dashboard_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:data="@{isToday ? model.todayCard1 : model.entireCard1}"
@@ -89,7 +89,7 @@
 
         <include
             android:id="@+id/dashboardCard2"
-            layout="@layout/dashboard_card"
+            layout="@layout/activity_main_layout_dashboard_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="1dp"
@@ -103,7 +103,7 @@
 
         <include
             android:id="@+id/dashboardCard3"
-            layout="@layout/dashboard_card"
+            layout="@layout/activity_main_layout_dashboard_card"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:data="@{isToday ? model.todayCard3 : model.entireCard3}"

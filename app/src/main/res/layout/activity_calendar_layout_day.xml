@@ -9,7 +9,7 @@
 
         <variable
             name="dayInfo"
-            type="kr.yangbob.memorization.calendar.DayInfo" />
+            type="kr.yangbob.memorization.data.DayInfo" />
 
         <variable
             name="isSunday"

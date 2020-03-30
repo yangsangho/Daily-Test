@@ -18,7 +18,7 @@ import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_entire.*
 import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.databinding.ItemEntireCardBinding
+import kr.yangbob.memorization.databinding.ActivityEntireLayoutListQstBinding
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.viewmodel.EntireViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,7 +26,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class EntireActivity : AppCompatActivity() {
     private val model: EntireViewModel by viewModel()
     private lateinit var qstList: LiveData<List<Qst>>
-    private lateinit var adapter: EntireRecyclerAdapter
+    private lateinit var adapter: EntireListAdapter
     private lateinit var appBarTitle: String
 
     private var sortedQstList: List<Qst> = listOf()
@@ -39,7 +39,7 @@ class EntireActivity : AppCompatActivity() {
         }
         setContentView(R.layout.activity_entire)
 
-        adapter = EntireRecyclerAdapter(listOf(), model)
+        adapter = EntireListAdapter(listOf(), model)
         entireRecycler.layoutManager = LinearLayoutManager(this)
         entireRecycler.adapter = adapter
 
@@ -71,7 +71,7 @@ class EntireActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_entire, menu)
+        menuInflater.inflate(R.menu.entire_and_result, menu)
 
         ///////// search Option /////////
         val searchItem = menu?.findItem(R.id.action_entire_search)
@@ -143,7 +143,7 @@ class EntireActivity : AppCompatActivity() {
     }
 }
 
-class EntireViewHolder(private val binding: ItemEntireCardBinding, private val model: EntireViewModel) : RecyclerView.ViewHolder(binding.root) {
+class EntireViewHolder(private val binding: ActivityEntireLayoutListQstBinding, private val model: EntireViewModel) : RecyclerView.ViewHolder(binding.root) {
     fun bind(qst: Qst) {
         binding.qst = qst
         binding.holder = this
@@ -157,9 +157,9 @@ class EntireViewHolder(private val binding: ItemEntireCardBinding, private val m
     }
 }
 
-class EntireRecyclerAdapter(private var recordList: List<Qst>, private val model: EntireViewModel) : RecyclerView.Adapter<EntireViewHolder>() {
+class EntireListAdapter(private var recordList: List<Qst>, private val model: EntireViewModel) : RecyclerView.Adapter<EntireViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntireViewHolder {
-        val binding: ItemEntireCardBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_entire_card, parent, false)
+        val binding: ActivityEntireLayoutListQstBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.activity_entire_layout_list_qst, parent, false)
         return EntireViewHolder(binding, model)
     }
 

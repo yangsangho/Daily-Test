@@ -19,8 +19,8 @@ import kotlinx.android.synthetic.main.activity_result.*
 import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.databinding.ItemResultCardBinding
-import kr.yangbob.memorization.db.MyDate
+import kr.yangbob.memorization.data.SimpleDate
+import kr.yangbob.memorization.databinding.ActivityResultLayoutListRecordBinding
 import kr.yangbob.memorization.db.QstRecordWithName
 import kr.yangbob.memorization.viewmodel.ResultViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -30,7 +30,7 @@ class ResultActivity : AppCompatActivity() {
     private val model: ResultViewModel by viewModel()
     private lateinit var recordList: LiveData<List<QstRecordWithName>>
     private lateinit var sortedRecordList: List<QstRecordWithName>
-    private lateinit var adapter: ResultRecyclerAdapter
+    private lateinit var adapter: ResultListAdapter
     private lateinit var appBarTitle: String
     private lateinit var sortDialog: SortDialog
     private val deleteSet = HashSet<Int>()
@@ -44,7 +44,7 @@ class ResultActivity : AppCompatActivity() {
 
         intent.getIntExtra(EXTRA_TO_RESULT_DATESTR, 0).apply {
             if(this == 0) throw IllegalArgumentException()
-            val date = MyDate(this)
+            val date = SimpleDate(this)
             recordList = model.getRecordList(date)
             tvDate.text = date.getString(DateFormat.FULL)
         }
@@ -71,7 +71,7 @@ class ResultActivity : AppCompatActivity() {
             setNoItemMsgVisible(cntQst == 0)
         })
 
-        adapter = ResultRecyclerAdapter(listOf(), model)
+        adapter = ResultListAdapter(listOf(), model)
         resultRecycler.layoutManager = LinearLayoutManager(this)
         resultRecycler.adapter = adapter
 
@@ -109,7 +109,7 @@ class ResultActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_entire, menu)
+        menuInflater.inflate(R.menu.entire_and_result, menu)
 
         val searchItem = menu?.findItem(R.id.action_entire_search)
         searchItem?.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
@@ -179,7 +179,7 @@ class ResultActivity : AppCompatActivity() {
     }
 }
 
-class ResultViewHolder(private val binding: ItemResultCardBinding, private val model: ResultViewModel) :
+class ResultViewHolder(private val binding: ActivityResultLayoutListRecordBinding, private val model: ResultViewModel) :
         RecyclerView.ViewHolder(binding.root) {
     fun bind(record: QstRecordWithName) {
         binding.recordWithName = record
@@ -197,12 +197,12 @@ class ResultViewHolder(private val binding: ItemResultCardBinding, private val m
     }
 }
 
-class ResultRecyclerAdapter(private var recordList: List<QstRecordWithName>, private val model: ResultViewModel) :
+class ResultListAdapter(private var recordList: List<QstRecordWithName>, private val model: ResultViewModel) :
         RecyclerView.Adapter<ResultViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
-        val binding: ItemResultCardBinding = DataBindingUtil.inflate(
+        val binding: ActivityResultLayoutListRecordBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_result_card,
+                R.layout.activity_result_layout_list_record,
                 parent,
                 false
         )

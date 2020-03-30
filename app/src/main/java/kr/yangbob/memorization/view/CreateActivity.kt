@@ -52,7 +52,7 @@ class CreateActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_add, menu)
+        menuInflater.inflate(R.menu.create, menu)
         this.menu = menu?.findItem(R.id.action_add_save)
         return true
     }

@@ -21,7 +21,7 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import kotlinx.android.synthetic.main.activity_main.*
 import kr.yangbob.memorization.*
-import kr.yangbob.memorization.databinding.DashboardModuleBinding
+import kr.yangbob.memorization.databinding.ActivityMainLayoutDashboardBinding
 import kr.yangbob.memorization.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Viewpager 및 TabLayout 설정
-        mainViewPager.adapter = MainPagerFragmentAdapter(lifecycle, supportFragmentManager)
+        mainViewPager.adapter = MainFragmentAdapter(lifecycle, supportFragmentManager)
         mainViewPager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         mainViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
@@ -122,7 +122,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
+        menuInflater.inflate(R.menu.main, menu)
         return true
     }
 
@@ -168,20 +168,20 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class MainPagerFragmentAdapter(mainLifeCycle: Lifecycle, fm: FragmentManager) :
+class MainFragmentAdapter(mainLifeCycle: Lifecycle, fm: FragmentManager) :
         FragmentStateAdapter(fm, mainLifeCycle) {
     override fun getItemCount(): Int = 2
     override fun createFragment(position: Int): Fragment =
-            MainPagerFragment.newInstance(position == 0)
+            MainFragment.newInstance(position == 0)
 }
 
-class MainPagerFragment : Fragment() {
+class MainFragment : Fragment() {
     private val model: MainViewModel by sharedViewModel()
-    private lateinit var binding: DashboardModuleBinding
+    private lateinit var binding: ActivityMainLayoutDashboardBinding
     private var testRecordCnt = -1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dashboard_module, container, false)
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.activity_main_layout_dashboard, container, false)
         binding.lifecycleOwner = this
         return binding.root
     }
@@ -252,7 +252,7 @@ class MainPagerFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(isToday: Boolean) = MainPagerFragment().apply {
+        fun newInstance(isToday: Boolean) = MainFragment().apply {
             arguments = Bundle().apply {
                 putBoolean("isToday", isToday)
             }

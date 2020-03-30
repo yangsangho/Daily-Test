@@ -3,7 +3,6 @@ package kr.yangbob.memorization.view
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.ViewGroup
@@ -18,11 +17,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.calendar.BaseCalendar
+import kr.yangbob.memorization.data.BaseCalendar
+import kr.yangbob.memorization.data.SimpleDate
 import kr.yangbob.memorization.databinding.ActivityCalendarBinding
-import kr.yangbob.memorization.databinding.CalendarLayoutBinding
+import kr.yangbob.memorization.databinding.ActivityCalendarLayoutBinding
 import kr.yangbob.memorization.db.InfoCalendar
-import kr.yangbob.memorization.db.MyDate
 import kr.yangbob.memorization.viewmodel.CalendarViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlin.coroutines.CoroutineContext
@@ -31,7 +30,7 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
 
     private val model: CalendarViewModel by viewModel()
     private lateinit var viewHolderList: Array<CalendarViewHolder?>
-    private lateinit var calendarAdapter: CalendarAdapter
+    private lateinit var calendarListAdapter: CalendarListAdapter
     private lateinit var job: Job
     private var prevPosition = 0
     override val coroutineContext: CoroutineContext
@@ -59,8 +58,8 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
             val maxIdx = dateList.size
             val recyclerDetachBindIdx = 3
             viewHolderList = arrayOfNulls(maxIdx)
-            calendarAdapter = CalendarAdapter(dateList, model, viewHolderList)
-            calendarViewPager.adapter = calendarAdapter
+            calendarListAdapter = CalendarListAdapter(dateList, model, viewHolderList)
+            calendarViewPager.adapter = calendarListAdapter
             calendarViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     if (maxIdx > 4) { // item이 4개 이하면, onbind를 반복 안하더라
@@ -128,9 +127,9 @@ class CalendarActivity : AppCompatActivity(), CoroutineScope {
     }
 }
 
-class CalendarAdapter(private val dateList: List<MyDate>, private val model: CalendarViewModel, private val viewHolderList: Array<CalendarViewHolder?>) : RecyclerView.Adapter<CalendarViewHolder>() {
+class CalendarListAdapter(private val dateList: List<SimpleDate>, private val model: CalendarViewModel, private val viewHolderList: Array<CalendarViewHolder?>) : RecyclerView.Adapter<CalendarViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
-        val binding = CalendarLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ActivityCalendarLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CalendarViewHolder(binding, model)
     }
 
@@ -148,13 +147,13 @@ class CalendarAdapter(private val dateList: List<MyDate>, private val model: Cal
     }
 }
 
-class CalendarViewHolder(private val binding: CalendarLayoutBinding, private val model: CalendarViewModel) : RecyclerView.ViewHolder(binding.root) {
+class CalendarViewHolder(private val binding: ActivityCalendarLayoutBinding, private val model: CalendarViewModel) : RecyclerView.ViewHolder(binding.root) {
     private lateinit var infoCalendarList: List<InfoCalendar>
     private lateinit var baseCalendar: BaseCalendar
     private var clickedDay = 0
     private var dayPrefix = 0
 
-    fun bind(date: MyDate, isLastMonth: Boolean?) {
+    fun bind(date: SimpleDate, isLastMonth: Boolean?) {
         infoCalendarList = model.getInfoCalendarList(date)
         baseCalendar = BaseCalendar(date, infoCalendarList)
         dayPrefix = baseCalendar.cntPrevMonthDate

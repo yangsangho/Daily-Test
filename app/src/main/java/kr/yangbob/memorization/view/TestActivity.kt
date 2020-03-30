@@ -6,7 +6,6 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.text.method.ScrollingMovementMethod
-import android.util.Log
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
@@ -18,13 +17,11 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_test.*
 import kr.yangbob.memorization.*
-import kr.yangbob.memorization.databinding.ItemTestViewpageBinding
+import kr.yangbob.memorization.databinding.ActivityTestViewpagerBinding
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.viewmodel.TestViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
-
-const val TestActivityLogTag = "TestActivity"
 
 class TestActivity : AppCompatActivity() {
     private val model: TestViewModel by viewModel()
@@ -74,7 +71,7 @@ class TestActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         testRecordList = testRecordList.shuffled()
-        viewPager.adapter = TestPagerAdapter(testRecordList, model, viewPager, this)
+        viewPager.adapter = TestListAdapter(testRecordList, model, viewPager, this)
 
         val listSize = testRecordList.size
         viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -108,7 +105,7 @@ class TestActivity : AppCompatActivity() {
     }
 }
 
-class TestViewHolder(private val model: TestViewModel, private val binding: ItemTestViewpageBinding, private val adapter: TestPagerAdapter) : RecyclerView.ViewHolder(binding.root) {
+class TestViewHolder(private val model: TestViewModel, private val binding: ActivityTestViewpagerBinding, private val adapter: TestListAdapter) : RecyclerView.ViewHolder(binding.root) {
     private val card = binding.card
     private val tvQstAnswer = binding.tvQstAnswer.apply {
         movementMethod = ScrollingMovementMethod()
@@ -124,7 +121,7 @@ class TestViewHolder(private val model: TestViewModel, private val binding: Item
         binding.holder = this
     }
 
-    fun onBind(qstRecord: QstRecord, position: Int) {
+    fun onBind(qstRecord: QstRecord) {
         this.qstRecord = qstRecord
         this.qst = model.getQstFromId(qstRecord.qst_id)
 
@@ -191,13 +188,13 @@ class TestViewHolder(private val model: TestViewModel, private val binding: Item
     }
 }
 
-class TestPagerAdapter(private val testList: List<QstRecord>, private val model: TestViewModel, private val pager: ViewPager2, private val activity: Activity) : RecyclerView.Adapter<TestViewHolder>() {
+class TestListAdapter(private val testList: List<QstRecord>, private val model: TestViewModel, private val pager: ViewPager2, private val activity: Activity) : RecyclerView.Adapter<TestViewHolder>() {
     override fun getItemCount(): Int = testList.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TestViewHolder {
-        val binding: ItemTestViewpageBinding = DataBindingUtil.inflate(
+        val binding: ActivityTestViewpagerBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.item_test_viewpage,
+                R.layout.activity_test_viewpager,
                 parent,
                 false
         )
@@ -205,7 +202,7 @@ class TestPagerAdapter(private val testList: List<QstRecord>, private val model:
     }
 
     override fun onBindViewHolder(holder: TestViewHolder, position: Int) {
-        holder.onBind(testList[position], position)
+        holder.onBind(testList[position])
     }
 
     fun move(position: Int) {

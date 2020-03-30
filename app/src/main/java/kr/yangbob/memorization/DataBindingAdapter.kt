@@ -6,9 +6,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
-import kr.yangbob.memorization.calendar.DayInfo
+import kr.yangbob.memorization.data.DayInfo
 import kr.yangbob.memorization.db.InfoCalendar
-import kr.yangbob.memorization.db.MyDate
+import kr.yangbob.memorization.data.SimpleDate
 import kr.yangbob.memorization.db.Qst
 
 object DataBindingAdapter {
@@ -214,7 +214,7 @@ object DataBindingAdapter {
 
     @BindingAdapter("app:defaultFormatDate")
     @JvmStatic
-    fun setFormatDate(view: TextView, date: MyDate) {
+    fun setFormatDate(view: TextView, date: SimpleDate) {
         view.text = date.getString()
     }
 
