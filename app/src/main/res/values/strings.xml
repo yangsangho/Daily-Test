@@ -55,7 +55,7 @@
     <string name="no_item_layout_entire1">Please create a question.</string>
     <string name="no_item_layout_entire2">Please click on the creation icon at the top.</string>
     <string name="no_item_layout_today1">There are no test today.</string>
-    <string name="no_item_layout_today2">The questions you create today are not added to today\'s test.\nOr there might be no tests because there are overlapping times for oblivion.</string>
+    <string name="no_item_layout_today2">The questions you create today are not added to today\'s test.\nOr there might be no tests because of the test cycle.</string>
     <string name="no_item_msg">Has No Item</string>
     <string name="nothing_sort_msg">There\'s nothing to sort.</string>
     <string name="order">Order</string>
@@ -82,7 +82,7 @@
     <string name="start_pager_sub1">The best way to memorize difficulty is to take a test.\n\nClick Next to check effect of a test.</string>
     <string name="start_pager_sub2">Meta-cognition is what I know and what I don\'t know.\n\nThere are many times when I can\'t think of what I think I know.</string>
     <string name="start_pager_sub3">The way you input information into your brain is easy, so it\'s quickly forgotten.\n(Listening to a lecture, reading, etc.)\n\nTests are a way to extract information from the brain.</string>
-    <string name="start_pager_sub4">This app helps you repeat the test, giving you time to forget things you memorized.\n\nRepeating the test at adequate oblivion cycle is very helpful for long-term memory.</string>
+    <string name="start_pager_sub4">This app helps you repeat the test, giving you time to forget things you memorized.\n\nRepeating the test at adequate test cycle is very helpful for long-term memory.</string>
     <string name="status_msg_complete">Completion</string>
     <string name="status_msg_no_start">No Start</string>
     <string name="status_msg_no_test">No Test</string>
@@ -106,7 +106,7 @@
     <string name="tutorial_entire_1">Each question has a stage of 0 &#8211; 6\nand can be achieved by passing the test!</string>
     <string name="tutorial_entire_2">If you achieve stage 6, you can say that you stored in long-term memory.</string>
     <string name="tutorial_entire_stage_icon">Example Achievement Stage</string>
-    <string name="tutorial_entire_stage_desc">- Outside circumference : Check stage by number of colored\n\n- Inside Number : Date for oblivion\n\n- Description : This question is achieved in stage 4 by passing the test given 7 days of oblivion time</string>
+    <string name="tutorial_entire_stage_desc">- Outside circumference : Check stage by number of colored\n\n- Inside Number : Test Cycle\n\n- Description : This question is achieved in stage 4 by passing the test after 7 days</string>
     <string name="tutorial_test_1">Hold on to seeing the answer as long as long as you can!</string>
     <string name="tutorial_test_2">You will grow in the process of squeezing memories out of your head.\nSet your own minimum time to check the answers to questions you don\'t know!</string>
     <string name="tutorial_test_3">You can check the answer by clicking on the question card.</string>
@@ -131,7 +131,7 @@
     <string name="tutorial_today_1">If you get the right answer, achieve the challenge stage and can try the next stage.</string>
     <string name="tutorial_today_2">Even if you may be wrong until stage 2, can achieve the challenge stage.</string>
     <string name="tutorial_today_stage_icon">Example Challenge Stage</string>
-    <string name="tutorial_today_stage_desc">- Description : You are Challenging the test given 7 days of oblivion time. And if you get the right answer, you achieve stage 4.</string>
+    <string name="tutorial_today_stage_desc">- Description : You are Challenging the test after 7 days. And if you get the right answer, you achieve stage 4.</string>
     <string name="tutorial_create_4">Please avoid creating questions\nat 11:58 P.M. - 12:03 A.M. (For Daily Update)</string>
     <string name="ad_mob_app_id" translatable="false">ca-app-pub-9569532653801871~3125640760</string>
     <string name="dormant">Dormant</string>

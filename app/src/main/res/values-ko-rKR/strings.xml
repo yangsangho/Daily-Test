@@ -56,7 +56,7 @@
     <string name="no_item_layout_entire1">문제를 생성해주세요.</string>
     <string name="no_item_layout_entire2">상단의 문제 생성 아이콘을 클릭해주세요.</string>
     <string name="no_item_layout_today1">오늘은 시험이 없는 날이예요.</string>
-    <string name="no_item_layout_today2">오늘 만든 문제는 오늘의 시험 목록에 추가되지 않아요.\n또는 망각을 위한 시간이 겹쳐서 시험이 없을 수도 있어요.</string>
+    <string name="no_item_layout_today2">오늘 만든 문제는 오늘의 시험 목록에 추가되지 않아요.\n또는 시험 주기 때문에 시험이 없을 수도 있어요.</string>
     <string name="no_item_msg">항목이 없습니다.</string>
     <string name="nothing_sort_msg">정렬할 게 없어요.</string>
     <string name="order">순서</string>
@@ -83,7 +83,7 @@
     <string name="start_pager_sub1">어렵게 외우는 가장 좋은 방법은 \'시험\'이예요.\n\n다음을 눌러서 \'시험의 효과\'를 확인해보세요.</string>
     <string name="start_pager_sub2">메타인지는 내가 뭘 알고 뭘 모르는지에 대해 아는 걸 말해요.\n\n자신이 알고 있다고 여기는 것들이 막상 떠오르지 않는 경우가 많아요.</string>
     <string name="start_pager_sub3">뇌에 정보를 입력하는 방식은 쉬워서 금방 잊혀져요.\n(강의 듣기, 읽기 등)\n\n시험은 뇌로부터 정보를 끄집어 내는 방법이예요.</string>
-    <string name="start_pager_sub4">이 앱은 암기한 것에 적당히 까먹을 시간을 주면서 시험을 반복하도록 도와줘요.\n\n적절한 망각 주기로 시험을 반복하는 것은 장기기억화에 큰 도움이 돼요.</string>
+    <string name="start_pager_sub4">이 앱은 암기한 것에 적당히 까먹을 시간을 주면서 시험을 반복하도록 도와줘요.\n\n적절한 시험 주기로 시험을 반복하는 것은 장기기억화에 큰 도움이 돼요.</string>
     <string name="status_msg_complete">완료</string>
     <string name="status_msg_no_start">미진행</string>
     <string name="status_msg_no_test">시험 없음</string>
@@ -107,7 +107,7 @@
     <string name="tutorial_entire_1">각 문제는 0 ~ 6의 단계를 가지고 있고,\n시험을 통과하면 달성할 수 있어요!</string>
     <string name="tutorial_entire_2">6단계를 달성하시면, 어느 정도 장기기억화가 됐다고 보시면 돼요.</string>
     <string name="tutorial_entire_stage_icon">달성 단계 예시</string>
-    <string name="tutorial_entire_stage_desc">- 외부 둘레 : 색이 채워진 개수로 단계 확인\n\n- 내부 숫자 : 망각을 위한 날짜\n\n- 설명 : 이 문제는 7일의 망각 시간이 주어진 시험을 통과하여 4단계를 달성함
+    <string name="tutorial_entire_stage_desc">- 외부 둘레 : 색이 채워진 개수로 단계 확인\n\n- 내부 숫자 : 시험 주기\n\n- 설명 : 이 문제는 7일 이후에 본 시험을 통과하여 4단계를 달성함
     </string>
     <string name="tutorial_test_1">정답을 보는 걸 최대한 버티세요!</string>
     <string name="tutorial_test_2">기억을 머리에서 짜내는 과정에서 당신은 성장할 거예요.\n모르는 문제의 정답 확인을 위한 자신만의 최소 시간을 설정해보세요!</string>
@@ -132,7 +132,7 @@
     <string name="tutorial_today_1">정답을 맞춰야 도전했던 단계를 달성하고 다음 단계를 도전할 수 있어요.</string>
     <string name="tutorial_today_2">2단계까지는 틀리더라도 도전 단계를 달성할 수 있어요.</string>
     <string name="tutorial_today_stage_icon">도전 단계 예시</string>
-    <string name="tutorial_today_stage_desc">7일의 망각 시간이 주어진 시험에 도전하고 있는 것이고, 정답을 맞춘다면 4단계를 달성</string>
+    <string name="tutorial_today_stage_desc">7일 이후에 본 시험에 도전하고 있는 것이고, 정답을 맞춘다면 4단계를 달성</string>
     <string name="tutorial_create_4">오후 11:58 ~ 오전 12:03에는 문제 생성을 하지 말아주세요.\n(일일 업데이트를 위해)</string>
     <string name="dormant">휴면중</string>
     <string name="update_cancel">업데이트가 취소됐어요.</string>

@@ -4,7 +4,9 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -43,20 +45,6 @@ class CreateActivity : AppCompatActivity() {
             })
         }
 
-        val touchListener: (View, MotionEvent) -> Boolean = touchListener@{ editText, event ->
-            if (editText.hasFocus()) {
-                editText.parent.requestDisallowInterceptTouchEvent(true)
-                when (event.action and MotionEvent.ACTION_MASK) {
-                    MotionEvent.ACTION_SCROLL -> {
-                        editText.parent.requestDisallowInterceptTouchEvent(false)
-                        return@touchListener true
-                    }
-                }
-            }
-            return@touchListener false
-        }
-        qstData.setOnTouchListener(touchListener)
-        answerData.setOnTouchListener(touchListener)
         qstLayout.setOnClickListener {
             qstData.requestFocus()
         }
