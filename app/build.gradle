@@ -15,8 +15,8 @@ android {
         applicationId "kr.yangbob.memorization"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 3
-        versionName "1.0.2"
+        versionCode 4
+        versionName "1.0.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -24,6 +24,17 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "ad_mob_unit_for_test", "ca-app-pub-9569532653801871/5427342808"
+            resValue "string", "ad_mob_unit_for_create", "ca-app-pub-9569532653801871/2020442658"
+            resValue "string", "ad_mob_unit_for_result", "ca-app-pub-9569532653801871/9898932679"
+            resValue "string", "ad_mob_unit_for_entire", "ca-app-pub-9569532653801871/6468676321"
+        }
+        debug {
+            debuggable true
+            resValue "string", "ad_mob_unit_for_test", "ca-app-pub-3940256099942544/6300978111"
+            resValue "string", "ad_mob_unit_for_create", "ca-app-pub-3940256099942544/6300978111"
+            resValue "string", "ad_mob_unit_for_result", "ca-app-pub-3940256099942544/6300978111"
+            resValue "string", "ad_mob_unit_for_entire", "ca-app-pub-3940256099942544/6300978111"
         }
     }
     dataBinding {

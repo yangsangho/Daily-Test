@@ -134,10 +134,6 @@
     <string name="tutorial_today_stage_desc">- Description : You are Challenging the test given 7 days of oblivion time. And if you get the right answer, you achieve stage 4.</string>
     <string name="tutorial_create_4">Please avoid creating questions\nat 11:58 P.M. - 12:03 A.M. (For Daily Update)</string>
     <string name="ad_mob_app_id" translatable="false">ca-app-pub-9569532653801871~3125640760</string>
-    <string name="ad_mob_unit_for_test" translatable="false">ca-app-pub-9569532653801871/5427342808</string>
-    <string name="ad_mob_unit_for_create" translatable="false">ca-app-pub-9569532653801871/2020442658</string>
-    <string name="ad_mob_unit_for_result" translatable="false">ca-app-pub-9569532653801871/9898932679</string>
-    <string name="ad_mob_unit_for_entire" translatable="false">ca-app-pub-9569532653801871/6468676321</string>
     <string name="dormant">Dormant</string>
     <string name="update_cancel">Update is canceled.</string>
 </resources>

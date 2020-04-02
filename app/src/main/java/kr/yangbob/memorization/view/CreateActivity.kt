@@ -4,9 +4,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.WindowManager
+import android.view.*
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -19,11 +17,12 @@ import kr.yangbob.memorization.databinding.ActivityCreateBinding
 import kr.yangbob.memorization.viewmodel.CreateViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+
 class CreateActivity : AppCompatActivity() {
 
     private val model: CreateViewModel by viewModel()
     private var menu: MenuItem? = null
-    private lateinit var qstData: EditText
+    private lateinit var etQstData: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +32,6 @@ class CreateActivity : AppCompatActivity() {
         val binding: ActivityCreateBinding = DataBindingUtil.setContentView(this, R.layout.activity_create)
         binding.lifecycleOwner = this
         binding.model = model
-        qstData = binding.qstData
 
         toolBar.title = getString(R.string.add_appbar_title)
         setSupportActionBar(toolBar)
@@ -45,14 +43,37 @@ class CreateActivity : AppCompatActivity() {
             })
         }
 
+        val touchListener: (View, MotionEvent) -> Boolean = touchListener@{ editText, event ->
+            if (editText.hasFocus()) {
+                editText.parent.requestDisallowInterceptTouchEvent(true)
+                when (event.action and MotionEvent.ACTION_MASK) {
+                    MotionEvent.ACTION_SCROLL -> {
+                        editText.parent.requestDisallowInterceptTouchEvent(false)
+                        return@touchListener true
+                    }
+                }
+            }
+            return@touchListener false
+        }
+        qstData.setOnTouchListener(touchListener)
+        answerData.setOnTouchListener(touchListener)
+        qstLayout.setOnClickListener {
+            qstData.requestFocus()
+        }
+        answerLayout.setOnClickListener {
+            answerData.requestFocus()
+        }
+
         adView.loadAd(AdRequest.Builder().build())
+
+        etQstData = qstData
     }
 
     override fun onResume() {
         Log.i("TEST", "onResume()")
         super.onResume()
         model.resetIsPossibleClick()
-        qstData.requestFocus()
+        etQstData.requestFocus()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
