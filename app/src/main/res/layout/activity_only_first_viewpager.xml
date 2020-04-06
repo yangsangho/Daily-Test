@@ -16,21 +16,21 @@
         tools:background="@color/colorPrimary">
 
         <ImageView
-            android:id="@+id/startPagerImage"
+            android:id="@+id/iv_only_first_pager"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="fitXY"
             android:layout_marginBottom="50dp"
-            app:layout_constraintBottom_toTopOf="@id/startPagerMainText"
+            app:layout_constraintBottom_toTopOf="@id/tv_only_first_pager_main"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintWidth_percent=".5"
-            app:startPagerImage="@{index}"
+            app:onlyFirstPagerImage="@{index}"
             tools:src="@drawable/ic_start_test" />
 
         <TextView
-            android:id="@+id/startPagerMainText"
+            android:id="@+id/tv_only_first_pager_main"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="8dp"
@@ -45,11 +45,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:startPagerMainText="@{index}"
+            app:onlyFirstPagerMainText="@{index}"
             tools:text='"어렵게 외우면 잊기 어렵다."' />
 
         <TextView
-            android:id="@+id/initText"
+            android:id="@+id/tv_only_first_pager_additional"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -58,16 +58,16 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:text="@string/start_pager_init"
+            android:text="@string/only_first_additional_text"
             android:visibility="@{index == 0 ? View.VISIBLE : View.GONE}"
             app:autoSizeMaxTextSize="@dimen/emphasis_text"
-            app:layout_constraintBottom_toTopOf="@id/startPagerSubText"
+            app:layout_constraintBottom_toTopOf="@id/tv_only_first_pager_sub"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/startPagerMainText" />
+            app:layout_constraintTop_toBottomOf="@id/tv_only_first_pager_main" />
 
         <TextView
-            android:id="@+id/startPagerSubText"
+            android:id="@+id/tv_only_first_pager_sub"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -77,8 +77,8 @@
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/initText"
-            app:startPagerSubText="@{index}"
+            app:layout_constraintTop_toBottomOf="@id/tv_only_first_pager_additional"
+            app:onlyFirstPagerSubText="@{index}"
             tools:text="다음을 눌러서 시험의 효과를 확인해보세요. sdfsdsdfsdffdsfsdfsdf" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@
             type="Integer" />
         <variable
             name="activity"
-            type="kr.yangbob.memorization.view.StartActivity" />
+            type="kr.yangbob.memorization.view.OnlyFirstActivity" />
     </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:background="@color/colorPrimary"
         android:layout_height="match_parent"
-        tools:context=".view.StartActivity">
+        tools:context=".view.OnlyFirstActivity">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/startViewPager"
@@ -34,6 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
+                android:id="@+id/tv_only_first_skip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"
@@ -47,47 +48,48 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/im0"
+                android:id="@+id/iv_only_first_index_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/im1"
+                app:layout_constraintEnd_toStartOf="@id/iv_only_first_index_2"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:startIndex="@{currentIdx == 0}"/>
+                app:onlyFirstIndexImage="@{currentIdx == 0}"/>
 
             <ImageView
-                android:id="@+id/im1"
+                android:id="@+id/iv_only_first_index_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/im2"
-                app:layout_constraintStart_toEndOf="@id/im0"
+                app:layout_constraintEnd_toStartOf="@id/iv_only_first_index_3"
+                app:layout_constraintStart_toEndOf="@id/iv_only_first_index_1"
                 app:layout_constraintTop_toTopOf="parent"
-                app:startIndex="@{currentIdx == 1}" />
+                app:onlyFirstIndexImage="@{currentIdx == 1}" />
 
             <ImageView
-                android:id="@+id/im2"
+                android:id="@+id/iv_only_first_index_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/im3"
-                app:layout_constraintStart_toEndOf="@id/im1"
+                app:layout_constraintEnd_toStartOf="@id/iv_only_first_index_4"
+                app:layout_constraintStart_toEndOf="@id/iv_only_first_index_2"
                 app:layout_constraintTop_toTopOf="parent"
-                app:startIndex="@{currentIdx == 2}" />
+                app:onlyFirstIndexImage="@{currentIdx == 2}" />
 
             <ImageView
-                android:id="@+id/im3"
+                android:id="@+id/iv_only_first_index_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/im2"
+                app:layout_constraintStart_toEndOf="@id/iv_only_first_index_3"
                 app:layout_constraintTop_toTopOf="parent"
-                app:startIndex="@{currentIdx == 3}" />
+                app:onlyFirstIndexImage="@{currentIdx == 3}" />
 
             <TextView
+                android:id="@+id/tv_only_first_next_or_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="16dp"

@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val isMainFirst = model.isFirst(SETTING_IS_FIRST_MAIN)
-        if (isMainFirst) startActivity(Intent(this, StartActivity::class.java))
+        if (isMainFirst) startActivity(Intent(this, OnlyFirstActivity::class.java))
 
         setTimer(this)
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {

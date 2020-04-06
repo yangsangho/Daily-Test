@@ -7,55 +7,57 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import kr.yangbob.memorization.data.DayInfo
-import kr.yangbob.memorization.db.InfoCalendar
 import kr.yangbob.memorization.data.SimpleDate
+import kr.yangbob.memorization.db.InfoCalendar
 import kr.yangbob.memorization.db.Qst
 
 object DataBindingAdapter {
 
-    @BindingAdapter("app:startPagerMainText")
+    @BindingAdapter("app:onlyFirstPagerMainText")
     @JvmStatic
     fun setStartPagerMainText(view: TextView, index: Int?) {
         index?.also {
             view.text = view.context.getString(when (it) {
-                0 -> R.string.start_pager_main1
-                1 -> R.string.start_pager_main2
-                2 -> R.string.start_pager_main3
-                3 -> R.string.start_pager_main4
+                0 -> R.string.only_first_pager_main1
+                1 -> R.string.only_first_pager_main2
+                2 -> R.string.only_first_pager_main3
+                3 -> R.string.only_first_pager_main4
                 else -> throw IllegalArgumentException()
             })
         }
     }
 
-    @BindingAdapter("app:startPagerSubText")
+    @BindingAdapter("app:onlyFirstPagerSubText")
     @JvmStatic
     fun setStartPagerSubText(view: TextView, index: Int?) {
         index?.also {
             view.text = view.context.getString(when (it) {
-                0 -> R.string.start_pager_sub1
-                1 -> R.string.start_pager_sub2
-                2 -> R.string.start_pager_sub3
-                3 -> R.string.start_pager_sub4
+                0 -> R.string.only_first_pager_sub1
+                1 -> R.string.only_first_pager_sub2
+                2 -> R.string.only_first_pager_sub3
+                3 -> R.string.only_first_pager_sub4
                 else -> throw IllegalArgumentException()
             })
         }
     }
 
-    @BindingAdapter("app:startPagerImage")
+    @BindingAdapter("app:onlyFirstPagerImage")
     @JvmStatic
     fun setStartPagerImage(view: ImageView, index: Int?) {
         index?.also {
-            view.setImageResource(when (it) {
+            val resourceId: Int = when (it) {
                 0 -> R.drawable.ic_start_test
                 1 -> R.drawable.ic_start_meta
                 2 -> R.drawable.ic_start_output
                 3 -> R.drawable.ic_start_memory
                 else -> throw IllegalArgumentException()
-            })
+            }
+            view.setImageResource(resourceId)
+            view.tag = resourceId
         }
     }
 
-    @BindingAdapter("app:startIndex")
+    @BindingAdapter("app:onlyFirstIndexImage")
     @JvmStatic
     fun setStartIndex(view: ImageView, isTrue: Boolean?) {
         isTrue?.also {
@@ -63,6 +65,7 @@ object DataBindingAdapter {
                     if (it) R.drawable.ic_start_index_true
                     else R.drawable.ic_start_index_false
             )
+            view.tag = it
         }
     }
 

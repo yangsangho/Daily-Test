@@ -32,12 +32,24 @@ val viewModelModule = module {
         CalendarViewModel(get())
     }
     single { MemRepository( get(), get() ) }
-    single {
-        Room.databaseBuilder(androidContext(),
-            MemDatabase::class.java, "BeomS_Memo"
-        ).fallbackToDestructiveMigration().build()
-    }
+}
+
+val dbModule = module {
     single {
         androidContext().getSharedPreferences("SETTING", Context.MODE_PRIVATE)
+    }
+    single {
+        Room.databaseBuilder(androidContext(), MemDatabase::class.java, "BeomS_Memo")
+                .fallbackToDestructiveMigration().build()
+    }
+
+}
+
+val testDbModule = module {
+    single {
+        androidContext().getSharedPreferences("TEST_SETTING", Context.MODE_PRIVATE)
+    }
+    single{
+        Room.inMemoryDatabaseBuilder(androidContext(), MemDatabase::class.java).build()
     }
 }

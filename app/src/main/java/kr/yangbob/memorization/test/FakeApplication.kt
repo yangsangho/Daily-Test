@@ -1,4 +1,4 @@
-package kr.yangbob.memorization
+package kr.yangbob.memorization.test
 
 import android.app.Application
 import android.app.NotificationChannel
@@ -6,19 +6,23 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 import com.google.android.gms.ads.MobileAds
+import kr.yangbob.memorization.NOTIFICATION_CHANNEL_ID
+import kr.yangbob.memorization.NOTIFICATION_CHANNEL_NAME
+import kr.yangbob.memorization.testDbModule
+import kr.yangbob.memorization.viewModelModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 
-class MyApplication : Application() {
+class FakeApplication : Application() {
     override fun onCreate() {
         super.onCreate()
 
         startKoin {
-            androidContext(this@MyApplication)
+            androidContext(this@FakeApplication)
             androidLogger(Level.INFO)
-            modules( listOf(viewModelModule, dbModule) )
+            modules( listOf(viewModelModule, testDbModule) )
         }
 
         MobileAds.initialize(this) {}

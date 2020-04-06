@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.StartActivity"
+            android:name=".view.OnlyFirstActivity"
             android:launchMode="singleTop" />
         <activity
             android:name=".view.TutorialActivity"
