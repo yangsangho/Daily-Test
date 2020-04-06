@@ -7,7 +7,7 @@ class SimpleDate : Comparable<SimpleDate> {
     private var dateInt: Int = 0
     private var year: Int = 0
     private var month: Int = 0
-    private var day: Int = 0
+    private var dayOfMonth: Int = 0
 
     private constructor(calendar: Calendar) {
         makeFromCalendar(calendar)
@@ -21,7 +21,7 @@ class SimpleDate : Comparable<SimpleDate> {
     private fun makeFromCalendar(calendar: Calendar) {
         year = calendar.get(Calendar.YEAR)
         month = calendar.get(Calendar.MONTH) + 1
-        day = calendar.get(Calendar.DAY_OF_MONTH)
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
         setDateInt()
     }
 
@@ -39,7 +39,7 @@ class SimpleDate : Comparable<SimpleDate> {
 
     private fun getMonthStr(): String = if (month < 10) "0$month" else month.toString()
 
-    private fun getDayStr(): String = if (day < 10) "0$day" else day.toString()
+    private fun getDayStr(): String = if (dayOfMonth < 10) "0$dayOfMonth" else dayOfMonth.toString()
 
     private fun setYearFromDateStr(dateStr: String) {
         year = dateStr.substring(0, 4).toInt()
@@ -52,14 +52,14 @@ class SimpleDate : Comparable<SimpleDate> {
     }
 
     private fun setDayFromDateStr(dateStr: String) {
-        day = dateStr.substring(6, 8).toInt()
-        if (day < 1 || day > 31) throw IllegalArgumentException()
+        dayOfMonth = dateStr.substring(6, 8).toInt()
+        if (dayOfMonth < 1 || dayOfMonth > 31) throw IllegalArgumentException()
     }
 
     private fun getCalendar(): Calendar = Calendar.getInstance().apply {
         set(Calendar.YEAR, year)
         set(Calendar.MONTH, month - 1)
-        set(Calendar.DAY_OF_MONTH, day)
+        set(Calendar.DAY_OF_MONTH, dayOfMonth)
     }
 
     fun getFormattedDate(dateFormat: Int = DateFormat.DEFAULT): String {
@@ -87,7 +87,7 @@ class SimpleDate : Comparable<SimpleDate> {
 
     fun getMonth(): Int = month
 
-    fun getDay(): Int = day
+    fun getDayOfMonth(): Int = dayOfMonth
 
     override fun compareTo(other: SimpleDate): Int = dateInt - other.dateInt
 

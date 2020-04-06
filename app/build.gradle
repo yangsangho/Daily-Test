@@ -98,4 +98,7 @@ dependencies {
 
     //espresso
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    // mockito
+    testImplementation 'org.mockito:mockito-inline:2.21.0'
 }
