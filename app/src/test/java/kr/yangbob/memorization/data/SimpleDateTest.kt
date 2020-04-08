@@ -116,4 +116,36 @@ class SimpleDateTest {
         assertThat(testDate.getMonth(), `is`(5))
         assertThat(testDate.getDayOfMonth(), `is`(30))
     }
+
+    @Test
+    fun getDateDiffTest(){
+        val testDate1 = SimpleDate.newInstanceFromDateInt(19981213)
+        val testDate2 = SimpleDate.newInstanceFromDateInt(20200328)
+        val yearDifference = 22
+        val monthDifference = 255
+        val dayDifference = 7776
+
+        assertThat(testDate1.getDateDiff(testDate2, Calendar.YEAR), `is`(yearDifference))
+        assertThat(testDate1.getDateDiff(testDate2, Calendar.MONTH), `is`(monthDifference))
+        assertThat(testDate1.getDateDiff(testDate2, Calendar.DAY_OF_MONTH), `is`(dayDifference))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun getDateDiffExceptionTest() {
+        val testDate1 = SimpleDate.newInstanceFromDateInt(19981213)
+        val testDate2 = SimpleDate.newInstanceFromDateInt(20200328)
+        assertThat(testDate1.getDateDiff(testDate2, Calendar.DAY_OF_YEAR), `is`(1))
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun addDateExceptionTest() {
+        val date = SimpleDate.newInstanceFromDateInt(20200328)
+        date.addDate(Calendar.DAY_OF_YEAR, 1)
+    }
+
+    @Test(expected = IllegalArgumentException::class)
+    fun setDateExceptionTest() {
+        val date = SimpleDate.newInstanceFromDateInt(20200328)
+        date.setDate(Calendar.DAY_OF_YEAR, 1)
+    }
 }

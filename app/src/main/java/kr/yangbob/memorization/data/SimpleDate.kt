@@ -2,6 +2,7 @@ package kr.yangbob.memorization.data
 
 import java.text.DateFormat
 import java.util.*
+import kotlin.math.absoluteValue
 
 class SimpleDate : Comparable<SimpleDate> {
     private var dateInt: Int = 0
@@ -68,15 +69,53 @@ class SimpleDate : Comparable<SimpleDate> {
     }
 
     fun addDate(field: Int, value: Int) {
+        if(field != Calendar.YEAR && field != Calendar.MONTH && field != Calendar.DAY_OF_MONTH)
+            throw IllegalArgumentException()
         val cal = getCalendar()
         cal.add(field, value)
         makeFromCalendar(cal)
     }
 
     fun setDate(field: Int, value: Int) {
+        if(field != Calendar.YEAR && field != Calendar.MONTH && field != Calendar.DAY_OF_MONTH)
+            throw IllegalArgumentException()
         val cal = getCalendar()
-        cal.set(field, if(field == Calendar.MONTH) value - 1 else value)
+        cal.set(field, if (field == Calendar.MONTH) value - 1 else value)
         makeFromCalendar(cal)
+    }
+
+    fun getDateDiff(other: SimpleDate, field: Int): Int = when (field) {
+        Calendar.YEAR -> {
+            getYearDifference(other)
+        }
+        Calendar.MONTH -> {
+            getMonthDifference(other)
+        }
+        Calendar.DAY_OF_MONTH -> {
+            getDayDifference(other)
+        }
+        else -> throw IllegalArgumentException()
+    }
+
+    private fun getYearDifference(other: SimpleDate): Int = (this.year - other.year).absoluteValue
+
+    private fun getMonthDifference(other: SimpleDate): Int {
+        return if(this.year == other.year)
+            (this.month - other.month).absoluteValue
+        else{
+            val diffDateString = ("$year${getMonthStr()}".toInt() - "${other.year}${other.getMonthStr()}".toInt()).absoluteValue.toString()
+            val diffYear = diffDateString.substring(0, diffDateString.length - 2).toInt()
+            var diffMonth = diffDateString.substring(diffDateString.length - 2).toInt()
+            if (diffMonth > 11) diffMonth -= 88
+            diffYear * 12 + diffMonth
+        }
+    }
+
+    private fun getDayDifference(other: SimpleDate): Int {
+        val originCal = this.getCalendar()
+        val otherCal = other.getCalendar()
+        val diffTime = (originCal.timeInMillis - otherCal.timeInMillis).absoluteValue
+        return (diffTime / (24 * 60 * 60 * 1000)).toInt()
     }
 
     fun clone(): SimpleDate = SimpleDate(dateInt)

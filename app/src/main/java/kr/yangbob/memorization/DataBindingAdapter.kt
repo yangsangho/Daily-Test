@@ -79,33 +79,31 @@ object DataBindingAdapter {
         }
     }
 
-    @BindingAdapter("app:setCalendarBackground")
+    @BindingAdapter("app:setDayBackground")
     @JvmStatic
-    fun setCalendarBackground(view: ImageView, infoCalendar: InfoCalendar?) {
-        infoCalendar?.also {
+    fun setDayBackground(view: ImageView, infoCalendar: InfoCalendar?) {
+        infoCalendar?.also { infoCal ->
+
             view.visibility = View.VISIBLE
-            if (it.isStartDay) {
-                view.setColorFilter(
-                        ContextCompat.getColor(view.context, R.color.colorAccent),
-                        android.graphics.PorterDuff.Mode.SRC_IN
-                )
-            } else {
-                if (it.isCompleted == null) view.clearColorFilter()
-                else {
-                    if (it.isCompleted!!) view.setColorFilter(
-                            ContextCompat.getColor(
-                                    view.context,
-                                    android.R.color.holo_green_light
-                            ), android.graphics.PorterDuff.Mode.SRC_IN
-                    )
-                    else view.setColorFilter(
-                            ContextCompat.getColor(
-                                    view.context,
-                                    android.R.color.holo_red_light
-                            ), android.graphics.PorterDuff.Mode.SRC_IN
-                    )
+            val colorResourceId: Int = if (infoCal.isStartDay) R.color.colorAccent
+            else {
+                if (infoCal.isCompleted == null) {
+                    view.clearColorFilter()
+                    view.tag = 0
+                    return
+                } else {
+                    if (infoCal.isCompleted!!) {
+                        android.R.color.holo_green_light
+                    } else {
+                        android.R.color.holo_red_light
+                    }
                 }
             }
+
+            view.tag = colorResourceId
+            view.setColorFilter(
+                    ContextCompat.getColor(view.context, colorResourceId),
+                    android.graphics.PorterDuff.Mode.SRC_IN)
         }
     }
 
@@ -224,7 +222,7 @@ object DataBindingAdapter {
     @BindingAdapter("app:nextTestDate")
     @JvmStatic
     fun nextTestDate(view: TextView, qst: Qst) {
-        view.text = if(qst.is_dormant) view.context.getString(R.string.dormant)
+        view.text = if (qst.is_dormant) view.context.getString(R.string.dormant)
         else qst.next_test_date.getFormattedDate()
     }
 }

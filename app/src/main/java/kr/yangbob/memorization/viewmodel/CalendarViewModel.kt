@@ -70,7 +70,7 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
         todayDate.setDate(Calendar.DAY_OF_MONTH, 1)
 
         dateList.add(startDate.clone())
-        while(todayDate != startDate){
+        while (todayDate != startDate) {
             startDate.addDate(Calendar.MONTH, 1)
             dateList.add(startDate.clone())
         }
@@ -105,10 +105,14 @@ class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
                 } else {
                     _isDetailBtnActivate.value = true
                     String.format(
-                        resources.getString(if (isPortrait) R.string.result_info_format else R.string.result_info_format_land),
-                        cntQst,
-                        progressRate,
-                        correctRate
+                            resources.getString(
+                                    if (isPortrait)
+                                        R.string.result_info_format
+                                    else
+                                        R.string.result_info_format_land),
+                            cntQst,
+                            progressRate,
+                            correctRate
                     )
                 }
             }

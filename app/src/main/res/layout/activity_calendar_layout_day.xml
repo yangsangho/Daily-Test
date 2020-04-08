@@ -22,7 +22,7 @@
 
         <variable
             name="holder"
-            type="kr.yangbob.memorization.view.CalendarViewHolder" />
+            type="kr.yangbob.memorization.adapter.CalendarViewHolder" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,15 +32,17 @@
         android:background="@{isClicked ? @drawable/border : null}">
 
         <ImageView
+            android:id="@+id/iv_day_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerInside"
             android:layout_margin="3dp"
             android:visibility="gone"
-            app:setCalendarBackground="@{dayInfo.infoCalendar}"
+            app:setDayBackground="@{dayInfo.infoCalendar}"
             app:srcCompat="@drawable/ic_check_complete_calendar" />
 
         <TextView
+            android:id="@+id/tv_day"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
