@@ -1,14 +1,21 @@
 package kr.yangbob.memorization
 
+import android.app.Activity
+import android.content.Context
 import android.view.View
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.BoundedMatcher
 import androidx.test.espresso.matcher.ViewMatchers.withId
+import androidx.test.espresso.matcher.ViewMatchers.withText
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
+import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
+import androidx.test.runner.lifecycle.Stage
 import androidx.viewpager2.widget.ViewPager2
 import kr.yangbob.memorization.data.SimpleDate
 import kr.yangbob.memorization.db.Qst
@@ -18,6 +25,8 @@ import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.view.CalendarActivity
 import org.hamcrest.Description
 import org.hamcrest.Matcher
+import org.hamcrest.MatcherAssert
+import org.hamcrest.Matchers
 import org.jetbrains.annotations.NotNull
 import org.junit.Before
 import org.junit.Rule
@@ -33,6 +42,7 @@ class CalendarActivityTest : KoinTest {
     @get:Rule
     var activityRule: ActivityTestRule<CalendarActivity> = ActivityTestRule(CalendarActivity::class.java, true, false)
 
+    private val context = ApplicationProvider.getApplicationContext<Context>()
     private val cntForStartDate = 90
     private val cntNullCalendar = 6 // 짝수일 때만 유효
     private val todayDate = SimpleDate.newInstanceToday()
@@ -112,7 +122,6 @@ class CalendarActivityTest : KoinTest {
 
     @Test
     fun pagerCountTest() {
-        Thread.sleep(4000)
         val cntPager = startDate.getDateDiff(todayDate, Calendar.MONTH)
 
         val viewPager = onView(withId(R.id.viewpager_calendar))
@@ -134,5 +143,45 @@ class CalendarActivityTest : KoinTest {
                 return currentPosition == position
             }
         }
+    }
+
+    @Test
+    fun monthYearCheckTest() {
+        val cntPager = startDate.getDateDiff(todayDate, Calendar.MONTH)
+        val viewPager = onView(withId(R.id.viewpager_calendar))
+        val tvMonth = onView(withId(R.id.tv_month))
+        val tvYear = onView(withId(R.id.tv_year))
+        val cloneDate = todayDate.clone()
+
+        for (i in 0 until cntPager){
+            viewPager.perform(ViewActions.swipeRight())
+            cloneDate.addDate(Calendar.MONTH, -1)
+            tvYear.check(matches(withText(getYear(cloneDate))))
+            tvMonth.check(matches(withText(getMonth(cloneDate))))
+        }
+    }
+
+    private fun getYear(date: SimpleDate): String = String.format(context.resources.getString(R.string.calendar_year), date.getYear())
+
+    private fun getMonth(date: SimpleDate): String = context.resources.getStringArray(R.array.calendar_month)[date.getMonth() - 1]
+
+    @Test
+    fun clickDetailBtnTest(){
+        val btnMoveToDetail = onView(withId(R.id.btn_move_to_detail))
+
+
+        var curActivity = getCurrentActivity()
+        MatcherAssert.assertThat(curActivity, Matchers.instanceOf(CalendarActivity::class.java))
+    }
+
+    private fun getCurrentActivity(): Activity? {
+        var currentActivity: Activity? = null
+        InstrumentationRegistry.getInstrumentation().runOnMainSync {
+            run {
+                currentActivity = ActivityLifecycleMonitorRegistry.getInstance()
+                        .getActivitiesInStage(Stage.RESUMED).elementAtOrNull(0)
+            }
+        }
+        return currentActivity
     }
 }
