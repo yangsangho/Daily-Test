@@ -1,7 +1,6 @@
 package kr.yangbob.memorization.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.model.MemRepository
@@ -9,21 +8,7 @@ import kr.yangbob.memorization.todayDate
 import kr.yangbob.memorization.workForNextTest
 
 class MainViewModel(private val memRepo: MemRepository, application: Application) :
-        AndroidViewModel(application) {
-    private val logTag = "MainViewModel"
-
-    private var isPossibleClick = false
-    fun resetIsPossibleClick() {
-        isPossibleClick = false
-    }
-
-    fun checkIsPossibleClick(): Boolean =
-            if (isPossibleClick) false
-            else {
-                isPossibleClick = true
-                true
-            }
-
+        BaseAndroidViewModel(application) {
     private val qstListLD = memRepo.getAllQstLD()
     private val dormantQstListLD = memRepo.getAllDormantQstLD()
     private val todayQstRecordLD = memRepo.getAllRecordLDFromDate(todayDate)
@@ -113,7 +98,9 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
         true
     } else false
 
+
     init {
+//        makeDbData()
         workForNextTest(memRepo)
     }
 }

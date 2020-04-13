@@ -5,7 +5,6 @@ import android.content.res.Resources
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.data.SimpleDate
@@ -17,20 +16,8 @@ import kr.yangbob.memorization.view.ResultActivity
 import java.util.*
 import kotlin.collections.ArrayList
 
-class CalendarViewModel(private val memRepo: MemRepository) : ViewModel() {
-    private var isPossibleClick = false
+class CalendarViewModel(private val memRepo: MemRepository) : BaseViewModel() {
     var isPortrait = true
-    fun resetIsPossibleClick() {
-        isPossibleClick = false
-    }
-
-    fun checkIsPossibleClick(): Boolean {
-        return if (isPossibleClick) false
-        else {
-            isPossibleClick = true
-            true
-        }
-    }
 
     private val _month = MutableLiveData<Int>()
     private val _year = MutableLiveData<Int>()

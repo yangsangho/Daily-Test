@@ -1,27 +1,14 @@
 package kr.yangbob.memorization.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import kr.yangbob.memorization.SETTING_IS_FIRST_CREATE
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.todayDate
 import kr.yangbob.memorization.tomorrowDate
 
-class CreateViewModel(private val memRepo: MemRepository) : ViewModel() {
+class CreateViewModel(private val memRepo: MemRepository) : BaseViewModel() {
     private val logTag = "AddViewModel"
-    private var isPossibleClick = false
-    fun resetIsPossibleClick() {
-        isPossibleClick = false
-    }
-
-    fun checkIsPossibleClick(): Boolean {
-        return if (isPossibleClick) false
-        else {
-            isPossibleClick = true
-            true
-        }
-    }
 
     val title = MutableLiveData<String>()      // 문제 add 및 update의 문제명
     val answer = MutableLiveData<String>()      // 문제 add 및 update의 정답

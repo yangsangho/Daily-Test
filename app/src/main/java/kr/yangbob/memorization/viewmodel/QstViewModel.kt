@@ -1,25 +1,11 @@
 package kr.yangbob.memorization.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
 
-class QstViewModel(private val memRepo: MemRepository) : ViewModel() {
-    private var isPossibleClick = false
-    fun resetIsPossibleClick() {
-        isPossibleClick = false
-    }
-
-    fun checkIsPossibleClick(): Boolean {
-        return if (isPossibleClick) false
-        else {
-            isPossibleClick = true
-            true
-        }
-    }
-
+class QstViewModel(private val memRepo: MemRepository) : BaseViewModel() {
     val qstData = MutableLiveData<String>("")
     val answerData = MutableLiveData<String>("")
 
