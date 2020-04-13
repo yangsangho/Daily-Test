@@ -17,7 +17,7 @@
 
         <variable
             name="fragment"
-            type="kr.yangbob.memorization.view.MainFragment" />
+            type="kr.yangbob.memorization.adapter.MainFragment" />
 
         <variable
             name="isNoItemViewActivate"

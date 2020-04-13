@@ -6,24 +6,25 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.text.method.ScrollingMovementMethod
 import android.util.DisplayMetrics
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_detail.*
 import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.R
+import kr.yangbob.memorization.adapter.DetailListAdapter
 import kr.yangbob.memorization.databinding.ActivityDetailBinding
-import kr.yangbob.memorization.databinding.ActivityDetailLayoutListRecordBinding
-import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.viewmodel.QstViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class QstActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
 
     private val model: QstViewModel by viewModel()
     private var cancelMenu: MenuItem? = null
@@ -148,31 +149,5 @@ class QstActivity : AppCompatActivity() {
         qstDataEdit.visibility = View.VISIBLE
         answerDataText.visibility = View.GONE
         qstDataText.visibility = View.GONE
-    }
-}
-
-class DetailViewHolder(private val binding: ActivityDetailLayoutListRecordBinding, private val model: QstViewModel) :
-        RecyclerView.ViewHolder(binding.root) {
-    fun onBind(record: QstRecord) {
-        binding.record = record
-    }
-}
-
-class DetailListAdapter(private val recordList: List<QstRecord>, private val model: QstViewModel) :
-        RecyclerView.Adapter<DetailViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailViewHolder {
-        val binding: ActivityDetailLayoutListRecordBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.activity_detail_layout_list_record,
-                parent,
-                false
-        )
-        return DetailViewHolder(binding, model)
-    }
-
-    override fun getItemCount(): Int = recordList.size
-
-    override fun onBindViewHolder(holder: DetailViewHolder, position: Int) {
-        holder.onBind(recordList[position])
     }
 }

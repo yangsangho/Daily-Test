@@ -108,7 +108,7 @@ class MainViewModel(private val memRepo: MemRepository, application: Application
     }
 
     // settings
-    fun isFirst(what: String): Boolean = if(memRepo.getIsFirst(what)){
+    fun isFirst(what: String): Boolean = if (memRepo.getIsFirst(what)) {
         memRepo.setFirstValueFalse(what)
         true
     } else false

@@ -7,7 +7,7 @@
 
         <variable
             name="holder"
-            type="kr.yangbob.memorization.view.TestViewHolder" />
+            type="kr.yangbob.memorization.adapter.TestViewHolder" />
 
         <variable
             name="strData"

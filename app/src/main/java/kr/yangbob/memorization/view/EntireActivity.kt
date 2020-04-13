@@ -1,24 +1,23 @@
 package kr.yangbob.memorization.view
 
-import android.content.Intent
 import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.util.TypedValue
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_entire.*
-import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.R
-import kr.yangbob.memorization.databinding.ActivityEntireLayoutListQstBinding
+import kr.yangbob.memorization.adapter.EntireListAdapter
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.viewmodel.EntireViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -140,37 +139,5 @@ class EntireActivity : AppCompatActivity() {
     private fun setNoItemMsgVisible(isEmpty: Boolean) {
         if (isEmpty) entireNoItemMsg.visibility = View.VISIBLE
         else entireNoItemMsg.visibility = View.GONE
-    }
-}
-
-class EntireViewHolder(private val binding: ActivityEntireLayoutListQstBinding, private val model: EntireViewModel) : RecyclerView.ViewHolder(binding.root) {
-    fun bind(qst: Qst) {
-        binding.qst = qst
-        binding.holder = this
-        binding.tvEntireRegistration.text = qst.registration_date.getFormattedDate()
-        binding.card.setOnClickListener {
-            if (model.checkIsPossibleClick()) {
-                val context = binding.root.context
-                context.startActivity(Intent(context, QstActivity::class.java).putExtra(EXTRA_TO_QST_ID, qst.id))
-            }
-        }
-    }
-}
-
-class EntireListAdapter(private var recordList: List<Qst>, private val model: EntireViewModel) : RecyclerView.Adapter<EntireViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntireViewHolder {
-        val binding: ActivityEntireLayoutListQstBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.activity_entire_layout_list_qst, parent, false)
-        return EntireViewHolder(binding, model)
-    }
-
-    override fun getItemCount(): Int = recordList.size
-
-    override fun onBindViewHolder(holder: EntireViewHolder, position: Int) {
-        holder.bind(recordList[position])
-    }
-
-    fun setData(recordList: List<Qst>) {
-        this.recordList = recordList
-        notifyDataSetChanged()
     }
 }

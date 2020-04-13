@@ -7,7 +7,7 @@
             type="kr.yangbob.memorization.db.Qst" />
         <variable
             name="holder"
-            type="kr.yangbob.memorization.view.EntireViewHolder" />
+            type="kr.yangbob.memorization.adapter.EntireViewHolder" />
     </data>
 
     <androidx.cardview.widget.CardView

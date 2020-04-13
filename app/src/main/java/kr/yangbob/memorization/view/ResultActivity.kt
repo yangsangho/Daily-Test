@@ -5,22 +5,22 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.util.TypedValue
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.AdRequest
 import kotlinx.android.synthetic.main.activity_result.*
-import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
+import kr.yangbob.memorization.adapter.ResultListAdapter
 import kr.yangbob.memorization.data.SimpleDate
-import kr.yangbob.memorization.databinding.ActivityResultLayoutListRecordBinding
 import kr.yangbob.memorization.db.QstRecordWithName
 import kr.yangbob.memorization.viewmodel.ResultViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -43,7 +43,7 @@ class ResultActivity : AppCompatActivity() {
         setContentView(R.layout.activity_result)
 
         intent.getIntExtra(EXTRA_TO_RESULT_DATESTR, 0).apply {
-            if(this == 0) throw IllegalArgumentException()
+            if (this == 0) throw IllegalArgumentException()
 //            val date = SimpleDate(this)
             val date = SimpleDate.newInstanceFromDateInt(this)
             recordList = model.getRecordList(date)
@@ -98,7 +98,7 @@ class ResultActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode == RESULT_OK){
+        if (resultCode == RESULT_OK) {
             val deleteList = data?.getIntegerArrayListExtra("deleteList")
             deleteList?.also {
                 deleteSet.addAll(it)
@@ -177,47 +177,5 @@ class ResultActivity : AppCompatActivity() {
     private fun setNoItemMsgVisible(isEmpty: Boolean) {
         if (isEmpty) resultNoItemMsg.visibility = View.VISIBLE
         else resultNoItemMsg.visibility = View.GONE
-    }
-}
-
-class ResultViewHolder(private val binding: ActivityResultLayoutListRecordBinding, private val model: ResultViewModel) :
-        RecyclerView.ViewHolder(binding.root) {
-    fun bind(record: QstRecordWithName) {
-        binding.recordWithName = record
-        binding.card.setOnClickListener {
-            if (model.checkIsPossibleClick()) {
-                val resultActivity = binding.root.context as ResultActivity
-                resultActivity.startActivityForResult(
-                        Intent(resultActivity, QstActivity::class.java).putExtra(
-                                EXTRA_TO_QST_ID,
-                                record.qst_id
-                        ), 123
-                )
-            }
-        }
-    }
-}
-
-class ResultListAdapter(private var recordList: List<QstRecordWithName>, private val model: ResultViewModel) :
-        RecyclerView.Adapter<ResultViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ResultViewHolder {
-        val binding: ActivityResultLayoutListRecordBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.activity_result_layout_list_record,
-                parent,
-                false
-        )
-        return ResultViewHolder(binding, model)
-    }
-
-    override fun getItemCount(): Int = recordList.size
-
-    override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
-        holder.bind(recordList[position])
-    }
-
-    fun setData(recordList: List<QstRecordWithName>) {
-        this.recordList = recordList
-        notifyDataSetChanged()
     }
 }

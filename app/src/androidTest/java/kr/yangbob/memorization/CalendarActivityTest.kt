@@ -6,10 +6,10 @@ import android.view.View
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.BoundedMatcher
-import androidx.test.espresso.matcher.ViewMatchers.withId
-import androidx.test.espresso.matcher.ViewMatchers.withText
+import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.platform.app.InstrumentationRegistry
@@ -23,6 +23,7 @@ import kr.yangbob.memorization.db.QstCalendar
 import kr.yangbob.memorization.db.QstRecord
 import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.view.CalendarActivity
+import kr.yangbob.memorization.view.DetailActivity
 import org.hamcrest.Description
 import org.hamcrest.Matcher
 import org.hamcrest.MatcherAssert
@@ -166,12 +167,15 @@ class CalendarActivityTest : KoinTest {
     private fun getMonth(date: SimpleDate): String = context.resources.getStringArray(R.array.calendar_month)[date.getMonth() - 1]
 
     @Test
-    fun clickDetailBtnTest(){
+    fun clickDetailBtnTest() {
         val btnMoveToDetail = onView(withId(R.id.btn_move_to_detail))
-
 
         var curActivity = getCurrentActivity()
         MatcherAssert.assertThat(curActivity, Matchers.instanceOf(CalendarActivity::class.java))
+        btnMoveToDetail.check(matches(isClickable()))
+        btnMoveToDetail.perform(click())
+        curActivity = getCurrentActivity()
+        MatcherAssert.assertThat(curActivity, Matchers.instanceOf(DetailActivity::class.java))
     }
 
     private fun getCurrentActivity(): Activity? {
