@@ -39,7 +39,7 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// QstCalendar
-    fun getCalTestComplete(calendarId: SimpleDate): Boolean? = runBlocking { daoQstCalendar.getTestComplete(calendarId) }
+    fun getTestCompletionOnDate(calendarId: SimpleDate): Boolean? = runBlocking { daoQstCalendar.getTestCompletionOnDate(calendarId) }
 
     fun getAllInfoCalendar(): List<InfoCalendar> = runBlocking {
         val list = daoQstCalendar.getAll()

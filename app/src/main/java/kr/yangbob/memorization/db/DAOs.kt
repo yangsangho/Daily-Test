@@ -37,7 +37,7 @@ interface DaoQst {
 interface DaoQstCalendar {
 
     @Query("SELECT test_completion FROM QstCalendar WHERE id == :calendarId")
-    suspend fun getTestComplete(calendarId: SimpleDate): Boolean?
+    suspend fun getTestCompletionOnDate(calendarId: SimpleDate): Boolean?
 
     @Query("SELECT * FROM QstCalendar")
     fun getAllLD(): LiveData<List<QstCalendar>>

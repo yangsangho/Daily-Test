@@ -82,17 +82,16 @@ object DataBindingAdapter {
     @BindingAdapter("app:setDayBackground")
     @JvmStatic
     fun setDayBackground(view: ImageView, infoCalendar: InfoCalendar?) {
-        infoCalendar?.also { infoCal ->
-
+        if(infoCalendar != null){
             view.visibility = View.VISIBLE
-            val colorResourceId: Int = if (infoCal.isStartDay) R.color.colorAccent
+            val colorResourceId: Int = if (infoCalendar.isStartDay) R.color.colorAccent
             else {
-                if (infoCal.isCompleted == null) {
+                if (infoCalendar.isCompleted == null) {
                     view.clearColorFilter()
                     view.tag = 0
                     return
                 } else {
-                    if (infoCal.isCompleted!!) {
+                    if (infoCalendar.isCompleted!!) {
                         android.R.color.holo_green_light
                     } else {
                         android.R.color.holo_red_light

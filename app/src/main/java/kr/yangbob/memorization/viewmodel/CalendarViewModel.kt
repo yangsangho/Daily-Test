@@ -17,7 +17,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class CalendarViewModel(private val memRepo: MemRepository) : BaseViewModel() {
-    var isPortrait = true
+    private var isPortrait = true
+    private val infoCalendarList: List<InfoCalendar> = memRepo.getAllInfoCalendar()
+    private lateinit var currentDate: SimpleDate
 
     private val _month = MutableLiveData<Int>()
     private val _year = MutableLiveData<Int>()
@@ -27,14 +29,16 @@ class CalendarViewModel(private val memRepo: MemRepository) : BaseViewModel() {
     val year: LiveData<Int> = _year
     val record: LiveData<String> = _record
     val isDetailBtnActivate: LiveData<Boolean> = _isDetailBtnActivate
-    private val infoCalendarList: List<InfoCalendar> = memRepo.getAllInfoCalendar()
-    private lateinit var currentCalendarID: SimpleDate
 
-    fun updateInfoCal(deleteSet: HashSet<Int>?) {
+    fun setPortrait(value: Boolean) {
+        isPortrait = value
+    }
+
+    fun updateInfoCal(deleteSet: HashSet<Int>) {
         deleteSet?.also { set ->
             infoCalendarList.forEach { list ->
                 if (set.contains(list.date.getDateInt())) {
-                    val newValue = getCalTestComplete(list.date)
+                    val newValue = getTestCompletionOnDate(list.date)
                     if (list.isCompleted != newValue) {
                         list.isCompleted = newValue
                     }
@@ -43,7 +47,7 @@ class CalendarViewModel(private val memRepo: MemRepository) : BaseViewModel() {
         }
     }
 
-    fun getCalTestComplete(calendarId: SimpleDate) = memRepo.getCalTestComplete(calendarId)
+    fun getTestCompletionOnDate(calendarId: SimpleDate) = memRepo.getTestCompletionOnDate(calendarId)
 
     fun getInfoCalendarList(date: SimpleDate) = infoCalendarList.filter {
         it.date.getYear() == date.getYear() && it.date.getMonth() == date.getMonth()
@@ -64,15 +68,15 @@ class CalendarViewModel(private val memRepo: MemRepository) : BaseViewModel() {
         return dateList.toList()
     }
 
-    fun setCalendar(date: SimpleDate) {
+    fun setYearMonthText(date: SimpleDate) {
         _month.value = date.getMonth() - 1
         _year.value = date.getYear()
     }
 
-    fun setCurrentCalendar(infoCalendar: InfoCalendar?, resources: Resources) {
+    fun setRecordText(infoCalendar: InfoCalendar?, resources: Resources) {
         infoCalendar?.also { infoCal ->
-            currentCalendarID = infoCal.date
-            val recordList = memRepo.getAllRecordFromDate(currentCalendarID)
+            currentDate = infoCal.date.clone()
+            val recordList = memRepo.getAllRecordFromDate(currentDate)
             val cntQst = recordList.size
             val cntSolved = recordList.count { it.is_correct != null }
             val cntCorrect = recordList.count { it.is_correct == true }
@@ -109,7 +113,7 @@ class CalendarViewModel(private val memRepo: MemRepository) : BaseViewModel() {
     fun detailBtnClick(view: View) {
         val calActivity = view.context as CalendarActivity
         calActivity.startActivityForResult(Intent(view.context, ResultActivity::class.java).apply {
-            putExtra(EXTRA_TO_RESULT_DATESTR, currentCalendarID.getDateInt())
+            putExtra(EXTRA_TO_RESULT_DATESTR, currentDate.getDateInt())
         }, 123)
     }
 }

@@ -14,72 +14,65 @@ class CalendarViewHolder(
 
     private lateinit var infoCalendarList: List<InfoCalendar>
     private lateinit var dayInfoList: List<DayInfo>
-    private var clickedDay = 0
-    private var cntPrevMonthDay = 0
+    private lateinit var currentDate: SimpleDate
 
-    fun bind(date: SimpleDate, isLastMonth: Boolean?) {
+    init {
+        binding.holder = this
+    }
+
+    fun bind(date: SimpleDate, isLastMonth: Boolean) {
         infoCalendarList = model.getInfoCalendarList(date)
 
         val dayInfoListBuilder = DayInfoListBuilder(date, infoCalendarList)
-        cntPrevMonthDay = dayInfoListBuilder.getCntPrevMonthDay()
         dayInfoList = dayInfoListBuilder.build()
-
         binding.dayList = dayInfoList
-        binding.holder = this
 
-        this.clickedDay = when (isLastMonth) {
-            true -> infoCalendarList.last().date.getDayOfMonth()
-            false -> infoCalendarList.first().date.getDayOfMonth()
-            else -> 1
+        binding.cntPrevMonthDay = dayInfoListBuilder.getCntPrevMonthDay()
+
+        currentDate = when (isLastMonth) {
+            true -> infoCalendarList.last().date
+            false -> infoCalendarList.first().date
         }
-        this.clickedDay += cntPrevMonthDay
     }
 
-    fun checkForDelete(deleteSet: HashSet<Int>?) {
-        model.setCurrentCalendar(
-                infoCalendarList.find {
-                    it.date.getDayOfMonth() == this.clickedDay - cntPrevMonthDay
-                }, binding.root.resources)
-        updateBaseCal(deleteSet)
-    }
+    fun updateDayInfoList(dateIntSetForDelete: HashSet<Int>) {
+        var isUpdated = false
 
-    fun updateBaseCal(deleteSet: HashSet<Int>?) {
         dayInfoList.forEach {
             it.infoCalendar?.let { infoCal ->
-                var isChanged = false
-                deleteSet?.also { set ->
-                    if (set.contains(infoCal.date.getDateInt())) {
-                        val newValue = model.getCalTestComplete(infoCal.date)
-                        if (infoCal.isCompleted != newValue) {
-                            infoCal.isCompleted = newValue
-                            isChanged = true
-                        }
+                if (dateIntSetForDelete.contains(infoCal.date.getDateInt())) {
+                    val newIsCompleted = model.getTestCompletionOnDate(infoCal.date)
+                    if (infoCal.isCompleted != newIsCompleted) {
+                        infoCal.isCompleted = newIsCompleted
+                        isUpdated = true
                     }
                 }
-                if (isChanged)
-                    binding.dayList = dayInfoList
             }
         }
+
+        if (isUpdated) binding.dayList = dayInfoList
     }
+
 
     fun attached() {
-        binding.clickedDay = this.clickedDay
-        model.setCurrentCalendar(
-                infoCalendarList.find {
-                    it.date.getDayOfMonth() == this.clickedDay - cntPrevMonthDay
-                },
-                binding.root.resources)
+        setBindingCurrentDay()
+        setRecordText()
     }
 
-    fun detached() {
-        binding.clickedDay = 0
+    private fun setBindingCurrentDay(){
+        binding.currentDay = currentDate.getDayOfMonth()
+    }
+
+    fun setRecordText(infoCalendar: InfoCalendar? = null){
+        val infoCal = infoCalendar ?: infoCalendarList.find { it.date.getDayOfMonth() == currentDate.getDayOfMonth() }
+        model.setRecordText(infoCal, binding.root.resources)
     }
 
     fun click(infoCalendar: InfoCalendar?) {
         infoCalendar?.also { infoCal ->
-            this.clickedDay = cntPrevMonthDay + infoCal.date.getDayOfMonth()
-            binding.clickedDay = this.clickedDay
-            model.setCurrentCalendar(infoCal, binding.root.resources)
+            currentDate = infoCal.date
+            setBindingCurrentDay()
+            setRecordText(infoCal)
         }
     }
 }

@@ -58,7 +58,6 @@ class CreateActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        Log.i("TEST", "onResume()")
         super.onResume()
         model.resetIsPossibleClick()
         etQstData.requestFocus()
