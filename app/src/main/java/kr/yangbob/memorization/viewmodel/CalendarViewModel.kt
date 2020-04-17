@@ -76,38 +76,44 @@ class CalendarViewModel(private val memRepo: MemRepository) : BaseViewModel() {
     fun setRecordText(infoCalendar: InfoCalendar?, resources: Resources) {
         infoCalendar?.also { infoCal ->
             currentDate = infoCal.date.clone()
-            val recordList = memRepo.getAllRecordFromDate(currentDate)
-            val cntQst = recordList.size
-            val cntSolved = recordList.count { it.is_correct != null }
-            val cntCorrect = recordList.count { it.is_correct == true }
-
-            val progressRate = if (cntQst > 0) cntSolved / cntQst.toFloat() * 100
-            else 0f
-            val correctRate = if (cntSolved > 0) cntCorrect / cntSolved.toFloat() * 100
-            else 0f
+            val recordData = getRecordData()
 
             if (infoCal.isStartDay) {
-                _record.value = resources.getString(R.string.calendar_start_day)
                 _isDetailBtnActivate.value = false
+                _record.value = resources.getString(R.string.calendar_start_day)
             } else {
-                _record.value = if (cntQst <= 0) {
+                if (recordData.cntQst <= 0) {
                     _isDetailBtnActivate.value = false
-                    resources.getString(R.string.status_msg_no_test)
+                    _record.value = resources.getString(R.string.status_msg_no_test)
                 } else {
                     _isDetailBtnActivate.value = true
-                    String.format(
-                            resources.getString(
-                                    if (isPortrait)
-                                        R.string.result_info_format
-                                    else
-                                        R.string.result_info_format_land),
-                            cntQst,
-                            progressRate,
-                            correctRate
+                    _record.value = String.format(
+                            resources.getString(if (isPortrait) R.string.result_info_format else R.string.result_info_format_land),
+                            recordData.cntQst,
+                            recordData.progressRate,
+                            recordData.correctRate
                     )
                 }
             }
         }
+    }
+
+    private data class RecordData(
+            val cntQst: Int,
+            val progressRate: Float,
+            val correctRate: Float
+    )
+
+    private fun getRecordData(): RecordData {
+        val recordList = memRepo.getAllRecordFromDate(currentDate)
+        val cntQst = recordList.size
+        val cntSolved = recordList.count { it.is_correct != null }
+        val cntCorrect = recordList.count { it.is_correct == true }
+
+        val progressRate = if (cntQst > 0) cntSolved / cntQst.toFloat() * 100 else 0f
+        val correctRate = if (cntSolved > 0) cntCorrect / cntSolved.toFloat() * 100 else 0f
+
+        return RecordData(cntQst, progressRate, correctRate)
     }
 
     fun detailBtnClick(view: View) {

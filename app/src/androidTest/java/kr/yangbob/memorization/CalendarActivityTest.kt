@@ -2,6 +2,7 @@ package kr.yangbob.memorization
 
 import android.app.Activity
 import android.content.Context
+import android.content.pm.ActivityInfo
 import android.view.View
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
@@ -56,6 +57,10 @@ class CalendarActivityTest : KoinTest {
     private val startDate = todayDate.clone().apply {
         addDate(Calendar.DAY_OF_MONTH, -cntForStartDate)
     }
+    private val startNotNullDate = startDate.clone().apply {
+        addDate(Calendar.DAY_OF_MONTH, cntNullCalendar + 1)
+    }
+    private val cntPager = startDate.getDateDiff(todayDate, Calendar.MONTH)
     private var isInit = false
     private val memRepo: MemRepository by inject()
 
@@ -65,6 +70,7 @@ class CalendarActivityTest : KoinTest {
         isInit = true
         makeDbData()
         activityRule.launchActivity(null)
+        if (isLandScape) activityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     }
 
     private fun makeDbData() {
@@ -129,7 +135,6 @@ class CalendarActivityTest : KoinTest {
 
     @Test
     fun pagerCountTest() {
-        val cntPager = startDate.getDateDiff(todayDate, Calendar.MONTH)
         val viewPager = onView(withId(R.id.viewpager_calendar))
 
         for (position in cntPager downTo 0) {
@@ -154,7 +159,6 @@ class CalendarActivityTest : KoinTest {
 
     @Test
     fun monthYearCheckTest() {
-        val cntPager = startDate.getDateDiff(todayDate, Calendar.MONTH)
         val viewPager = onView(withId(R.id.viewpager_calendar))
         val tvMonth = onView(withId(R.id.tv_month))
         val tvYear = onView(withId(R.id.tv_year))
@@ -213,9 +217,9 @@ class CalendarActivityTest : KoinTest {
     private var cntNullCalendarForCounting = 0
     private var isNotStartDayBackgroundCheck = true
 
+
     @Test
     fun dayBackgroundTest() {
-        val cntPager = startDate.getDateDiff(todayDate, Calendar.MONTH)
         val calendar: Calendar = Calendar.getInstance().apply {
             set(Calendar.YEAR, startDate.getYear())
             set(Calendar.MONTH, startDate.getMonth() - 1)
@@ -260,20 +264,20 @@ class CalendarActivityTest : KoinTest {
 
     private fun repeatCheckDayBackground(cntPrevMonthDay: Int, startDay: Int, endDay: Int) {
         for (day in 0 until cntPrevMonthDay + startDay) {
-            getBackgroundView(day).check(matches(withEffectiveVisibility(Visibility.GONE)))
+            getDayView(R.id.iv_day_background, day).check(matches(withEffectiveVisibility(Visibility.GONE)))
         }
         for (day in cntPrevMonthDay + startDay until cntPrevMonthDay + endDay) {
             val tagValue = getDayBackgroundTagValue()
-            getBackgroundView(day).check(matches(allOf(withTagValue(`is`(tagValue)), isDisplayed())))
+            getDayView(R.id.iv_day_background, day).check(matches(allOf(withTagValue(`is`(tagValue)), isDisplayed())))
         }
         for (day in cntPrevMonthDay + endDay until 42) {
-            getBackgroundView(day).check(matches(withEffectiveVisibility(Visibility.GONE)))
+            getDayView(R.id.iv_day_background, day).check(matches(withEffectiveVisibility(Visibility.GONE)))
         }
     }
 
-    private fun getBackgroundView(day: Int) = onView(
+    private fun getDayView(resourceId: Int, day: Int) = onView(
             allOf(
-                    withId(R.id.iv_day_background),
+                    withId(resourceId),
                     withParent(
                             allOf(
                                     withParent(
@@ -303,5 +307,191 @@ class CalendarActivityTest : KoinTest {
                 android.R.color.holo_red_light
             }
         }
+    }
+
+    @Test
+    fun dayTextTest() {
+        val viewPager = onView(withId(R.id.viewpager_calendar))
+        val calendar: Calendar = Calendar.getInstance().apply {
+            set(Calendar.YEAR, todayDate.getYear())
+            set(Calendar.MONTH, todayDate.getMonth() - 1)
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+        val prevCalendar = (calendar.clone() as Calendar).apply {
+            add(Calendar.MONTH, -1)
+        }
+
+        for (i in 0..cntPager) {
+            if (i != 0) {
+                viewPager.perform(swipeRight())
+                calendar.add(Calendar.MONTH, -1)
+                prevCalendar.add(Calendar.MONTH, -1)
+            }
+            Thread.sleep(500)
+            repeatCheckDayText(calendar, prevCalendar)
+        }
+    }
+
+    private fun repeatCheckDayText(calendar: Calendar, prevCalendar: Calendar) {
+        val cntPrevMonthDay = calendar.get(Calendar.DAY_OF_WEEK) - 1
+        val curMaxDay = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
+        var prevStartDay = prevCalendar.getActualMaximum(Calendar.DAY_OF_MONTH) - cntPrevMonthDay + 1
+        var curStartDay = 1
+        var nextStartDay = 1
+
+        for (day in 0 until cntPrevMonthDay) {
+            getDayView(R.id.tv_day, day).check(matches(withText("${prevStartDay++}")))
+        }
+        for (day in cntPrevMonthDay until cntPrevMonthDay + curMaxDay) {
+            getDayView(R.id.tv_day, day).check(matches(withText("${curStartDay++}")))
+        }
+        for (day in cntPrevMonthDay + curMaxDay until 42) {
+            getDayView(R.id.tv_day, day).check(matches(withText("${nextStartDay++}")))
+        }
+    }
+
+    private data class DaysForTest(
+            val cntPrevMonthDay: Int,
+            val startDay: Int,
+            val endDay: Int,
+            val curClickedDay: Int
+    )
+
+    @Test
+    fun dayClickTest() {
+        val calendar: Calendar = Calendar.getInstance().apply {
+            set(Calendar.YEAR, todayDate.getYear())
+            set(Calendar.MONTH, todayDate.getMonth() - 1)
+            set(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        if (cntPager == 0) checkDayClickForOnePage(calendar)
+        else checkDayClickForMultiplePage(calendar)
+    }
+
+    private fun checkDayClickForOnePage(calendar: Calendar) {
+        val days = createDaysForClickTest(calendar, DateType.ONLY_ONE)
+        val dateForRecord = startDate.clone()
+
+        repeatCheckDayClick(days, dateForRecord)
+    }
+
+    private fun checkDayClickForMultiplePage(calendar: Calendar) {
+        var dateType: DateType
+        var dateForRecord = todayDate.clone().apply {
+            setDate(Calendar.DAY_OF_MONTH, 1)
+        }
+        val viewPager = onView(withId(R.id.viewpager_calendar))
+
+        for (position in 0..cntPager) {
+            if (position != 0) {
+                viewPager.perform(swipeRight())
+                calendar.add(Calendar.MONTH, -1)
+            }
+            Thread.sleep(500)
+
+            when (position) {
+                0 -> {
+                    dateType = DateType.TODAY
+                }
+                cntPager -> {
+                    dateType = DateType.START
+                    dateForRecord = startDate
+                }
+                else -> {
+                    dateType = DateType.NORMAL
+                    dateForRecord.addDate(Calendar.MONTH, -1)
+                }
+            }
+
+            repeatCheckDayClick(createDaysForClickTest(calendar, dateType), dateForRecord)
+        }
+    }
+
+    private fun createDaysForClickTest(calendar: Calendar, dateType: DateType): DaysForTest {
+        val cntPrevMonthDay = calendar.get(Calendar.DAY_OF_WEEK) - 1
+        val startDay = getStartDay(dateType)
+        val endDay = getEndDay(calendar, dateType)
+        val curClickedDay = getClickedDay(dateType)
+        return DaysForTest(cntPrevMonthDay, startDay, endDay, curClickedDay)
+    }
+
+    private fun getClickedDay(dateType: DateType) = when (dateType) {
+        DateType.TODAY, DateType.ONLY_ONE -> todayDate.getDayOfMonth()
+        DateType.START -> startDate.getDayOfMonth()
+        DateType.NORMAL -> 1
+    }
+
+    private fun repeatCheckDayClick(days: DaysForTest, date: SimpleDate) {
+        var prevClickedDay = days.curClickedDay + days.cntPrevMonthDay - 1
+        val dateForRecord = date.clone()
+
+        for (day in 0 until 42) {
+            val tagValueAfterClick =
+                    day in days.cntPrevMonthDay + days.startDay until days.cntPrevMonthDay + days.endDay
+
+            val clickDayView = getDayLayoutView(day)
+            clickDayView.perform(click())
+            clickDayView.check(matches(withTagValue(`is`(tagValueAfterClick))))
+
+            if (prevClickedDay != day)
+                getDayLayoutView(prevClickedDay).check(matches(withTagValue(`is`(!tagValueAfterClick))))
+            if (tagValueAfterClick) {
+                prevClickedDay = day
+                checkRecord(dateForRecord)
+                dateForRecord.addDate(Calendar.DAY_OF_MONTH, 1)
+            }
+        }
+    }
+
+    private fun getDayLayoutView(day: Int) = onView(
+            allOf(
+                    withParent(
+                            allOf(
+                                    withId(R.id.layout_days),
+                                    isDisplayed()
+                            )
+                    ),
+                    withParentIndex(day)
+            )
+    )
+
+    private data class RecordData(
+            val cntQst: Int,
+            val progressRate: Float,
+            val correctRate: Float
+    )
+
+    private fun checkRecord(date: SimpleDate) {
+        val recordView = onView(withId(R.id.tv_record))
+        val btnMoveToDetail = onView(withId(R.id.btn_move_to_detail))
+
+        if (date == startDate) {
+            recordView.check(matches(withText(context.getString(R.string.calendar_start_day))))
+            btnMoveToDetail.check(matches(not(isClickable())))
+        } else if (date > startDate && date < startNotNullDate) {
+            recordView.check(matches(withText(context.getString(R.string.status_msg_no_test))))
+            btnMoveToDetail.check(matches(not(isClickable())))
+        } else {
+            val recordData = getRecordData(date)
+            recordView.check(matches(withText(String.format(
+                    context.getString(if (isLandScape) R.string.result_info_format_land else R.string.result_info_format),
+                    recordData.cntQst,
+                    recordData.progressRate,
+                    recordData.correctRate))))
+            btnMoveToDetail.check(matches(isClickable()))
+        }
+    }
+
+    private fun getRecordData(date: SimpleDate): RecordData {
+        val recordList = memRepo.getAllRecordFromDate(date)
+        val cntQst = recordList.size
+        val cntSolved = recordList.count { it.is_correct != null }
+        val cntCorrect = recordList.count { it.is_correct == true }
+
+        val progressRate = if (cntQst > 0) cntSolved / cntQst.toFloat() * 100 else 0f
+        val correctRate = if (cntSolved > 0) cntCorrect / cntSolved.toFloat() * 100 else 0f
+
+        return RecordData(cntQst, progressRate, correctRate)
     }
 }

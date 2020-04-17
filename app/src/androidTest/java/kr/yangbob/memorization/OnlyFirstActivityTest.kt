@@ -2,6 +2,7 @@ package kr.yangbob.memorization
 
 import android.app.Activity
 import android.content.SharedPreferences
+import android.content.pm.ActivityInfo
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -16,6 +17,7 @@ import kr.yangbob.memorization.view.MainActivity
 import kr.yangbob.memorization.view.OnlyFirstActivity
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -29,15 +31,22 @@ class OnlyFirstActivityTest : KoinTest {
     var activityRule: ActivityTestRule<MainActivity>
             = ActivityTestRule(MainActivity::class.java, true, false)
 
-    @Test
-    fun basicTest() {
+    @Before
+    fun before(){
         val settings: SharedPreferences = get()
         settings.edit().also {
             it.putBoolean(SETTING_IS_FIRST_MAIN, true)
         }.apply()
-
         activityRule.launchActivity(null)
+        val curActivity = getCurrentActivity()
+        if(isLandScape) {
+            curActivity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+            activityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+        }
+    }
 
+    @Test
+    fun basicTest() {
         var curActivity = getCurrentActivity()
         assertThat(curActivity, instanceOf(OnlyFirstActivity::class.java))
 
@@ -111,13 +120,6 @@ class OnlyFirstActivityTest : KoinTest {
 
     @Test
     fun skipTest1(){
-        val settings: SharedPreferences = get()
-        settings.edit().also {
-            it.putBoolean(SETTING_IS_FIRST_MAIN, true)
-        }.apply()
-
-        activityRule.launchActivity(null)
-
         onView(withId(R.id.tv_only_first_skip)).perform(click())
         val curActivity = getCurrentActivity()
         assertThat(curActivity, instanceOf(MainActivity::class.java))
@@ -125,13 +127,6 @@ class OnlyFirstActivityTest : KoinTest {
 
     @Test
     fun skipTest2(){
-        val settings: SharedPreferences = get()
-        settings.edit().also {
-            it.putBoolean(SETTING_IS_FIRST_MAIN, true)
-        }.apply()
-
-        activityRule.launchActivity(null)
-
         onView(withId(R.id.tv_only_first_next_or_start)).perform(click())
 
         onView(withId(R.id.tv_only_first_skip)).perform(click())
@@ -141,13 +136,6 @@ class OnlyFirstActivityTest : KoinTest {
 
     @Test
     fun skipTest3(){
-        val settings: SharedPreferences = get()
-        settings.edit().also {
-            it.putBoolean(SETTING_IS_FIRST_MAIN, true)
-        }.apply()
-
-        activityRule.launchActivity(null)
-
         val tvNext = onView(withId(R.id.tv_only_first_next_or_start))
         tvNext.perform(click())
         tvNext.perform(click())
