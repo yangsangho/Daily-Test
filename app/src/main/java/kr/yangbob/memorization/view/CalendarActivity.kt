@@ -22,9 +22,9 @@ import kotlin.coroutines.CoroutineContext
 
 class CalendarActivity : AppCompatActivity(), CoroutineScope {
     private val model: CalendarViewModel by viewModel()
-    private lateinit var calendarPagerAdapter: CalendarPagerAdapter
     private var currentViewPagerPosition = 0
     private lateinit var job: Job
+    private lateinit var calendarPagerAdapter: CalendarPagerAdapter
     override val coroutineContext: CoroutineContext
         get() = job + Dispatchers.Main
 

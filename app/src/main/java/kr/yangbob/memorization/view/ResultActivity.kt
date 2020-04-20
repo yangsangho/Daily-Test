@@ -21,7 +21,7 @@ import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.adapter.ResultListAdapter
 import kr.yangbob.memorization.data.SimpleDate
-import kr.yangbob.memorization.db.QstRecordWithName
+import kr.yangbob.memorization.data.QstRecordWithName
 import kr.yangbob.memorization.viewmodel.ResultViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import java.text.DateFormat

@@ -8,14 +8,13 @@ import kr.yangbob.memorization.data.SimpleDate
 
 @Database(entities = [Qst::class, QstRecord::class, QstCalendar::class], version = 1)
 @TypeConverters(Converters::class)
-abstract class MemDatabase : RoomDatabase()
-{
+abstract class MemDatabase : RoomDatabase() {
     abstract fun getDaoQst(): DaoQst
     abstract fun getDaoQstRecord(): DaoQstRecord
     abstract fun getDaoQstCalendar(): DaoQstCalendar
 }
 
-class Converters{
+class Converters {
     @TypeConverter
     fun dateToInt(simpleDate: SimpleDate): Int = simpleDate.getDateInt()
 

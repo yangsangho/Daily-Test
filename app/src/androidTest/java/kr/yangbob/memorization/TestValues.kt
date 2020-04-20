@@ -1,3 +1,3 @@
 package kr.yangbob.memorization
 
-const val isLandScape = true
+const val isLandScape = false

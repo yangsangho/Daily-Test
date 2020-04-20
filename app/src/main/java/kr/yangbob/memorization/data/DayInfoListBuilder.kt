@@ -1,6 +1,5 @@
 package kr.yangbob.memorization.data
 
-import kr.yangbob.memorization.db.InfoCalendar
 import java.util.*
 
 class DayInfoListBuilder(date: SimpleDate, private val infoCalList: List<InfoCalendar>){

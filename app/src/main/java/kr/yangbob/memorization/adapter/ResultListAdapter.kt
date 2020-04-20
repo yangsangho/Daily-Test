@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import kr.yangbob.memorization.R
 import kr.yangbob.memorization.databinding.ActivityResultLayoutListRecordBinding
-import kr.yangbob.memorization.db.QstRecordWithName
+import kr.yangbob.memorization.data.QstRecordWithName
 import kr.yangbob.memorization.viewmodel.ResultViewModel
 
 class ResultListAdapter(private var recordList: List<QstRecordWithName>, private val model: ResultViewModel) :

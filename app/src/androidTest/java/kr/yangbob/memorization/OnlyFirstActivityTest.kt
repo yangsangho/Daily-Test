@@ -17,6 +17,7 @@ import kr.yangbob.memorization.view.MainActivity
 import kr.yangbob.memorization.view.OnlyFirstActivity
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -43,6 +44,12 @@ class OnlyFirstActivityTest : KoinTest {
             curActivity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
             activityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
         }
+    }
+
+    @After
+    fun after(){
+        val settings: SharedPreferences = get()
+        settings.edit().clear().apply()
     }
 
     @Test

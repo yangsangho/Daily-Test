@@ -37,7 +37,7 @@ class CalendarPagerAdapter(
         holder.attached()
     }
 
-    fun deleteProcess(dateIntSetForDelete: HashSet<Int>, currentPosition: Int){
+    fun deleteProcess(dateIntSetForDelete: HashSet<Int>, currentPosition: Int) {
         viewHolderList[currentPosition]?.run {
             setRecordText()
             updateDayInfoList(dateIntSetForDelete)

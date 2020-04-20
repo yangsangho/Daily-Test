@@ -63,8 +63,8 @@ class SimpleDate : Comparable<SimpleDate> {
         set(Calendar.DAY_OF_MONTH, dayOfMonth)
     }
 
-    fun getFormattedDate(dateFormat: Int = DateFormat.DEFAULT): String {
-        val formatter = DateFormat.getDateInstance(dateFormat)
+    fun getFormattedDate(dateFormat: Int = DateFormat.DEFAULT, locale: Locale = Locale.getDefault()): String {
+        val formatter = DateFormat.getDateInstance(dateFormat, locale)
         return formatter.format(getCalendar().time)
     }
 

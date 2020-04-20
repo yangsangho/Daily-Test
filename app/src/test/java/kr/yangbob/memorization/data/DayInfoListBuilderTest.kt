@@ -1,6 +1,5 @@
 package kr.yangbob.memorization.data
 
-import kr.yangbob.memorization.db.InfoCalendar
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 import org.junit.Before

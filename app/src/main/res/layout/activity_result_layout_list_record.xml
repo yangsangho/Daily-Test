@@ -6,7 +6,7 @@
 
         <variable
             name="recordWithName"
-            type="kr.yangbob.memorization.db.QstRecordWithName" />
+            type="kr.yangbob.memorization.data.QstRecordWithName" />
     </data>
 
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"

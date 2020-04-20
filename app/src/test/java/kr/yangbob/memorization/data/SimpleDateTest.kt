@@ -61,8 +61,8 @@ class SimpleDateTest {
     @Test
     fun getFormattedDateTest() {
         val pastObj = SimpleDate.newInstanceFromDateInt(19910528)
-        val defaultFormattedDate = pastObj.getFormattedDate()
-        val fullFormattedDate = pastObj.getFormattedDate(DateFormat.FULL)
+        val defaultFormattedDate = pastObj.getFormattedDate(locale = Locale.KOREA)
+        val fullFormattedDate = pastObj.getFormattedDate(DateFormat.FULL, Locale.KOREA)
         assertThat(defaultFormattedDate, `is`("1991. 5. 28"))
         assertThat(fullFormattedDate, `is`("1991년 5월 28일 화요일"))
     }
@@ -121,12 +121,15 @@ class SimpleDateTest {
     fun getDateDiffTest(){
         val testDate1 = SimpleDate.newInstanceFromDateInt(19981213)
         val testDate2 = SimpleDate.newInstanceFromDateInt(20200328)
+        val testDate3 = SimpleDate.newInstanceFromDateInt(20201001)
         val yearDifference = 22
         val monthDifference = 255
+        val monthDifference2 = 7
         val dayDifference = 7776
 
         assertThat(testDate1.getDateDiff(testDate2, Calendar.YEAR), `is`(yearDifference))
         assertThat(testDate1.getDateDiff(testDate2, Calendar.MONTH), `is`(monthDifference))
+        assertThat(testDate3.getDateDiff(testDate2, Calendar.MONTH), `is`(monthDifference2))
         assertThat(testDate1.getDateDiff(testDate2, Calendar.DAY_OF_MONTH), `is`(dayDifference))
     }
 

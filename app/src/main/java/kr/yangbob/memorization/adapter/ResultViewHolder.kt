@@ -4,7 +4,7 @@ import android.content.Intent
 import androidx.recyclerview.widget.RecyclerView
 import kr.yangbob.memorization.EXTRA_TO_QST_ID
 import kr.yangbob.memorization.databinding.ActivityResultLayoutListRecordBinding
-import kr.yangbob.memorization.db.QstRecordWithName
+import kr.yangbob.memorization.data.QstRecordWithName
 import kr.yangbob.memorization.view.DetailActivity
 import kr.yangbob.memorization.view.ResultActivity
 import kr.yangbob.memorization.viewmodel.ResultViewModel

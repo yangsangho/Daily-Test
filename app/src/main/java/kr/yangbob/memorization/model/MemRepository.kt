@@ -6,17 +6,20 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kr.yangbob.memorization.data.InfoCalendar
+import kr.yangbob.memorization.data.QstRecordWithName
 import kr.yangbob.memorization.data.SimpleDate
 import kr.yangbob.memorization.db.*
 import kr.yangbob.memorization.todayDate
 
+//todo : Need to Refactoring - repository 갖다 쓰는 부분에서 데이터 가공하는 거 있으면 여기서 처리하도록
 class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences) {
     private val daoQst: DaoQst = memDB.getDaoQst()
     private val daoQstRecord: DaoQstRecord = memDB.getDaoQstRecord()
     private val daoQstCalendar: DaoQstCalendar = memDB.getDaoQstCalendar()
 
     ////// Qst
-    fun chkDuplication(title: String): Boolean = runBlocking {
+    fun chkTitleDuplication(title: String): Boolean = runBlocking {
         daoQst.getFromTitle(title) != null
     }
 
@@ -29,9 +32,9 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
 
     fun insertQst(qst: Qst) = runBlocking { daoQst.insert(qst) }
 
-    fun getAllDormantQstLD(): LiveData<List<Qst>> = daoQst.getAllDormantLD()
+    fun getAllDormantQstLD(): LiveData<List<Qst>> = daoQst.getDormantListLD()
 
-    fun getAllDormantQst(): List<Qst> = runBlocking { daoQst.getAllDormant() }
+    fun getAllDormantQst(): List<Qst> = runBlocking { daoQst.getDormantList() }
 
     fun deleteQst(qst: Qst) = GlobalScope.launch(Dispatchers.IO) {
         daoQst.delete(qst)
@@ -39,7 +42,7 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////// QstCalendar
-    fun getTestCompletionOnDate(calendarId: SimpleDate): Boolean? = runBlocking { daoQstCalendar.getTestCompletionOnDate(calendarId) }
+    fun getTestCompletionOnDate(calendarId: SimpleDate): Boolean? = runBlocking { daoQstCalendar.getTestCompletionFromDate(calendarId) }
 
     fun getAllInfoCalendar(): List<InfoCalendar> = runBlocking {
         val list = daoQstCalendar.getAll()
@@ -80,10 +83,10 @@ class MemRepository(memDB: MemDatabase, private val settings: SharedPreferences)
     fun getAllRecordFromId(qstId: Int): List<QstRecord> = runBlocking { daoQstRecord.getAllFromId(qstId) }
 
     fun getAllRecordWithName(calendarId: SimpleDate): LiveData<List<QstRecordWithName>> =
-            daoQstRecord.getAllWithName(calendarId)
+            daoQstRecord.getAllWithNameLD(calendarId)
 
     fun getAllRecordLDFromDate(calendarId: SimpleDate): LiveData<List<QstRecord>> =
-            daoQstRecord.getAllLDFromDate(calendarId)
+            daoQstRecord.getAllFromDateLD(calendarId)
 
     fun getNullRecordsFromDate(calendarId: SimpleDate): List<QstRecord> =
             runBlocking { daoQstRecord.getNullListFromDate(calendarId) }

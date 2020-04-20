@@ -8,7 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import kr.yangbob.memorization.data.DayInfo
 import kr.yangbob.memorization.data.SimpleDate
-import kr.yangbob.memorization.db.InfoCalendar
+import kr.yangbob.memorization.data.InfoCalendar
 import kr.yangbob.memorization.db.Qst
 
 object DataBindingAdapter {

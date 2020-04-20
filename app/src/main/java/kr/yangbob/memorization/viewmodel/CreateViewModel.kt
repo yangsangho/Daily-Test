@@ -15,7 +15,7 @@ class CreateViewModel(private val memRepo: MemRepository) : BaseViewModel() {
 
     fun isPossibleInsert(): Boolean = !title.value.isNullOrEmpty() && !answer.value.isNullOrEmpty()
     fun insertQst(): Boolean {
-        return if (memRepo.chkDuplication(title.value!!)) false
+        return if (memRepo.chkTitleDuplication(title.value!!)) false
         else {
             val qst = Qst(title.value!!, answer.value!!, todayDate, tomorrowDate)
             memRepo.insertQst(qst)

@@ -21,6 +21,7 @@ import androidx.test.runner.lifecycle.ActivityLifecycleMonitorRegistry
 import androidx.test.runner.lifecycle.Stage
 import androidx.viewpager2.widget.ViewPager2
 import kr.yangbob.memorization.data.SimpleDate
+import kr.yangbob.memorization.db.MemDatabase
 import kr.yangbob.memorization.db.Qst
 import kr.yangbob.memorization.db.QstCalendar
 import kr.yangbob.memorization.db.QstRecord
@@ -33,11 +34,13 @@ import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers
 import org.hamcrest.Matchers.*
 import org.jetbrains.annotations.NotNull
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.test.KoinTest
+import org.koin.test.get
 import org.koin.test.inject
 import java.util.*
 
@@ -66,12 +69,18 @@ class CalendarActivityTest : KoinTest {
 
     @Before
     fun before() {
-        if (isInit) return
-        isInit = true
+//        if (isInit) return
+//        isInit = true
         makeDbData()
         activityRule.launchActivity(null)
         if (isLandScape) activityRule.activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
     }
+
+   @After
+   fun after(){
+       val db: MemDatabase = get()
+       db.clearAllTables()
+   }
 
     private fun makeDbData() {
         val baseDate = startDate.clone()

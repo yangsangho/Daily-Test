@@ -7,8 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kr.yangbob.memorization.EXTRA_TO_RESULT_DATESTR
 import kr.yangbob.memorization.R
+import kr.yangbob.memorization.data.InfoCalendar
 import kr.yangbob.memorization.data.SimpleDate
-import kr.yangbob.memorization.db.InfoCalendar
 import kr.yangbob.memorization.model.MemRepository
 import kr.yangbob.memorization.todayDate
 import kr.yangbob.memorization.view.CalendarActivity
@@ -16,6 +16,7 @@ import kr.yangbob.memorization.view.ResultActivity
 import java.util.*
 import kotlin.collections.ArrayList
 
+//todo : Need to Add Unit Test
 class CalendarViewModel(private val memRepo: MemRepository) : BaseViewModel() {
     private var isPortrait = true
     private val infoCalendarList: List<InfoCalendar> = memRepo.getAllInfoCalendar()

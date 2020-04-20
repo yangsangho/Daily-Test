@@ -5,7 +5,7 @@ import kr.yangbob.memorization.data.DayInfo
 import kr.yangbob.memorization.data.DayInfoListBuilder
 import kr.yangbob.memorization.data.SimpleDate
 import kr.yangbob.memorization.databinding.ActivityCalendarLayoutBinding
-import kr.yangbob.memorization.db.InfoCalendar
+import kr.yangbob.memorization.data.InfoCalendar
 import kr.yangbob.memorization.viewmodel.CalendarViewModel
 
 class CalendarViewHolder(
@@ -59,12 +59,13 @@ class CalendarViewHolder(
         setRecordText()
     }
 
-    private fun setBindingCurrentDay(){
+    private fun setBindingCurrentDay() {
         binding.currentDay = currentDate.getDayOfMonth()
     }
 
-    fun setRecordText(infoCalendar: InfoCalendar? = null){
-        val infoCal = infoCalendar ?: infoCalendarList.find { it.date.getDayOfMonth() == currentDate.getDayOfMonth() }
+    fun setRecordText(infoCalendar: InfoCalendar? = null) {
+        val infoCal = infoCalendar
+                ?: infoCalendarList.find { it.date.getDayOfMonth() == currentDate.getDayOfMonth() }
         model.setRecordText(infoCal, binding.root.resources)
     }
 
